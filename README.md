@@ -6,4 +6,4 @@
 - 该平台旨在打造一个社区化的购物平台，通过与当地农户、生产商合作，提供最新鲜、最优质的食材和生活用品，满足用户对健康、美味的追求。该平台支持社区团购、定制化推荐等功能，促进社区居民间的交流与合作，营造更加健康、便利的生活氛围。
 
 ## 2.需求文档分析
-- #### https://ri1kxi4uxem.feishu.cn/wiki/FQNSwT20RibbZokYeKUcg5j2nKc
+- #### https://k0gvly5pumi.feishu.cn/wiki/BDHRwBjkviLebdkT2Mmc7P0Inhe
