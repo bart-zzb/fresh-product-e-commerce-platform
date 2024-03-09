@@ -7,3 +7,6 @@
 
 ## 2.需求文档分析
 - #### https://k0gvly5pumi.feishu.cn/wiki/BDHRwBjkviLebdkT2Mmc7P0Inhe
+
+## 3.数据库文档设计
+- #### https://k0gvly5pumi.feishu.cn/wiki/XAGZwivodiZ49Hk1OTAclVhenZb
