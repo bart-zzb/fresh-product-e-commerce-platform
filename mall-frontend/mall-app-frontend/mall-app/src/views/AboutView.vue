@@ -1,5 +1,11 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <van-date-picker
+        v-model="currentDate"
+        title="选择日期"
+        :min-date="minDate"
+        :max-date="maxDate"
+    />
+
   </div>
 </template>
