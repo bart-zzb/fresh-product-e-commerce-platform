@@ -58,15 +58,41 @@
   </van-row>
 
   <!--横幅1-->
-  <img :src="banner1" style="width:390px;">
+  <van-row>
+    <van-col span="24">
+      <img :src="banner1" style="width:390px;">
+    </van-col>
+  </van-row>
+
   <!--横幅2-->
-  <img :src="banner2" style="width:390px;">
+  <van-row>
+    <van-col span="24">
+      <img :src="banner2" style="width:390px;">
+    </van-col>
+  </van-row>
+  <!--商品展示1-->
+
+
   <!--横幅3-->
-  <img :src="banner3" style="width:390px;">
+  <van-row>
+    <van-col span="24">
+      <img :src="banner3" style="width:390px;">
+    </van-col>
+  </van-row>
+
   <!--横幅4-->
-  <img :src="banner4" style="width:390px;">
+  <van-row>
+    <van-col span="24">
+      <img :src="banner4" style="width:390px;">
+    </van-col>
+  </van-row>
+
   <!--横幅5-->
-  <img :src="banner5" style="width:390px;">
+  <van-row>
+    <van-col span="24">
+      <img :src="banner5" style="width:390px;">
+    </van-col>
+  </van-row>
 </template>
 
 <script setup>

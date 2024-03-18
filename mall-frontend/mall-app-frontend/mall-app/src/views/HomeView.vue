@@ -1,6 +1,9 @@
 <template>
+  <div style="margin-bottom: 80px;">
     <router-view/>
+  </div>
 
+  <div>
     <!-- 共有的尾部 -->
     <van-tabbar style="height: 80px;" route>
       <van-tabbar-item to="/index">
@@ -24,6 +27,8 @@
         <div style="font-size: 16px;margin-top: 3px;">我的</div>
       </van-tabbar-item>
     </van-tabbar>
+  </div>
+
 </template>
 
 <script setup>

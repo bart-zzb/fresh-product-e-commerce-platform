@@ -12,15 +12,17 @@ const routes = [
       {path:'/login', component:()=>import('../views/home/LoginView')},
       {path:'/index', component:()=>import('../views/home/IndexView')},
       {path:'/list', component:()=>import('../views/home/ListView')},
-      {path:'/detail', component:()=>import('../views/home/DetailView')},
       {path:'/cart', component:()=>import('../views/home/CartView')},
       {path:'/payment', component:()=>import('../views/home/PaymentView')},
       {path:'/live', component:()=>import('../views/home/LiveView')},
       {path:'/personal', component:()=>import('../views/home/PersonalView')}
 
     ]
+  },
+  {
+    path:'/detail',
+    component:()=>import('../views/home/DetailView')
   }
-
 ]
 
 const router = createRouter({
