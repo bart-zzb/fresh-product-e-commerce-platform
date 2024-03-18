@@ -12,14 +12,14 @@
 
   <!--轮播图管理-->
   <van-row>
-    <van-col span="24">
+    <van-col span="24" >
       <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
         <van-swipe-item v-for="item in carouselList"><img :src=item width="390px;"></van-swipe-item>
       </van-swipe>
     </van-col>
   </van-row>
 
-  <!--轮播信息-->
+  <!--用户轮播信息-->
   <van-swipe style="height: 24px;" :autoplay="2500" :show-indicators="false" vertical>
     <van-swipe-item v-for="item in orderList" style="height: 24px;margin:0px;">
       <p style="margin:0px 12px;"><span style="color: red;border: 1px solid red;border-radius: 8px;">&nbsp{{item.time}}&nbsp</span>
@@ -28,10 +28,31 @@
   </van-swipe>
 
   <!--图标分类-->
-  <van-row>
+  <van-row >
     <van-col v-for="item in labelList" span="6" style="margin: 10px auto;">
       <img :src="item.imgUrl" style="width: 45px;">
       <div>{{item.name}}</div>
+    </van-col>
+  </van-row>
+
+  <van-divider style="margin: 6px auto;"/>
+
+  <!--平台轮播信息-->
+  <van-row>
+    <van-col span="7">
+      <div style="font-weight: bold;font-size: 18px;margin: 0px auto;height: 24px;color: red"><i>平台公告</i></div>
+    </van-col>
+    <van-col span="2">
+      <van-divider vertical :hairline="false" style="height: 26px;"/>
+    </van-col>
+    <van-col span="15">
+      <van-swipe style="height: 24px;" :autoplay="2500" :show-indicators="false" vertical>
+        <van-swipe-item v-for="item in messageList">
+          <p style="text-align:left;line-height: 26px;margin: 0px;"><span style="color: red;border: 1px solid red;border-radius: 8px;">&nbsp最新&nbsp</span>
+            {{item.message}}
+          </p>
+        </van-swipe-item>
+      </van-swipe>
     </van-col>
   </van-row>
 
@@ -64,6 +85,12 @@ const orderList = ref([
   {time:"3时20分06秒",phone:"134****0318",amount:"1",productName:"猪扒(里脊)",specName:"300g/份"},
   {time:"0时31分32秒",phone:"137****173",amount:"2",productName:"牛肉",specName:"300g/份"},
   {time:"2时40分16秒",phone:"135****0345",amount:"4",productName:"牛展",specName:"500g/份"}
+]);
+
+const messageList = ref([
+  {message:"购买须知"},
+  {message:"下单流程"},
+  {message:"每日截单时间为23:00,23点前的订单,会于次日安排配送"}
 ]);
 </script>
 
