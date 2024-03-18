@@ -15,7 +15,9 @@ const routes = [
       {path:'/detail', component:()=>import('../views/home/DetailView')},
       {path:'/cart', component:()=>import('../views/home/CartView')},
       {path:'/payment', component:()=>import('../views/home/PaymentView')},
-      {path:'/live', component:()=>import('../views/home/LiveView')}
+      {path:'/live', component:()=>import('../views/home/LiveView')},
+      {path:'/personal', component:()=>import('../views/home/PersonalView')}
+
     ]
   }
 
