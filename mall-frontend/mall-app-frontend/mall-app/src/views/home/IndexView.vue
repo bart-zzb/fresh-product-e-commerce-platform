@@ -63,6 +63,27 @@
       <img :src="banner1" style="width:390px;">
     </van-col>
   </van-row>
+  <!--商品展示1-->
+  <van-swipe :show-indicators="false" >
+    <van-swipe-item v-for="list in productList1">
+      <van-row gutter="4">
+        <van-col span="8"  v-for="item in list" style="height: 120px;">
+          <van-image :src="item.imgUrl"></van-image>
+          <p style="margin: 0;">{{item.title}}</p>
+          <van-row>
+            <van-col span="14">
+              <div style="color: #f00;margin:0;">{{item.currentPrice}}</div>
+              <div style="margin: 0;"><s>{{item.origPrice}}</s></div>
+            </van-col>
+            <van-col span="10">
+              <van-icon name="cart-o" color="#f00" size="30"/>
+            </van-col>
+          </van-row>
+        </van-col>
+      </van-row>
+
+    </van-swipe-item>
+  </van-swipe>
 
   <!--横幅2-->
   <van-row>
@@ -70,8 +91,6 @@
       <img :src="banner2" style="width:390px;">
     </van-col>
   </van-row>
-  <!--商品展示1-->
-
 
   <!--横幅3-->
   <van-row>
@@ -136,6 +155,23 @@ const banner3 = ref("/imgs/banner/banner3.png");
 const banner4 = ref("/imgs/banner/banner4.png");
 const banner5 = ref("/imgs/banner/banner5.png");
 
+const productList1 = ref([
+  [
+      {imgUrl:"", title:"天润喀拉峻高端纯牛奶(蛋白质>3.6%) 250g*12盒",currentPrice:"76.8/箱",origPrice:"98/箱"},
+      {imgUrl:"", title:"天润浓缩纯牛奶(蛋白质>3.6%) 125g*20盒",currentPrice:"43.8/箱",origPrice:"53/箱"},
+      {imgUrl:"", title:"闸坡鱼羹 250g",currentPrice:"19.8/份",origPrice:"24.8/份"},
+
+  ],
+  [
+      {imgUrl:"", title:"大连慢炖即食用海参 95g*6瓶",currentPrice:"499/份",origPrice:"699/份"},
+      {imgUrl:"", title:"虾丸 250g",currentPrice:"18.8/份",origPrice:"23.8/份"},
+      {imgUrl:"", title:"腌制猪扒 400g/份",currentPrice:"23.9/份",origPrice:"35.9/份"},
+  ],
+  [
+      {imgUrl:"", title:"腌制牛扒 400g/份",currentPrice:"58.8/份",origPrice:"65/份"},
+      {imgUrl:"", title:"肥牛 500g/份",currentPrice:"75.8/份",origPrice:"83.6/份"}
+  ],
+]);
 </script>
 
 <style scoped>
