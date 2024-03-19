@@ -66,8 +66,9 @@
   <!--商品展示1-->
   <van-swipe :show-indicators="false">
     <van-swipe-item v-for="list in productList1" >
-      <van-row gutter="4" style="margin: 2px 4px;">
+      <van-row gutter="4" style="margin: 2px 4px 20px;">
         <van-col span="8" v-for="item in list" style="height: 200px;">
+          <!--商品卡片-->
           <van-image :src="item.imgUrl"></van-image>
           <p style="margin: 2px;">{{ item.title }}</p>
           <van-row>
@@ -93,8 +94,9 @@
   <!--商品展示2-->
   <van-swipe :show-indicators="false">
     <van-swipe-item v-for="list in productList1" >
-      <van-row gutter="4" style="margin: 2px 4px;">
+      <van-row gutter="4" style="margin: 2px 4px 20px;">
         <van-col span="8" v-for="item in list" style="height: 200px;">
+          <!--商品卡片-->
           <van-image :src="item.imgUrl"></van-image>
           <p style="margin: 2px;">{{ item.title }}</p>
           <van-row>
@@ -120,8 +122,9 @@
   <!--商品展示3-->
   <van-swipe :show-indicators="false">
     <van-swipe-item v-for="list in productList1" >
-      <van-row gutter="4" style="margin: 2px 4px;">
+      <van-row gutter="4" style="margin: 2px 4px 20px;">
         <van-col span="8" v-for="item in list" style="height: 200px;">
+          <!--商品卡片-->
           <van-image :src="item.imgUrl"></van-image>
           <p style="margin: 2px;">{{ item.title }}</p>
           <van-row>
@@ -147,8 +150,9 @@
   <!--商品展示4-->
   <van-swipe :show-indicators="false">
     <van-swipe-item v-for="list in productList1" >
-      <van-row gutter="4" style="margin: 2px 4px;">
+      <van-row gutter="4" style="margin: 2px 4px 20px;">
         <van-col span="8" v-for="item in list" style="height: 200px;">
+          <!--商品卡片-->
           <van-image :src="item.imgUrl"></van-image>
           <p style="margin: 2px;">{{ item.title }}</p>
           <van-row>
@@ -174,8 +178,9 @@
   <!--商品展示5-->
   <van-swipe :show-indicators="false">
     <van-swipe-item v-for="list in productList1" >
-      <van-row gutter="4" style="margin: 2px 4px;">
+      <van-row gutter="4" style="margin: 2px 4px 20px;">
         <van-col span="8" v-for="item in list" style="height: 200px;">
+          <!--商品卡片-->
           <van-image :src="item.imgUrl"></van-image>
           <p style="margin: 2px;">{{ item.title }}</p>
           <van-row>
@@ -248,9 +253,9 @@ const productList1 = ref([
     {imgUrl: "/imgs/product/product6.png", title: "肥牛 500g/份", currentPrice: "75.8/份", origPrice: "83.6/份"}
   ],
   [
-      {imgUrl: "/imgs/product/product7.png", title: "吊龙 500g/份", currentPrice: "89.8/份", origPrice: "98.8/份"},
-      {imgUrl: "/imgs/product/product8.png", title: "大连慢炖即食用海参 95g*6瓶", currentPrice: "499/份", origPrice: "699/份"}
-  ]
+    {imgUrl: "/imgs/product/product7.png", title: "大连慢炖即食用海参 95g*6瓶", currentPrice: "499/份", origPrice: "699/份"},
+    {imgUrl: "/imgs/product/product8.png", title: "吊龙 500g/份", currentPrice: "89.8/份", origPrice: "98.8/份"}
+  ],
 ]);
 </script>
 
