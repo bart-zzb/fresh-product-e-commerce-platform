@@ -12,9 +12,9 @@
                 <van-image :src="item.imgUrl"></van-image>
               </van-col>
               <van-col span="14" style="position: relative;">
-                <p style="margin: 2px 4px;">{{ item.title }}</p>
+                <p style="margin: 10px 4px;">{{ item.title }}</p>
                 <van-row >
-                  <van-col span="18" style="position: absolute;bottom: 2px;">
+                  <van-col span="18" style="position: absolute;bottom: 6px;left:6px;">
                     <div style="color: #f00;margin-left:10px;text-align: left;">{{ item.currentPrice }}</div>
                     <div style="margin-left:10px;text-align: left;"><s>{{ item.origPrice }}</s></div>
                   </van-col>
@@ -101,7 +101,9 @@ const categoryList = ref([
     name: "猪肉", catList: [
       {
         text: "猪肉类", productList: [
-          {imgUrl: "/imgs/product/product4.png", title: "腌制猪扒 400g/份", currentPrice: "23.9/份", origPrice: "35.9/份"}
+          {imgUrl: "/imgs/product/product4.png", title: "腌制猪扒 400g/份", currentPrice: "23.9/份", origPrice: "35.9/份"},
+          {imgUrl: "/imgs/product/product9.png", title: "猪扒(里脊) 300g/份", currentPrice: "13.9/份", origPrice: "20/份"},
+          {imgUrl: "/imgs/product/product10.png", title: "五花肉 300g/份", currentPrice: "13.9/份", origPrice: "18.2/份"}
         ]
       },
       {text: "猪骨类",},

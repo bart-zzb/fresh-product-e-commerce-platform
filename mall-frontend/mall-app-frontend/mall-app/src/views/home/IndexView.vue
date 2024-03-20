@@ -232,7 +232,8 @@ const orderList = ref([
 const messageList = ref([
   {message: "购买须知"},
   {message: "下单流程"},
-  {message: "每日截单时间为23:00,23点前的订单,会于次日安排配送"}
+  {message: "每日截单时间为23:00, 23点前的订单,会于次日安排配送"},
+  {message: "用户打开手机位置操作指引"}
 ]);
 
 const banner1 = ref("/imgs/banner/banner1.png");
