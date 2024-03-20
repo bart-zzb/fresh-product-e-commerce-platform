@@ -3,11 +3,11 @@
   <van-search v-model="searchValue" placeholder="请输入搜索关键词"/>
   <van-tabs v-model:active="active">
     <van-tab v-for="cat in categoryList" :title="cat.name">
-      <van-tree-select v-model:main-active-index="cat.catList.index" height="auto" :items="cat.catList">
+      <van-tree-select v-model:main-active-index="activeIndex" height="auto" :items="cat.catList">
         <template #content>
-          <div v-if="cat.catList.index==0">
+          <div v-if="activeIndex == 0 && cat.catList.length>=1">
             <!--商品卡片-->
-            <van-row v-for="item in cat.catList[cat.catList.index].productList">
+            <van-row v-for="item in cat.catList[activeIndex].productList">
               <van-col span="10">
                 <van-image :src="item.imgUrl"></van-image>
               </van-col>
@@ -25,9 +25,9 @@
               </van-col>
             </van-row>
           </div>
-          <div v-if="cat.catList.index==1">
+          <div v-if="activeIndex == 1 && cat.catList.length>=2">
             <!--商品卡片-->
-            <van-row v-for="item in cat.catList[cat.catList.index].productList">
+            <van-row v-for="item in cat.catList[activeIndex].productList">
               <van-col span="10">
                 <van-image :src="item.imgUrl"></van-image>
               </van-col>
@@ -45,9 +45,9 @@
               </van-col>
             </van-row>
           </div>
-          <div v-if="cat.catList.index==2">
+          <div v-if="activeIndex == 2 && cat.catList.length>=3" >
             <!--商品卡片-->
-            <van-row v-for="item in cat.catList[cat.catList.index].productList">
+            <van-row v-for="item in cat.catList[activeIndex].productList">
               <van-col span="10">
                 <van-image :src="item.imgUrl"></van-image>
               </van-col>
