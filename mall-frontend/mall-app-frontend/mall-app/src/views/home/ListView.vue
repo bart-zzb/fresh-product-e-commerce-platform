@@ -139,5 +139,7 @@ const categoryList = ref([
 </script>
 
 <style scoped>
-
+*{
+  text-align: center;
+}
 </style>

@@ -3,7 +3,7 @@
     <router-view/>
   </div>
 
-  <div>
+  <div style="text-align: center;">
     <!-- 共有的尾部 -->
     <van-tabbar style="height: 80px;" route>
       <van-tabbar-item to="/index">

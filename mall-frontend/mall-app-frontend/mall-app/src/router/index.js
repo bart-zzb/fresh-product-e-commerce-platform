@@ -13,7 +13,6 @@ const routes = [
       {path:'/index', component:()=>import('../views/home/IndexView')},
       {path:'/list', component:()=>import('../views/home/ListView')},
       {path:'/cart', component:()=>import('../views/home/CartView')},
-      {path:'/payment', component:()=>import('../views/home/PaymentView')},
       {path:'/live', component:()=>import('../views/home/LiveView')},
       {path:'/personal', component:()=>import('../views/home/PersonalView')}
 
@@ -22,7 +21,8 @@ const routes = [
   {
     path:'/detail',
     component:()=>import('../views/home/DetailView')
-  }
+  },
+  {path:'/payment', component:()=>import('../views/payment/PaymentView')}
 ]
 
 const router = createRouter({

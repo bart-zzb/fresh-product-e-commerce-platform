@@ -10,7 +10,7 @@
         <van-col span="18" style="margin-top:25px;text-align: left;">
           <span style="color:#fff;font-size: 18px;">你好,{{user.nickname}} {{user.memberType}}</span>
           <van-icon name="setting-o" style="float: right;right: 30px;color:#fff;" size="30px"/>
-          <p style="color:#F4ADA7;margin-top:6px;font-size: 16px;">ID: {{user.id}} {{user.phone}}</p>
+          <p style="color:#F4ADA7;margin-top:6px;font-size: 16px;text-align: left;">ID: {{user.id}} {{user.phone}}</p>
         </van-col>
       </van-row>
 
@@ -135,5 +135,9 @@ const user = ref(
 
   p.label{
     font-size: 14px;
+  }
+
+  *{
+    text-align: center;
   }
 </style>

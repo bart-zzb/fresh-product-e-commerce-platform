@@ -270,4 +270,7 @@ p {
   /*超出部分替换成...*/
   text-overflow: ellipsis;
 }
+*{
+  text-align: center;
+}
 </style>

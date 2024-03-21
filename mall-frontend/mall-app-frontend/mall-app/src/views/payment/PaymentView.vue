@@ -1,5 +1,6 @@
 <template>
-  <h1>这是支付页面</h1>
+  <h1>支付</h1>
+
 </template>
 
 <script setup>
