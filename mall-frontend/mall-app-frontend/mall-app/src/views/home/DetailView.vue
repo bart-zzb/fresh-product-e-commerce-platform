@@ -1,17 +1,17 @@
 <template>
 <!--  顶部栏-->
   <div style="height: 844px;">
-    <van-row>
+    <van-row style="position: fixed;width: 390px;background-color: white;">
       <van-col span="3">
-        <van-icon name="arrow-left" size="25" style="margin-top: 13px;"/>
+        <van-icon name="arrow-left" size="25" @click="router.push('/')" style="margin-top: 13px;"/>
       </van-col>
-      <van-col span="15">
+      <van-col span="16">
         <div style="line-height: 50px;font-weight: bold;font-size: 18px;margin-left: 8px;">{{ content.title }}</div>
       </van-col>
       <van-col span="3">
         <van-icon name="guide-o"  size="25" style="margin-top: 13px;"/>
       </van-col>
-      <van-col span="3">
+      <van-col span="2">
         <van-icon name="circle" size="25" style="margin-top: 13px;"/>
       </van-col>
     </van-row>

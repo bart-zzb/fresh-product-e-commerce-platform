@@ -69,8 +69,10 @@
       <van-row gutter="4" style="margin: 2px 4px 20px;">
         <van-col span="8" v-for="item in list" style="height: 200px;">
           <!--商品卡片-->
-          <van-image :src="item.imgUrl"></van-image>
-          <p style="margin: 2px;">{{ item.title }}</p>
+          <router-link class="rl" to="/detail">
+            <van-image :src="item.imgUrl"></van-image>
+            <p style="margin: 2px;">{{ item.title }}</p>
+          </router-link>
           <van-row>
             <van-col span="14">
               <div style="color: #f00;margin:0;">{{ item.currentPrice }}</div>
@@ -272,5 +274,10 @@ p {
 }
 *{
   text-align: center;
+}
+
+.rl {
+  text-decoration: none;
+  color: inherit; /* 可以保持原始文字颜色 */
 }
 </style>
