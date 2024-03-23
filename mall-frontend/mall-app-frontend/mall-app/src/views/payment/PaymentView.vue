@@ -7,7 +7,7 @@
                    title="提交订单"
                    left-text="返回"
                    left-arrow
-                   @click-left="onClickLeft"/>
+                   @click-left="onBack"/>
     </div>
 
     <!--配送地址-->
@@ -61,11 +61,8 @@
       />
 
       <van-swipe-cell v-for="(item,index) in order.productList">
-        <van-row gutter="0">
-          <van-col span="2" style="margin: auto 0px;padding-left:10px; ">
-            <van-checkbox v-model="item.checked" @change="change(index)"></van-checkbox>
-          </van-col>
-          <van-col span="22" style="margin: auto 0">
+
+
             <van-card
                 :num="item.productCount"
                 :price="item.productUnitPrice"
@@ -73,18 +70,10 @@
                 :title="item.productName"
                 class="goods-card"
                 :thumb="item.productImgUrl"
-            >
-              <template #footer>
-                <van-stepper v-model="item.productCount" theme="round" button-size="22" @change="change(index)"
-                             disable-input/>
-              </template>
-            </van-card>
-          </van-col>
-        </van-row>
+            />
 
-        <template #right>
-          <van-button square text="删除" type="danger" class="delete-button" @click="del(index)"/>
-        </template>
+
+
       </van-swipe-cell>
 
     </div>
@@ -133,7 +122,7 @@
         </p>
       </van-col>
       <van-col span="12" style="margin:8px auto;">
-        <van-button color="#D54431" style="width:100%;height: 45px;font-size: 20px;border-radius: 50px;">立即结算
+        <van-button color="#D54431" style="width:100%;height: 45px;font-size: 20px;border-radius: 50px;" >立即结算
         </van-button>
       </van-col>
     </van-row>
@@ -143,6 +132,7 @@
 
 <script setup>
 import {ref} from "vue";
+import router from "@/router";
 
 const onClickLeft = ref();
 
@@ -169,20 +159,8 @@ const order = ref({
   ]
 })
 
-const del = (index) => {
-  order.value.productList[index].checked = false;
-  order.value.productCount = order.value.productCount - 1;
-  change(index);
-  order.value.productList.splice(index, 1);
-}
-
-const change = (index) => {
-  order.value.totalPrice = 0;
-  for (let i = 0; i < order.value.productList.length; i++) {
-    if (order.value.productList[i].checked == true) {
-      order.value.totalPrice += order.value.productList[i].productUnitPrice * order.value.productList[i].productCount;
-    }
-  }
+const onBack =()=>{
+    router.push("/cart");
 }
 
 </script>
