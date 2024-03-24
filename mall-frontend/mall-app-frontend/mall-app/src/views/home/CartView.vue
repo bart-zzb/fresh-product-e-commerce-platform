@@ -57,7 +57,6 @@
 <script setup>
 import {ref} from "vue";
 import router from "@/router";
-import {showToast} from "vant";
 
 const show = ref(false);
 
@@ -93,7 +92,7 @@ const cartGoods = ref([{
 const totalPrice = ref(0);
 
 //商品数量
-const selectCount = ref();
+const selectCount = ref(0);
 
 //是否选择全部商品
 const allChecked = ref(false);
@@ -111,7 +110,7 @@ const selectAll = (signal) => {
   }
 }
 
-//商品状态选择改变
+//商品选择状态改变
 const change = () => {
   totalPrice.value = 0;
   selectCount.value = 0;
@@ -134,8 +133,11 @@ const del = () => {
       saveList.push(cartGoods.value[i])
     }
   }
-  cartGoods.value = saveList;
-  change();
+  if (saveList != cartGoods.value){
+    cartGoods.value = saveList;
+    change();
+  }
+
 }
 
 const onSubmit = () => {

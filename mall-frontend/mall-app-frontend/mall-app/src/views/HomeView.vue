@@ -19,7 +19,7 @@
         <div style="font-size: 16px;margin-top: 3px;">直播</div>
       </van-tabbar-item>
       <van-tabbar-item to="/cart">
-        <van-icon name="shopping-cart-o" size="45"/>
+        <van-icon name="shopping-cart-o" size="45" />
         <div style="font-size: 16px;margin-top: 3px;">购物车</div>
       </van-tabbar-item>
       <van-tabbar-item to="/personal">

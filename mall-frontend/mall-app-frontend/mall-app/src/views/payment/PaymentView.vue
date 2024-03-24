@@ -1,22 +1,20 @@
 <template>
+  <!--顶部栏-->
+  <div style="background-color:#D54431;height: 100px;position: fixed;top:0;width: 100%;z-index: 1">
+    <van-nav-bar class="nav" style="margin:55px auto;background-color:#D54431;"
+                 title="提交订单"
+                 left-text="返回"
+                 left-arrow
+                 @click-left="onBack"/>
+  </div>
 
-  <div style="background-color:#F5F5F5;height:100%;width:100%;position: absolute;top:0;">
-    <!--顶部栏-->
-    <div style="background-color:#D54431;height: 100px;position: absolute;top:0;width: 100%;">
-      <van-nav-bar class="nav" style="margin:55px auto;background-color:#D54431;"
-                   title="提交订单"
-                   left-text="返回"
-                   left-arrow
-                   @click-left="onBack"/>
-    </div>
-
-    <!--配送地址-->
-    <div
-        style="background:linear-gradient(90deg, #fff,#D54431);height: 140px;margin-top: 100px;padding:10px;border-bottom-left-radius: 15px;border-bottom-right-radius: 15px;">
-      <van-tabs v-model:active="active" style="margin-top:10px;">
-        <van-tab title="快递配送">
-          <van-cell title="设置地址"
-                    style="text-align: left;
+  <!--配送地址-->
+  <div
+      style="background:linear-gradient(90deg, #fff,#D54431);height: 140px;margin-top:100px;padding:10px;border-bottom-left-radius: 15px;border-bottom-right-radius: 15px;">
+    <van-tabs v-model:active="active" style="margin-top:10px;">
+      <van-tab title="快递配送">
+        <van-cell title="设置地址"
+                  style="text-align: left;
                     background-color: #fff;
                     border-bottom-left-radius: 15px;
                     border-bottom-right-radius: 15px;
@@ -24,11 +22,11 @@
                     --van-cell-font-size:18px;
                     --van-cell-horizontal-padding:30px;
                     --van-cell-icon-size:20px;"
-                    is-link/>
-        </van-tab>
-        <van-tab title="自提">
-          <van-cell title="暂时不支持自提"
-                    style="text-align: left;
+                  is-link/>
+      </van-tab>
+      <van-tab title="自提">
+        <van-cell title="暂时不支持自提"
+                  style="text-align: left;
                     background-color: #fff;
                     border-bottom-left-radius: 15px;
                     border-bottom-right-radius: 15px;
@@ -36,10 +34,12 @@
                     --van-cell-font-size:18px;
                     --van-cell-horizontal-padding:30px;
                     --van-cell-icon-size:20px;"
-          />
-        </van-tab>
-      </van-tabs>
-    </div>
+        />
+      </van-tab>
+    </van-tabs>
+  </div>
+
+  <div style="background-color:#F5F5F5;height:100%;width:100%;padding-bottom: 80px;">
 
     <!-- 商品信息 -->
     <div
@@ -61,8 +61,6 @@
       />
 
       <van-swipe-cell v-for="(item,index) in order.productList">
-
-
             <van-card
                 :num="item.productCount"
                 :price="item.productUnitPrice"
@@ -71,9 +69,6 @@
                 class="goods-card"
                 :thumb="item.productImgUrl"
             />
-
-
-
       </van-swipe-cell>
 
     </div>
@@ -86,6 +81,18 @@
                 --van-cell-horizontal-padding:30px;
                 --van-cell-icon-size:20px;"
                 is-link/>
+
+      <!-- 分割线 -->
+      <van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0', margin:'0' }"/>
+
+      <!-- 快递费用 -->
+      <van-cell title="快递费用"
+                value="免运费"
+                style="text-align: left;
+                --van-cell-font-size:18px;
+                --van-cell-horizontal-padding:30px;
+                --van-cell-icon-size:20px;"
+                />
 
       <!-- 分割线 -->
       <van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0', margin:'0' }"/>
@@ -107,13 +114,27 @@
       <!-- 分割线 -->
       <van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0', margin:'0' }"/>
 
+      <van-cell title="支付方式"
+                style="text-align: left;
+                --van-cell-font-size:18px;
+                --van-cell-horizontal-padding:30px;
+                --van-cell-icon-size:20px;"
+      />
+
+      <!-- 支付模块 -->
+        <van-radio-group v-model="payChecked" direction="horizontal" style="margin-left: 50px;padding-bottom: 10px;">
+          <van-radio name="alipay">支付宝</van-radio>
+          <van-radio name="wechatpay">微信支付</van-radio>
+          <van-radio name="bankcard">余额:{{balance}}</van-radio>
+        </van-radio-group>
+
     </div>
   </div>
 
 
   <!-- 底部栏 -->
   <div
-      style="position: absolute;bottom: 0;width: 100%;height: 80px;font-size: 22px;margin: auto;background-color: #fff;">
+      style="position: fixed;bottom: 0;width: 100%;height: 80px;font-size: 22px;margin: auto;background-color: #fff;">
     <van-row gutter="10" style="margin: 10px 20px;">
       <van-col span="12">
         <p style="margin: 16px auto;">
@@ -133,8 +154,6 @@
 <script setup>
 import {ref} from "vue";
 import router from "@/router";
-
-const onClickLeft = ref();
 
 const order = ref({
   productCount: 2, totalPrice: 75.8 * 3 + 89.8 * 2, productList: [
@@ -163,24 +182,25 @@ const onBack =()=>{
     router.push("/cart");
 }
 
+const payChecked= ref();
+
+const balance = ref(153.65);
 </script>
 
 <style scoped>
 * {
   text-align: center;
-  --van-action-bar-height: 100px;
-  --van-action-bar-icon-font-size: 20px;
+  /*设置快递配送和自提的按钮样式*/
   --van-tab-font-size: 18px;
-  --van-tab-line-height: 30px;
 }
 
+/*设置顶部栏样式*/
 .nav {
   --van-nav-bar-title-text-color: #fff;
   --van-nav-bar-icon-color: #fff;
   --van-nav-bar-text-color: #fff;
   --van-nav-bar-title-font-size: 22px;
   --van-nav-bar-arrow-size: 20px;
-
 }
 
 .goods-card {
@@ -201,7 +221,4 @@ const onBack =()=>{
     font-size: 18px;
   }
 
-.delete-button {
-  height: 100%;
-}
 </style>
