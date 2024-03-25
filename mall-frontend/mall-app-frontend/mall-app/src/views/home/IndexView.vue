@@ -1,16 +1,19 @@
 <template>
   <!--标题和搜索栏-->
-  <van-row>
-    <van-col span="6">
-      <div style="line-height: 50px;font-weight: bold;font-size: 22px;color: #1989FA;margin-left: 8px;">同城生鲜</div>
-    </van-col>
-    <van-col span="18">
-      <van-search v-model="value" placeholder="请输入搜索关键词"/>
-    </van-col>
-  </van-row>
+  <div style="height: 55px;position: fixed;top:0;width: 100%;z-index: 1;background-color: #fff;">
+    <van-row>
+      <van-col span="6">
+        <div style="line-height: 50px;font-weight: bold;font-size: 22px;color: #1989FA;margin-left: 8px;">同城生鲜</div>
+      </van-col>
+      <van-col span="18">
+        <van-search v-model="value" placeholder="请输入搜索关键词"/>
+      </van-col>
+    </van-row>
+  </div>
+
 
   <!--轮播图管理-->
-  <van-row>
+  <van-row style="padding-top: 55px;">
     <van-col span="24">
       <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
         <van-swipe-item v-for="item in carouselList"><img :src=item width="390px;"></van-swipe-item>
@@ -260,6 +263,7 @@ const productList1 = ref([
     {imgUrl: "/imgs/product/product8.png", title: "吊龙 500g/份", currentPrice: "89.8/份", origPrice: "98.8/份"}
   ],
 ]);
+
 </script>
 
 <style scoped>
