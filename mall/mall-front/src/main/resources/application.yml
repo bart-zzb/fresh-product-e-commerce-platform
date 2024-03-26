@@ -51,6 +51,3 @@ mybatis-plus:
 #    # 将下划线映射为驼峰格式
 #    map-underscore-to-camel-case: true
 
-logging:
-  level:
-    cn.tedu:debug

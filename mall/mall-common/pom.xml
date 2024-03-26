@@ -19,8 +19,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <!-- 编译器有效 -->
-            <!--            <scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -41,6 +39,11 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   #  resources:
   #    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
@@ -43,7 +46,8 @@ spring:
 
 mybatis-plus:
   mapper-locations: classpath:/mappers/*.xml
-  type-aliases-package: cn.tedu.service.pojo.entity
-  configuration:
-    # 将下划线映射为驼峰格式
-    map-underscore-to-camel-case: true
+#  type-aliases-package: cn.tedu.service.pojo.entity
+#  configuration:
+#    # 将下划线映射为驼峰格式
+#    map-underscore-to-camel-case: true
+

@@ -8,20 +8,25 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="mall-front" />
-        <module name="mall-common" />
         <module name="mall-service" />
+        <module name="mall-common" />
+        <module name="mall-passport" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="mall" target="1.8" />
-      <module name="mall-common" target="1.8" />
-      <module name="mall-front" target="1.8" />
-      <module name="mall-service" target="1.8" />
+      <module name="mall-common" target="8" />
+      <module name="mall-front" target="8" />
+      <module name="mall-passport" target="8" />
+      <module name="mall-service" target="8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="mall-common" options="" />
+      <module name="mall-common" options="-parameters" />
+      <module name="mall-front" options="-parameters" />
+      <module name="mall-passport" options="-parameters" />
+      <module name="mall-service" options="-parameters" />
     </option>
   </component>
 </project>

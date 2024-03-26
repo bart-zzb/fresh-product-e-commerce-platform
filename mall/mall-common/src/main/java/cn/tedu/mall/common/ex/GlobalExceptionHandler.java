@@ -1,7 +1,7 @@
 package cn.tedu.mall.common.ex;
 
 
-import cn.tedu.mall.common.vo.JsonResult;
+import cn.tedu.mall.common.web.JsonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
