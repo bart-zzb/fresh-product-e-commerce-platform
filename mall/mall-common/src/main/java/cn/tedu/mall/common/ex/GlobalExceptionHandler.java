@@ -33,8 +33,8 @@ public class GlobalExceptionHandler
 
     /**
      * DTO校验异常
-     * @param e
-     * @return
+     * @param e 异常
+     * @return JsonResult
      */
     @ExceptionHandler(BindException .class)
     public JsonResult bingException1(BindException e){

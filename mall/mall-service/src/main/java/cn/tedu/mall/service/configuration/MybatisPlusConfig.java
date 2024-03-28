@@ -1,4 +1,4 @@
-package cn.tedu.mall.front.config;
+package cn.tedu.mall.service.configuration;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@MapperScan("cn.tedu.service.dao")
+@MapperScan("cn.tedu.mall.front")
 public class MybatisPlusConfig {
 
     /**

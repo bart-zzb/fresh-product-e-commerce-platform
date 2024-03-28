@@ -32,7 +32,7 @@ CREATE TABLE tb_category
     create_time     DATETIME                NOT NULL COMMENT '创建时间',
     modified_time   DATETIME                NOT NULL COMMENT '修改时间',
     parent_id       BIGINT  UNSIGNED        NOT NULL COMMENT '父级id(顶级父级id为0)',
-    level           INT(10) UNSIGNED        NOT NULL COMMENT '级别类型 (1: 一级分类) (2: 二级分类)...',
+    level           TINYINT(3) UNSIGNED     NOT NULL COMMENT '级别类型 (1: 一级分类) (2: 二级分类)...',
     is_parent       TINYINT(3) UNSIGNED     NOT NULL COMMENT '是否为父类 (1: 为父类, 它有子类) (0: 不为父类, 没有子类)',
     sort            TINYINT(3) UNSIGNED     NOT NULL COMMENT '排序 (0:优先级最高)',
     category_name   VARCHAR(50)             NOT NULL COMMENT '分类名称',
@@ -50,8 +50,10 @@ CREATE TABLE tb_product
     product_name    VARCHAR(50)             NOT NULL COMMENT '商品名称',
     attribute_list  JSON                    DEFAULT '{}' COMMENT '商品属性集合(便于前端解析)',
     tb_category_id  BIGINT UNSIGNED         NOT NULL COMMENT '商品分类列表id',
+    tb_brand_id     BIGINT UNSIGNED         NOT NULL COMMENT '品牌表id',
+    sales           INT(10) UNSIGNED        DEFAULT 0 COMMENT '销售量',
     status          TINYINT(3) UNSIGNED     NOT NULL COMMENT '启用状态 (0: 未启用) (1: 启用)',
-    info            VARCHAR(50)             NOT NULL COMMENT '备注信息'
+    info            VARCHAR(50)             DEFAULT '' COMMENT '备注信息'
 )DEFAULT CHARSET = utf8mb4 COMMENT ='商品表';
 
 -- 创建商品规格表[SKU] tb_product_specs
@@ -65,10 +67,12 @@ CREATE TABLE tb_product_specs
     specs_name      VARCHAR(50)             DEFAULT '' COMMENT '规格名称',
     img_url         VARCHAR(50)             DEFAULT '' COMMENT '图片地址',
     product_specs   JSON                    DEFAULT '{}' COMMENT '规格属性集合',
-    price           DECIMAL(10,2)           DEFAULT 0.00 COMMENT '价格',
+    current_price   DECIMAL(10, 2)   DEFAULT 0.00 COMMENT '现价',
+    original_price  DECIMAL(10, 2)   DEFAULT 0.00 COMMENT '原价',
     amount          INT(10) UNSIGNED        DEFAULT 0 COMMENT '数量',
+    sales           INT(10) UNSIGNED        DEFAULT 0 COMMENT '销售量',
     status          TINYINT(3) UNSIGNED     NOT NULL COMMENT '启用状态 (0: 未启用) (1: 启用)',
-    info            VARCHAR(50)             NOT NULL COMMENT '备注信息'
+    info            VARCHAR(50)             DEFAULT '' COMMENT '备注信息'
 )DEFAULT CHARSET = utf8mb4 COMMENT ='商品规格表[SKU]';
 
 -- 创建品牌表 tb_brand
@@ -80,7 +84,7 @@ CREATE TABLE tb_brand
     modified_time   DATETIME                NOT NULL COMMENT '修改时间',
     name            VARCHAR(50)             NOT NULL COMMENT '品牌名称',
     status          TINYINT(3) UNSIGNED     NOT NULL COMMENT '启用状态 (0: 未启用) (1: 启用)',
-    info            VARCHAR(50)             NOT NULL COMMENT '备注信息'
+    info            VARCHAR(50)             DEFAULT '' COMMENT '备注信息'
 )DEFAULT CHARSET = utf8mb4 COMMENT ='商品规格表[SKU]';
 
 -- 创建属性key表 tb_attribute_key

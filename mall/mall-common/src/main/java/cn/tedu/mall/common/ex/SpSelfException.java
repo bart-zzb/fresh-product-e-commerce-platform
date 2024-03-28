@@ -2,6 +2,7 @@ package cn.tedu.mall.common.ex;
 
 import cn.tedu.mall.common.constant.ResponseEnum;
 
+
 public class SpSelfException extends RuntimeException{
 
     private ResponseEnum responseEnum;
