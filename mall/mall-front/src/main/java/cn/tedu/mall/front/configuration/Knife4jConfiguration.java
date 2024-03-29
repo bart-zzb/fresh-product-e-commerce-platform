@@ -22,7 +22,7 @@ public class Knife4jConfiguration {
     /**
      * 【重要】指定Controller包路径
      */
-    private static final String BASE_PACKAGE = "cn.tedu.mall";
+    private static final String BASE_PACKAGE = "cn.tedu";
     /**
      * 组名
      */
