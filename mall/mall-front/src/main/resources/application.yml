@@ -46,10 +46,10 @@ spring:
 
 mybatis-plus:
   mapper-locations: classpath:/mappers/*.xml
-#  type-aliases-package: cn.tedu.service.pojo.entity
-#  configuration:
-#    # 将下划线映射为驼峰格式
-#    map-underscore-to-camel-case: true
+  type-aliases-package: cn.tedu.mall.service.pojo.po
+  configuration:
+    # 将下划线映射为驼峰格式
+    map-underscore-to-camel-case: true
 logging:
   level:
     cn.tedu: debug

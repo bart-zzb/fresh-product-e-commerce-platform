@@ -10,7 +10,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-//import javax.validation.ConstraintViolationException;
+import javax.validation.ConstraintViolationException;
+
 
 /**
  * 全局异常处理器
@@ -19,6 +20,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler
 {
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    /**
+     * 控制器校验异常 捕捉参数校验失败异常
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    public JsonResult constraintViolationException1(ConstraintViolationException e)
+    {
+        log.debug(e.getMessage());
+        return JsonResult.failed(e.getMessage().split(": ")[1]);
+    }
 
     /**
      * 业务异常
@@ -48,15 +59,7 @@ public class GlobalExceptionHandler
         log.debug(e.getMessage());
         return JsonResult.failed(sb.toString());
     }
-    ///**
-    // * 控制器校验异常 直接参数notNull那里
-    // */
-    //@ExceptionHandler(ConstraintViolationException.class)
-    //public JsonResult constraintViolationException1(ConstraintViolationException e)
-    //{
-    //    log.debug(e.getMessage());
-    //    return JsonResult.failed(e.getMessage().split(": ")[1]);
-    //}
+
     /**
      * 兜底异常
      */

@@ -20,10 +20,12 @@ public class CategoryPO implements Serializable {
     @TableField(fill = FieldFill.INSERT)
     LocalDateTime createTime;
 
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     LocalDateTime modifiedTime;
 
     Long parentId;
+
+    Integer level;
 
     Integer sort;
 
