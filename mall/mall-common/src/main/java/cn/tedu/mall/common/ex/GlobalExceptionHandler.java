@@ -1,74 +1,67 @@
 package cn.tedu.mall.common.ex;
 
 
+import cn.tedu.mall.common.constant.ServiceCode;
 import cn.tedu.mall.common.web.JsonResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-
+import java.util.Set;
 
 /**
  * 全局异常处理器
+ *
+ * @author java@tedu.cn
+ * @version 3.0
  */
+@Slf4j
 @RestControllerAdvice
-public class GlobalExceptionHandler
-{
-    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+public class GlobalExceptionHandler {
 
-    /**
-     * 控制器校验异常 捕捉参数校验失败异常
-     */
-    @ExceptionHandler(ConstraintViolationException.class)
-    public JsonResult constraintViolationException1(ConstraintViolationException e)
-    {
-        log.debug(e.getMessage());
-        return JsonResult.failed(e.getMessage().split(": ")[1]);
+    public GlobalExceptionHandler() {
+        log.info("创建全局异常处理器对象：GlobalExceptionHandler");
     }
 
-    /**
-     * 业务异常
-     */
-    @ExceptionHandler(SpSelfException.class)
-    public JsonResult businessException1(SpSelfException e)
-    {
-        log.debug(e.getMessage());
-        return JsonResult.failed(e.getMessage());
+    @ExceptionHandler
+    public JsonResult handleServiceException(ServiceException e) {
+        log.debug("全局异常处理器开始处理ServiceException");
+        return JsonResult.fail(e);
     }
 
+    @ExceptionHandler
+    public JsonResult handleBindException(BindException e) {
+        log.debug("全局异常处理器开始处理BindException");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("请求参数格式错误，");
+        stringBuilder.append(e.getFieldError().getDefaultMessage());
+        stringBuilder.append("！");
+        String message = stringBuilder.toString();
+        log.warn(message);
+        return JsonResult.fail(ServiceCode.ERROR_BAD_REQUEST, message);
+    }
 
-    /**
-     * DTO校验异常
-     * @param e 异常
-     * @return JsonResult
-     */
-    @ExceptionHandler(BindException .class)
-    public JsonResult bingException1(BindException e){
-        BindingResult bindingResult = e.getBindingResult();
-        StringBuilder sb = new StringBuilder();
-        if (bindingResult.hasErrors()) {
-            for (FieldError error : bindingResult.getFieldErrors()) {
-                sb.append(error.getField()).append(": ").append(error.getDefaultMessage()).append("; ");
-            }
+    @ExceptionHandler
+    public JsonResult handleConstraintViolationException(ConstraintViolationException e) {
+        log.debug("全局异常处理器开始处理ConstraintViolationException");
+        StringBuilder stringBuilder = new StringBuilder();
+        Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
+        for (ConstraintViolation<?> constraintViolation : constraintViolations) {
+            stringBuilder.append(constraintViolation.getMessage());
         }
-        log.debug(e.getMessage());
-        return JsonResult.failed(sb.toString());
+        String message = stringBuilder.toString();
+        return JsonResult.fail(ServiceCode.ERROR_BAD_REQUEST, message);
     }
 
-    /**
-     * 兜底异常
-     */
-    @ExceptionHandler(Exception.class)
-    public JsonResult exception1(Exception e)
-    {
-        e.printStackTrace();
-        log.debug(e.getMessage());
-        return JsonResult.failed("服务器正忙,请稍后重试");
+    @ExceptionHandler
+    public JsonResult handleThrowable(Throwable e) {
+        log.debug("全局异常处理器开始处理Throwable");
+        log.debug("异常跟踪信息如下：", e);
+        String message = "服务器忙，请稍后再试!";
+        return JsonResult.fail(ServiceCode.ERROR_UNKNOWN, message);
     }
 
 }

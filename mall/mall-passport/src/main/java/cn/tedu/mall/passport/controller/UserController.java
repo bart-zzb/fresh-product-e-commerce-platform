@@ -34,7 +34,7 @@ public class UserController {
     public JsonResult login(@Validated UserLoginInfoDTO userLoginInfoDTO,
                             @ApiIgnore HttpServletRequest request) {
         UserLoginResultVO vo = userService.login(userLoginInfoDTO);
-        return JsonResult.success(vo);
+        return JsonResult.ok(vo);
     }
 
 

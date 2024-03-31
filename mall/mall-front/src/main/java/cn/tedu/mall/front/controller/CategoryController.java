@@ -29,7 +29,7 @@ public class CategoryController {
     /**
      * 根据类别层级查询所有类别
      * @param level 层级
-     * @return List<CategoryVO>
+     * @return JsonResult(List<CategoryVO>)
      */
     @ApiOperation("根据商品类别层级查询所有商品类别")
     @GetMapping ("/{level}")
@@ -39,13 +39,18 @@ public class CategoryController {
     public JsonResult getCategoryByLevel(@PathVariable @Range(min = 1, max = 2, message = "分类层级必须是1或2之间") Integer level){
         List<CategoryVO> list = categoryService.listCategoryByLevel(level);
         log.debug("商品类别列表:"+ list);
-        return JsonResult.success(list);
+        return JsonResult.ok(list);
     }
 
+    /**
+     * 增加类别名称
+     * @param categoryAddDTO 类别
+     * @return JsonResult
+     */
     @ApiOperation("增加类别")
     @PostMapping("/add")
     public JsonResult addCategory(CategoryAddDTO categoryAddDTO){
         categoryService.addCategory(categoryAddDTO);
-        return JsonResult.success();
+        return JsonResult.ok();
     }
 }

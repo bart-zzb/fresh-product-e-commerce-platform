@@ -34,7 +34,7 @@ CREATE TABLE tb_category
     parent_id       BIGINT  UNSIGNED        NOT NULL COMMENT '父级id(顶级父级id为0)',
     level           TINYINT(3) UNSIGNED     NOT NULL COMMENT '级别类型 (1: 一级分类) (2: 二级分类)...',
     is_parent       TINYINT(3) UNSIGNED     NOT NULL COMMENT '是否为父类 (1: 为父类, 它有子类) (0: 不为父类, 没有子类)',
-    sort            TINYINT(3) UNSIGNED     NOT NULL COMMENT '排序 (0:优先级最高)',
+    sort            TINYINT(3) UNSIGNED     NOT NULL COMMENT '排序 (1:优先级最高)',
     category_name   VARCHAR(50)             NOT NULL COMMENT '分类名称',
     enable          TINYINT(3) UNSIGNED     NOT NULL COMMENT '其否启用 (0: 不启用) (1: 启用)',
     is_display      TINYINT(3) UNSIGNED     NOT NULL COMMENT '是否启用首页展示 (0: 不启用展示) (1: 启用展示)'

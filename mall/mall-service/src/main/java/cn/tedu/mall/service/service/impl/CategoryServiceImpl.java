@@ -1,5 +1,7 @@
 package cn.tedu.mall.service.service.impl;
 
+import cn.tedu.mall.common.constant.ServiceCode;
+import cn.tedu.mall.common.ex.ServiceException;
 import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.repository.ICategoryRepository;
 import cn.tedu.mall.service.pojo.dto.CategoryAddDTO;
@@ -21,28 +23,40 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public List<CategoryVO> listCategoryByLevel(Integer level) {
         List<CategoryPO> categoryPOList = categoryRepository.getCategoryListByLevel(level);
-        List<CategoryVO> categoryVOList = PojoConvert.convertList(categoryPOList, CategoryVO.class);
-        return categoryVOList;
+        return PojoConvert.convertList(categoryPOList, CategoryVO.class);
     }
 
     /**
-     * 增加类别
-     * 1 名称不能重复 重复报错
-     * 2 类别的级别是 子级还是顶级
-     *     顶级的 parent_id == 0  子级 parent_id不为0
-     * 3 如果是子级 需要判断父级是否存在
-     * 4 如果是父级 直接保存  山西直接保存
-     * 5 判断父级是否禁用  可选
-     * 6 计算深度
-     *    父级 parentId=0  深度 = 1
-     *    子级   深度 = 父级的深度 + 1
-     * 7 计算isParent
-     *     如果是父级 isParent = 0  山西 = 0
-     *     如果是子级 把父级的isParent = 1    isParent = 1
-     * @param categoryAddDTO
+     * 增加商品类别
+     * @param categoryAddDTO 商品类别
      */
     @Override
     public void addCategory(CategoryAddDTO categoryAddDTO) {
+        Long countByCategoryName = categoryRepository.getCountByCategoryName(categoryAddDTO.getCategoryName());
+        if (countByCategoryName >= 1L){
+            throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST,"商品类别已存在！");
+        }else{
+            CategoryPO categoryPO = PojoConvert.convert(categoryAddDTO, CategoryPO.class);
+            categoryPO.setIsParent(0);
+            if(categoryAddDTO.getParentId()==0L){
+                categoryPO.setLevel(1);
+            }else{
+                CategoryPO categoryParentPO = categoryRepository.getCategoryById(categoryAddDTO.getParentId());
+                if (categoryParentPO == null){
+                    throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST,"商品父类不存在！");
+                }
+                if(categoryParentPO.getEnable()==0){
+                    throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST,"商品父类已禁用！");
+                }
 
+                if(categoryParentPO.getIsParent() != 1){
+                    categoryParentPO.setIsParent(1);
+                    categoryRepository.updateCategoryByCategoryPO(categoryParentPO);
+                }
+                categoryPO.setLevel(categoryParentPO.getLevel()+1);
+            }
+            categoryPO.setSort(1);
+            categoryRepository.saveCategory(categoryPO);
+        }
     }
 }
