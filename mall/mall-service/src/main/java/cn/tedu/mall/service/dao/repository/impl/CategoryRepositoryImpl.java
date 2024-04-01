@@ -54,7 +54,7 @@ public class CategoryRepositoryImpl implements ICategoryRepository {
     }
 
     @Override
-    public List<CategoryPO> getCategoryListByParentId(Integer parentId) {
+    public List<CategoryPO> getCategoryListByParentId(Long parentId) {
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("parent_id",parentId);
         return categoryMapper.selectList(queryWrapper);
@@ -71,4 +71,14 @@ public class CategoryRepositoryImpl implements ICategoryRepository {
         return categoryMapper.updateById(categoryPO);
     }
 
+    @Override
+    public List<CategoryPO> getSortedCategoryByParentId(Long parentId, Integer pageNum, Integer pageSize){
+        return categoryMapper.selectSortedCategoryByParentId(parentId, pageNum, pageSize);
+    }
+
+    @Override
+    public List<CategoryPO> getAll() {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        return categoryMapper.selectList(queryWrapper);
+    }
 }

@@ -2,6 +2,8 @@ package cn.tedu.mall.front.controller;
 
 import cn.tedu.mall.common.web.JsonResult;
 import cn.tedu.mall.service.pojo.dto.CategoryAddDTO;
+import cn.tedu.mall.service.pojo.dto.CategoryUpdateDTO;
+import cn.tedu.mall.service.pojo.vo.CategoryTreeVO;
 import cn.tedu.mall.service.pojo.vo.CategoryVO;
 import cn.tedu.mall.service.service.ICategoryService;
 import io.swagger.annotations.Api;
@@ -27,6 +29,30 @@ public class CategoryController {
     private ICategoryService categoryService;
 
     /**
+     * 增加类别名称
+     * @param categoryAddDTO 类别
+     * @return JsonResult
+     */
+    @ApiOperation("增加商品类别")
+    @PostMapping("/add")
+    public JsonResult addCategory(CategoryAddDTO categoryAddDTO){
+        categoryService.addCategory(categoryAddDTO);
+        return JsonResult.ok();
+    }
+
+    /**
+     * 删除类别名称
+     * @param id 类别id
+     * @return JsonResult
+     */
+    @ApiOperation("删除商品类别")
+    @PostMapping("/delete/{id}")
+    public JsonResult deleteCategoryById(@PathVariable Long id){
+        categoryService.deleteCategoryById(id);
+        return JsonResult.ok();
+    }
+
+    /**
      * 根据类别层级查询所有类别
      * @param level 层级
      * @return JsonResult(List<CategoryVO>)
@@ -43,14 +69,25 @@ public class CategoryController {
     }
 
     /**
-     * 增加类别名称
-     * @param categoryAddDTO 类别
+     * 查询商品类别树
+     * @return List<CategoryTreeVO>
+     */
+    @ApiOperation("查询商品类别树")
+    @GetMapping ("/tree")
+    public JsonResult treeCategory(){
+        List<CategoryTreeVO> tree = categoryService.treeCategory();
+        return JsonResult.ok(tree);
+    }
+
+    /**
+     * 更新类别名称
+     * @param categoryUpdateDTO 商品类别更新
      * @return JsonResult
      */
-    @ApiOperation("增加类别")
-    @PostMapping("/add")
-    public JsonResult addCategory(CategoryAddDTO categoryAddDTO){
-        categoryService.addCategory(categoryAddDTO);
+    @ApiOperation("更新商品类别")
+    @PostMapping("/update")
+    public JsonResult deleteCategoryById( CategoryUpdateDTO categoryUpdateDTO){
+        categoryService.updateCategory(categoryUpdateDTO);
         return JsonResult.ok();
     }
 }

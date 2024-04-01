@@ -18,9 +18,13 @@ public interface ICategoryRepository {
 
     CategoryPO getCategoryById(Long id);
 
-    List<CategoryPO> getCategoryListByParentId(Integer parentId);
+    List<CategoryPO> getCategoryListByParentId(Long parentId);
 
     int updateCategoryByCategoryUpdateDTO(CategoryUpdateDTO categoryUpdateDTO);
 
     int updateCategoryByCategoryPO(CategoryPO categoryPO);
+
+    List<CategoryPO> getSortedCategoryByParentId(Long parentId, Integer pageNum, Integer pageSize);
+
+    List<CategoryPO> getAll();
 }
