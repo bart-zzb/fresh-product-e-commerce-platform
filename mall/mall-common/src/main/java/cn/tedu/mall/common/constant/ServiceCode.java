@@ -58,6 +58,10 @@ public enum ServiceCode {
      */
     ERR_JWT_MALFORMED(60200),
     /**
+     * 错误：登录名或密码错误
+     */
+    ERR_USERNAME_PASSWORD(60300),
+    /**
      * 错误：上传的文件为空（没有选择有效的文件）
      */
     ERROR_UPLOAD_EMPTY(90000),

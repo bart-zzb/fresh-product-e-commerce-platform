@@ -10,7 +10,6 @@
         <module name="mall-front" />
         <module name="mall-service" />
         <module name="mall-common" />
-        <module name="mall-passport" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

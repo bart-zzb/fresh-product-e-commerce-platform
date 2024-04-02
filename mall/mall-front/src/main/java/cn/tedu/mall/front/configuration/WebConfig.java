@@ -1,8 +1,14 @@
 package cn.tedu.mall.front.configuration;
 
+import cn.tedu.mall.front.interceptor.JwtInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -13,9 +19,35 @@ public class WebConfig implements WebMvcConfigurer {
                 //.allowedOrigins("*")
                 //这个才是新版的要求
                 .allowedOriginPatterns("*")
-                .allowedMethods("GET","HEAD","POST","PUT","DELETE","OPTIONS")
+                .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowCredentials(true)
                 .maxAge(3600)
                 .allowedHeaders("*");
     }
+
+    @Autowired
+    private JwtInterceptor jwtInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        List<String> excludePathList = new ArrayList<>();
+        excludePathList.add("/admin/**");
+        excludePathList.add("/shop/registerShops");
+        excludePathList.add("/upload/**");
+        excludePathList.add("/images/**");
+        //配置相关Knife4j地址不用被拦截
+        excludePathList.add("/doc.html/**");
+        excludePathList.add("/swagger-resources/**");
+        excludePathList.add("/webjars/**");
+        excludePathList.add("/v2/**");
+        excludePathList.add("/swagger-ui.html/**");
+        excludePathList.add("/api");
+        excludePathList.add("/api-docs");
+        excludePathList.add("/api-docs/**");
+
+        registry.addInterceptor(jwtInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns(excludePathList);
+    }
+
 }

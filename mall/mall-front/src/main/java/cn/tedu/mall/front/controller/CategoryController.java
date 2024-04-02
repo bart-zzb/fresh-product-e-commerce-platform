@@ -86,7 +86,7 @@ public class CategoryController {
      */
     @ApiOperation("更新商品类别")
     @PostMapping("/update")
-    public JsonResult deleteCategoryById( CategoryUpdateDTO categoryUpdateDTO){
+    public JsonResult updateCategoryById( CategoryUpdateDTO categoryUpdateDTO){
         categoryService.updateCategory(categoryUpdateDTO);
         return JsonResult.ok();
     }

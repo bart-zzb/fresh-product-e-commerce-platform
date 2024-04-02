@@ -1,49 +1,75 @@
 package cn.tedu.mall.common.util;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
+import cn.tedu.mall.common.constant.JwtConstants;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTCreator;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+
 
 /**
- * JWT工具类
- *
- * @author java@tedu.cn
- * @version 3.0
+ * 封装生成token和验证token方法
  */
+@Component
 public class JwtUtils {
-
     /**
-     * 生成JWT
-     *
-     * @param claims    存入到JWT中的数据
-     * @param secretKey 密钥
-     * @return JWT数据
+     * 生成私钥 token header.payload.signature
      */
-    public static synchronized String generate(Map<String, Object> claims, String secretKey) {
-        //通过Jwts 工具类进行加密,你也可以自己写加密算法
-        //HS256 一个具体的算法 自己去了解不同的加密算法 对称和非对称
-        return Jwts.builder()
-                .setHeaderParam("alg", "HS256")
-                .setHeaderParam("typ", "JWT")
-                .setClaims(claims)
-                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .compact();
+    private final static String SIGNATURE = "token!Q2W#E$RW";
+
+    @Autowired
+    private HttpServletRequest request;
+
+    public Map<String, Object> getUserInfo() {
+        String header = request.getHeader(JwtConstants.AUTHORIZATION);
+        String token = header.substring(JwtConstants.AUTHORIZATION_BEARER.length());
+        DecodedJWT tokenInfo = JWT.require(Algorithm.HMAC256(SIGNATURE)).build().verify(token);
+        Map<String, Claim> claims = tokenInfo.getClaims();
+        Set<Map.Entry<String, Claim>> entries = claims.entrySet();
+        Map<String, Object> map = new HashMap<>();
+        for (Map.Entry<String, Claim> entry : entries) {
+            map.put(entry.getKey(), entry.getValue().as(Object.class));
+        }
+        //SpsAdminEntity spsAdminEntity = JSON.parseObject(JSON.toJSONString(map), SpsAdminEntity.class);
+        return map;
     }
 
     /**
-     * 解析JWT
+     * 生成token
      *
-     * @param jwt       JWT数据
-     * @param secretKey 生成JWT时使用的密钥
-     * @return 解析结果
+     * @param map map集合
+     * @return token
      */
-    public static synchronized Claims parse(String jwt, String secretKey) {
-        return Jwts.parser()
-                .setSigningKey(secretKey)
-                .parseClaimsJws(jwt)
-                .getBody();
+    public static String getToken(Map<String, Object> map) {
+        Calendar instance = Calendar.getInstance();
+        //30分钟过期
+        instance.add(Calendar.MINUTE, JwtConstants.JWT_TIMEOUT);
+        //创建jwt builder
+        JWTCreator.Builder builder = JWT.create();
+
+        //payload,用遍历避免多个键值对
+        map.forEach((k, v) -> builder.withClaim(k, v + ""));
+        //指定令牌过期时间,设置签名返回token
+        String token = builder.withExpiresAt(instance.getTime()).sign(Algorithm.HMAC256(SIGNATURE));
+        return token;
+    }
+
+    /**
+     * 验证token合法性
+     * @param token 令牌
+     */
+    public static void verify(String token) {
+        JWT.require(Algorithm.HMAC256(SIGNATURE)).build().verify(token);
     }
 
 }
