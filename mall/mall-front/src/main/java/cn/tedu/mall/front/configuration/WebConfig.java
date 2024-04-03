@@ -32,14 +32,14 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         List<String> excludePathList = new ArrayList<>();
         excludePathList.add("/admin/**");
-        excludePathList.add("/shop/registerShops");
-        excludePathList.add("/upload/**");
-        excludePathList.add("/images/**");
+        //配置商品测试测试接口, 避免测试时被拦截
+        excludePathList.add("/mall/Category/**");
         //配置相关Knife4j地址不用被拦截
         excludePathList.add("/doc.html/**");
         excludePathList.add("/swagger-resources/**");
         excludePathList.add("/webjars/**");
         excludePathList.add("/v2/**");
+        excludePathList.add("/v3/**");
         excludePathList.add("/swagger-ui.html/**");
         excludePathList.add("/api");
         excludePathList.add("/api-docs");
