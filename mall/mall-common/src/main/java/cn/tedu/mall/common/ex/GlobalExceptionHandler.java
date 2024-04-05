@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -14,9 +15,6 @@ import java.util.Set;
 
 /**
  * 全局异常处理器
- *
- * @author java@tedu.cn
- * @version 3.0
  */
 @Slf4j
 @RestControllerAdvice
@@ -30,6 +28,12 @@ public class GlobalExceptionHandler {
     public JsonResult handleServiceException(ServiceException e) {
         log.debug("全局异常处理器开始处理ServiceException");
         return JsonResult.fail(e);
+    }
+
+    @ExceptionHandler
+    public JsonResult handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e){
+        log.debug("全局异常处理器开始处理MethodArgumentTypeMismatchException");
+        return JsonResult.fail(ServiceCode.ERROR_BAD_REQUEST, "参数转换失败，请确保参数符合类型:"+ e.getMessage());
     }
 
     @ExceptionHandler
@@ -55,6 +59,7 @@ public class GlobalExceptionHandler {
         String message = stringBuilder.toString();
         return JsonResult.fail(ServiceCode.ERROR_BAD_REQUEST, message);
     }
+
 
     @ExceptionHandler
     public JsonResult handleThrowable(Throwable e) {

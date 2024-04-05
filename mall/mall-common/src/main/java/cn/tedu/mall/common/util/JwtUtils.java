@@ -72,4 +72,7 @@ public class JwtUtils {
         JWT.require(Algorithm.HMAC256(SIGNATURE)).build().verify(token);
     }
 
+    public static void main(String[] args) {
+
+    }
 }

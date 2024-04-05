@@ -1,5 +1,7 @@
 package cn.tedu.mall.service.dao.repository.impl;
 
+import cn.tedu.mall.common.constant.ServiceCode;
+import cn.tedu.mall.common.ex.ServiceException;
 import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.mapper.CategoryMapper;
 import cn.tedu.mall.service.dao.repository.ICategoryRepository;
@@ -62,6 +64,10 @@ public class CategoryRepositoryImpl implements ICategoryRepository {
 
     @Override
     public int updateCategoryByCategoryUpdateDTO(CategoryUpdateDTO categoryUpdateDTO){
+        CategoryPO origCategoryPO = categoryMapper.selectById(categoryUpdateDTO.getId());
+        if(origCategoryPO==null){
+            throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST,"商品类别不存在");
+        }
         CategoryPO categoryPO = PojoConvert.convert(categoryUpdateDTO, CategoryPO.class);
         return categoryMapper.updateById(categoryPO);
     }

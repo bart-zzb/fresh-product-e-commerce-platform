@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Api(tags = "商品类别")
@@ -35,7 +36,7 @@ public class CategoryController {
      */
     @ApiOperation("增加商品类别")
     @PostMapping("/add")
-    public JsonResult addCategory(CategoryAddDTO categoryAddDTO){
+    public JsonResult addCategory(@Validated CategoryAddDTO categoryAddDTO){
         categoryService.addCategory(categoryAddDTO);
         return JsonResult.ok();
     }
@@ -47,7 +48,7 @@ public class CategoryController {
      */
     @ApiOperation("删除商品类别")
     @PostMapping("/delete/{id}")
-    public JsonResult deleteCategoryById(@PathVariable Long id){
+    public JsonResult deleteCategoryById(@PathVariable @NotNull Long id){
         categoryService.deleteCategoryById(id);
         return JsonResult.ok();
     }
@@ -58,7 +59,7 @@ public class CategoryController {
      * @return JsonResult(List<CategoryVO>)
      */
     @ApiOperation("根据商品类别层级查询所有商品类别")
-    @GetMapping ("/{level}")
+    @GetMapping ("/level/{level}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "level",value = "分类层级",required = true,dataType = "Integer"),
     })
@@ -86,7 +87,7 @@ public class CategoryController {
      */
     @ApiOperation("更新商品类别")
     @PostMapping("/update")
-    public JsonResult updateCategoryById( CategoryUpdateDTO categoryUpdateDTO){
+    public JsonResult updateCategoryById(@Validated CategoryUpdateDTO categoryUpdateDTO){
         categoryService.updateCategory(categoryUpdateDTO);
         return JsonResult.ok();
     }

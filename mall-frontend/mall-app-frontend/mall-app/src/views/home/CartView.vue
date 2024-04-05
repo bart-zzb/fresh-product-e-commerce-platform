@@ -137,7 +137,6 @@ const del = () => {
     cartGoods.value = saveList;
     change();
   }
-
 }
 
 const onSubmit = () => {

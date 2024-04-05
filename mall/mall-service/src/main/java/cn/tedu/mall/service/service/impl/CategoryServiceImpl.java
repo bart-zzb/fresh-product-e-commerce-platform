@@ -92,8 +92,12 @@ public class CategoryServiceImpl implements ICategoryService {
 
     @Override
     public void deleteCategoryById(Long id) {
+        CategoryPO categoryById = categoryRepository.getCategoryById(id);
+        if(categoryById == null){
+            throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, "该商品分类不存在");
+        }
         List<CategoryPO> categoryListByParentId = categoryRepository.getCategoryListByParentId(id);
-        StringBuffer errorMessage = new StringBuffer("该商品类型还有子类,请先删除子类类别: ");
+        StringBuffer errorMessage = new StringBuffer("该商品分类还有子类,请先删除子类类别: ");
         if (!categoryListByParentId.isEmpty()) {
             for (int i = 0; i < categoryListByParentId.size(); i++) {
                 errorMessage.append("[ "+ "id: "+categoryListByParentId.get(i).getId() + ", categoryName: " + categoryListByParentId.get(i).getCategoryName() + " ] ");
