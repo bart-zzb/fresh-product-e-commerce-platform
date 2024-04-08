@@ -1,13 +1,9 @@
 package cn.tedu.mall.service.dao.repository.impl;
 
-import cn.tedu.mall.common.constant.ServiceCode;
-import cn.tedu.mall.common.ex.ServiceException;
-import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.mapper.CategoryMapper;
 import cn.tedu.mall.service.dao.repository.ICategoryRepository;
-import cn.tedu.mall.service.pojo.dto.CategoryUpdateDTO;
-import cn.tedu.mall.service.pojo.po.CategoryPO;
 
+import cn.tedu.mall.service.pojo.po.CategoryPO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -63,18 +59,8 @@ public class CategoryRepositoryImpl implements ICategoryRepository {
     }
 
     @Override
-    public int updateCategoryByCategoryUpdateDTO(CategoryUpdateDTO categoryUpdateDTO){
-        CategoryPO origCategoryPO = categoryMapper.selectById(categoryUpdateDTO.getId());
-        if(origCategoryPO==null){
-            throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST,"商品类别不存在");
-        }
-        CategoryPO categoryPO = PojoConvert.convert(categoryUpdateDTO, CategoryPO.class);
-        return categoryMapper.updateById(categoryPO);
-    }
-
-    @Override
     public int updateCategoryByCategoryPO(CategoryPO categoryPO){
-        return categoryMapper.updateById(categoryPO);
+         return categoryMapper.updateById(categoryPO);
     }
 
     @Override

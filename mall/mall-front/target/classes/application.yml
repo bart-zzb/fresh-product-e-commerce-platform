@@ -54,3 +54,4 @@ mybatis-plus:
 logging:
   level:
     cn.tedu: debug
+

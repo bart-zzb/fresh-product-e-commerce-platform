@@ -1,6 +1,5 @@
 package cn.tedu.mall.service.pojo.dto;
 
-
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.Data;

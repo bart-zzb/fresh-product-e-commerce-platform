@@ -9,4 +9,6 @@ import java.util.List;
 @Mapper
 public interface CartMapper extends BaseMapper<CartPO> {
     List<CartPO> selectCartByUserId(Long userId);
+
+    CartPO selectCartByInfo(Long userId, Long productId, Long productSpecId);
 }

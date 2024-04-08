@@ -61,7 +61,12 @@ public class CartController {
         return JsonResult.ok();
     }
 
-    @ApiOperation("更新购物车")
+    /**
+     * 查询购物车
+     * @param userId 用户id
+     * @return JsonResult
+     */
+    @ApiOperation("查询购物车")
     @GetMapping("/{userId}")
     public JsonResult getCartByUserId(@PathVariable @NotNull Long userId){
         List<CartPO> list =  cartService.getCartByUserId(userId);

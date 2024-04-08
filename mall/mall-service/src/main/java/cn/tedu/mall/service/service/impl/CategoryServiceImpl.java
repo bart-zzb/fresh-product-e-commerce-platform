@@ -92,8 +92,8 @@ public class CategoryServiceImpl implements ICategoryService {
 
     @Override
     public void deleteCategoryById(Long id) {
-        CategoryPO categoryById = categoryRepository.getCategoryById(id);
-        if(categoryById == null){
+        CategoryPO categoryPO = categoryRepository.getCategoryById(id);
+        if(categoryPO == null){
             throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, "该商品分类不存在");
         }
         List<CategoryPO> categoryListByParentId = categoryRepository.getCategoryListByParentId(id);
@@ -111,8 +111,19 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     @Override
+    public CategoryPO getCategoryById(Long id){
+        return categoryRepository.getCategoryById(id);
+    }
+
+    @Override
     public void updateCategory(CategoryUpdateDTO categoryUpdateDTO) {
-        categoryRepository.updateCategoryByCategoryUpdateDTO(categoryUpdateDTO);
+       CategoryPO origCategoryPO = categoryRepository.getCategoryById(categoryUpdateDTO.getId());
+        if(origCategoryPO==null){
+            throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST,"商品类别不存在");
+        }
+        CategoryPO categoryPO = PojoConvert.convert(categoryUpdateDTO, CategoryPO.class);
+
+        categoryRepository.updateCategoryByCategoryPO(categoryPO);
         //全量更新
         updateCategoryTreeForRedis();
     }

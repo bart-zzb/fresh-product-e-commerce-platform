@@ -1,5 +1,8 @@
 package cn.tedu.mall.service.service.impl;
 
+import cn.tedu.mall.common.constant.ServiceCode;
+import cn.tedu.mall.common.ex.ServiceException;
+import cn.tedu.mall.common.util.CalUtils;
 import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.repository.ICartRepository;
 import cn.tedu.mall.service.pojo.dto.CartAddDTO;
@@ -10,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Primary
@@ -20,8 +24,13 @@ public class CartServiceImpl implements ICartService {
 
     @Override
     public void addCart(CartAddDTO cartAddDTO) {
-        CartPO cartPO = PojoConvert.convert(cartAddDTO, CartPO.class);
-        cartRepository.saveCart(cartPO);
+        CartPO cartOrigPO = cartRepository.selectCartByInfo(cartAddDTO.getTbUserId(), cartAddDTO.getTbProductId(), cartAddDTO.getTbProductSpecId());
+        if(cartOrigPO!=null){
+            CartPO cartPO = PojoConvert.convert(cartAddDTO, CartPO.class);
+            BigDecimal calTotal = CalUtils.calTotal(cartPO.getPrice(), cartAddDTO.getAmount());
+            cartPO.setProductAmountTotal(calTotal);
+            cartRepository.saveCart(cartPO);
+        }
     }
 
     @Override
@@ -31,7 +40,14 @@ public class CartServiceImpl implements ICartService {
 
     @Override
     public void updateCartByCartUpdateDTO(CartUpdateDTO cartUpdateDTO) {
-        cartRepository.updateCart(cartUpdateDTO);
+        CartPO origCartPO = cartRepository.selectCartById(cartUpdateDTO.getId());
+        if (origCartPO == null){
+            throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST,"购物车类别不存在");
+        }
+        CartPO cartPO = PojoConvert.convert(cartUpdateDTO, CartPO.class);
+        BigDecimal calTotal = CalUtils.calTotal(origCartPO.getPrice(), cartUpdateDTO.getAmount());
+        cartPO.setProductAmountTotal(calTotal);
+        cartRepository.updateCart(cartPO);
     }
 
     @Override

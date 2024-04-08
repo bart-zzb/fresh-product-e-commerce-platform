@@ -6,14 +6,16 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.validator.constraints.Range;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CartUpdateDTO implements Serializable {
+
+    @NotNull(message = "id不能为空")
+    @ApiModelProperty(value = "id",required = true,dataType = "Long")
+    Long id;
 
     @NotNull(message = "用户id不能为空")
     @ApiModelProperty(value = "用户id",required = true,dataType = "Long")
@@ -24,8 +26,8 @@ public class CartUpdateDTO implements Serializable {
     @ApiModelProperty(value = "是否选中",required = true,dataType = "Integer")
     Integer tbProductChecked;
 
-    @NotBlank(message = " 数量不能为空")
-    @Pattern(regexp = "^\\d+$", message = "请输入正整数或零")
+    @NotNull(message = " 数量不能为空")
+    @Range(min = 0, message = "数量必须是零或者正整数")
     @ApiModelProperty(value = "数量",required = true,dataType = "Integer")
     Integer amount;
 }

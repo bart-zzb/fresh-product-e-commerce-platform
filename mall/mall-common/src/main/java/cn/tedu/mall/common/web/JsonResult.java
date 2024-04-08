@@ -42,6 +42,7 @@ public class JsonResult implements Serializable {
         return ok(null);
     }
 
+
     /**
      * 生成表示"成功"的响应对象，此对象中将包含响应到客户端的数据
      *
@@ -51,6 +52,7 @@ public class JsonResult implements Serializable {
     public static JsonResult ok(Object data) {
         JsonResult jsonResult = new JsonResult();
         jsonResult.state = ServiceCode.OK.getValue();
+        jsonResult.message = "操作成功";
         jsonResult.data = data;
         return jsonResult;
     }
