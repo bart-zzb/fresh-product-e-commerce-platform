@@ -1,6 +1,7 @@
 package cn.tedu.mall.service.dao.repository;
 
 import cn.tedu.mall.service.pojo.po.CartPO;
+import cn.tedu.mall.service.pojo.vo.CartVO;
 
 import java.util.List;
 
@@ -15,5 +16,5 @@ public interface ICartRepository {
 
     int updateCart(CartPO cartPO);
 
-    List<CartPO> selectCartByUserId(Long userId);
+    List<CartVO> selectCartByUserId(Long userId);
 }

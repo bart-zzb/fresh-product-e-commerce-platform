@@ -56,7 +56,6 @@ public class CartServiceImpl implements ICartService {
 
     @Override
     public List<CartVO> getCartByUserId(Long userId) {
-        List<CartPO> cartPOS= cartRepository.selectCartByUserId(userId);
-        return PojoConvert.convertList(cartPOS, CartVO.class);
+        return cartRepository.selectCartByUserId(userId);
     }
 }

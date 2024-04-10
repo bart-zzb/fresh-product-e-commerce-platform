@@ -2,10 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.tedu.mall.service.dao.mapper.CartMapper">
-    <select id="selectCartByUserId" resultType="cn.tedu.mall.service.pojo.po.CartPO">
+    <select id="selectCartByUserId" resultType="cn.tedu.mall.service.pojo.vo.CartVO">
         SELECT id,
-               create_time,
-               modified_time,
                tb_user_id,
                tb_product_id,
                tb_product_name,

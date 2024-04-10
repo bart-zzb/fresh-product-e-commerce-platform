@@ -5,8 +5,6 @@
     <select id="selectSortedCategoryByParentId" resultType="cn.tedu.mall.service.pojo.po.CategoryPO">
         SELECT id,
                create_time,
-               id,
-               create_time,
                modified_time,
                parent_id,
                level,

@@ -9,6 +9,8 @@ import java.io.Serializable;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CategoryVO implements Serializable {
+    Long id;
+
     Long categoryId;
 
     Long parentId;

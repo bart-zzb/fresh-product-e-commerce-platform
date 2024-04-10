@@ -2,11 +2,13 @@ package cn.tedu.mall.service.service.impl;
 
 import cn.tedu.mall.common.constant.ServiceCode;
 import cn.tedu.mall.common.ex.ServiceException;
+import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.repository.IOrderRepository;
 import cn.tedu.mall.service.pojo.dto.OrderAddDTO;
 import cn.tedu.mall.service.pojo.dto.OrderItemsAddDTO;
 import cn.tedu.mall.service.pojo.dto.OrderUpdateDTO;
 import cn.tedu.mall.service.pojo.po.OrderPO;
+import cn.tedu.mall.service.pojo.vo.OrderVO;
 import cn.tedu.mall.service.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -40,7 +42,7 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public List<OrderPO> getOrderByUserId(Long userId) {
+    public List<OrderVO> getOrderByUserId(Long userId) {
         return orderRepository.getOrderByUserId(userId);
     }
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.mall.service.dao.mapper.OrderMapper">
+    <select id="selectOrderByUserId" resultType="cn.tedu.mall.service.pojo.vo.OrderVO">
+        SELECT id,
+               order_no,
+               status,
+               order_amount_total,
+               tb_user_id,
+               tb_address_id,
+               consignee,
+               consignee_phone,
+               consignee_address,
+               out_trade_no,
+               tb_user_notes
+        FROM e_mall.tb_order
+        WHERE e_mall.tb_order.tb_user_id = #{userId}
+    </select>
+</mapper>

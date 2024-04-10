@@ -4,6 +4,7 @@ package cn.tedu.mall.service.dao.repository.impl;
 import cn.tedu.mall.service.dao.mapper.CartMapper;
 import cn.tedu.mall.service.dao.repository.ICartRepository;
 import cn.tedu.mall.service.pojo.po.CartPO;
+import cn.tedu.mall.service.pojo.vo.CartVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
@@ -42,7 +43,7 @@ public class CartRepositoryImpl implements ICartRepository {
     }
 
     @Override
-    public List<CartPO> selectCartByUserId(Long userId) {
+    public List<CartVO> selectCartByUserId(Long userId) {
         return cartMapper.selectCartByUserId(userId);
     }
 }

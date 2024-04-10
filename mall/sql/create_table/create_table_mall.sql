@@ -118,7 +118,7 @@ CREATE TABLE tb_address
     id              BIGINT UNSIGNED         NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'id',
     create_time     DATETIME                NOT NULL COMMENT '创建时间',
     modified_time   DATETIME                NOT NULL COMMENT '修改时间',
-    contact_phone   INT(10) UNSIGNED        NOT NULL COMMENT '用户手机号(冗余)',
+    contact_phone   VARCHAR(50)             NOT NULL COMMENT '用户手机号(冗余)',
     account         VARCHAR(50)             DEFAULT '' COMMENT '用户账号(冗余)',
     district        VARCHAR(50)             DEFAULT '' COMMENT '省(冗余)',
     city            VARCHAR(50)             DEFAULT '' COMMENT '市(冗余)',

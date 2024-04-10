@@ -3,6 +3,7 @@ package cn.tedu.mall.service.dao.repository.impl;
 import cn.tedu.mall.service.dao.mapper.OrderMapper;
 import cn.tedu.mall.service.dao.repository.IOrderRepository;
 import cn.tedu.mall.service.pojo.po.OrderPO;
+import cn.tedu.mall.service.pojo.vo.OrderVO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -30,9 +31,7 @@ public class OrderRepositoryImpl implements IOrderRepository {
     }
 
     @Override
-    public List<OrderPO> getOrderByUserId(Long userId) {
-        QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.eq("tb_user_id", userId);
-        return orderMapper.selectList(queryWrapper);
+    public List<OrderVO> getOrderByUserId(Long userId) {
+        return orderMapper.selectOrderByUserId(userId);
     }
 }
