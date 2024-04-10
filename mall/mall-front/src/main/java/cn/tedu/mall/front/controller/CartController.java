@@ -4,9 +4,11 @@ package cn.tedu.mall.front.controller;
 import cn.tedu.mall.common.web.JsonResult;
 import cn.tedu.mall.service.pojo.dto.CartAddDTO;
 import cn.tedu.mall.service.pojo.dto.CartUpdateDTO;
-import cn.tedu.mall.service.pojo.po.CartPO;
+import cn.tedu.mall.service.pojo.vo.CartVO;
 import cn.tedu.mall.service.service.ICartService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +18,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Api(tags = "购物车类别")
+@Api(tags = "购物车模块")
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("mall/Cart")
+@RequestMapping("mall/cart")
 public class CartController {
     @Autowired
     private ICartService cartService;
@@ -44,7 +46,10 @@ public class CartController {
      */
     @ApiOperation("删除购物车")
     @PostMapping("/delete/{id}")
-    public JsonResult deleteCartById(@PathVariable @NotNull Long id){
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "购物车id",required = true,dataType = "Long"),
+    })
+    public JsonResult deleteCartById(@PathVariable @NotNull(message = "购物车id不能为空") Long id){
         cartService.deleteCartById(id);
         return JsonResult.ok();
     }
@@ -64,12 +69,15 @@ public class CartController {
     /**
      * 查询购物车
      * @param userId 用户id
-     * @return JsonResult
+     * @return JsonResult(List<CartVO>)
      */
     @ApiOperation("查询购物车")
     @GetMapping("/{userId}")
-    public JsonResult getCartByUserId(@PathVariable @NotNull Long userId){
-        List<CartPO> list =  cartService.getCartByUserId(userId);
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId",value = "用户id",required = true,dataType = "Long"),
+    })
+    public JsonResult getCartByUserId(@PathVariable @NotNull(message = "用户id不能为空") Long userId){
+        List<CartVO> list =  cartService.getCartByUserId(userId);
         return JsonResult.ok(list);
     }
 }

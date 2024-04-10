@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class CategoryLoader implements ApplicationRunner {
+public class InfoLoader implements ApplicationRunner {
 
     @Autowired
     private ICategoryService categoryService;

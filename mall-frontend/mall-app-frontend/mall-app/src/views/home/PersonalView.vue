@@ -1,7 +1,7 @@
 <template>
   <div style="background-color: #F5F5F5;height: 100%;width:100%;position: absolute;top:0;">
     <div style="background-color: #D54431; height: 200px; border-bottom-left-radius: 30px;border-bottom-right-radius: 30px;">
-      <h1 style="margin: 0;line-height: 80px;color:#fff;">个人中心</h1>
+      <h2 style="margin: 0;line-height: 80px;color:#fff;">个人中心</h2>
       <!--logo id名 功能-->
       <van-row gutter="2">
         <van-col span="6">

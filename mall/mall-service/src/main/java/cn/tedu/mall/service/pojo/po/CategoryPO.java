@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 
 @Data
-@TableName("tb_category")
+@TableName("e_mall.tb_category")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CategoryPO implements Serializable {
 

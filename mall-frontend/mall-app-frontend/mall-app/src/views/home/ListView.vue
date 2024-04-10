@@ -1,5 +1,5 @@
 <template>
-  <h1>产品分类</h1>
+  <h2>产品分类</h2>
   <van-search v-model="searchValue" placeholder="请输入搜索关键词"/>
   <van-tabs v-model:active="active">
     <van-tab v-for="cat in categoryList" :title="cat.name">

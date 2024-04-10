@@ -3,6 +3,7 @@ package cn.tedu.mall.common.ex;
 
 import cn.tedu.mall.common.constant.ServiceCode;
 import cn.tedu.mall.common.web.JsonResult;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,6 +23,12 @@ public class GlobalExceptionHandler {
 
     public GlobalExceptionHandler() {
         log.info("创建全局异常处理器对象：GlobalExceptionHandler");
+    }
+
+    @ExceptionHandler
+    public JsonResult handleTokenExpiredException(TokenExpiredException e){
+        log.debug("全局异常处理器开始处理TokenExpiredException");
+        return JsonResult.fail(ServiceCode.ERR_JWT_EXPIRED,"已过期,请重新登录");
     }
 
     @ExceptionHandler

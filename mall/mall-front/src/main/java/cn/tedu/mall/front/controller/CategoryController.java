@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Api(tags = "商品类别")
+@Api(tags = "商品类别模块")
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("mall/Category")
+@RequestMapping("mall/category")
 public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
@@ -48,7 +48,10 @@ public class CategoryController {
      */
     @ApiOperation("删除商品类别")
     @PostMapping("/delete/{id}")
-    public JsonResult deleteCategoryById(@PathVariable @NotNull Long id){
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "商品id",required = true,dataType = "Long"),
+    })
+    public JsonResult deleteCategoryById(@PathVariable @NotNull(message = "商品id不能为空") Long id){
         categoryService.deleteCategoryById(id);
         return JsonResult.ok();
     }

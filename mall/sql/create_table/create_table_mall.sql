@@ -147,7 +147,7 @@ CREATE TABLE tb_order
     product_map             JSON                   DEFAULT '{}' COMMENT '商品详情集合',
     product_amount_total    DECIMAL(10,2)          DEFAULT 0.00 COMMENT '商品总价',
     order_amount_total      DECIMAL(10,2)          DEFAULT 0.00 COMMENT '实付付款金额',
-    freight                 DECIMAL(10,2)          DEFAULT 0.00 COMMENT '实付付款金额',
+    freight                 DECIMAL(10,2)          DEFAULT 0.00 COMMENT '配送费用',
     integration             INT(10) UNSIGNED       DEFAULT 0 COMMENT '可获得积分',
     integration_amount      DECIMAL(10,2)          DEFAULT 0.00 COMMENT '积分抵扣金额',
     tb_user_id              bigint unsigned        NOT NULL COMMENT '用户id',

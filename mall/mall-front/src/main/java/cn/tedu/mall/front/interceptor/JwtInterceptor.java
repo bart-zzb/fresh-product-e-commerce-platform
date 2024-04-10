@@ -2,6 +2,8 @@ package cn.tedu.mall.front.interceptor;
 
 
 import cn.tedu.mall.common.constant.JwtConstants;
+import cn.tedu.mall.common.constant.ServiceCode;
+import cn.tedu.mall.common.ex.ServiceException;
 import cn.tedu.mall.common.util.JwtUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,7 @@ public class JwtInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        return false;
+        throw new ServiceException(ServiceCode.ERR_JWT_SIGNATURE, "无法找到对应token,请先登录！");
+//        return false;
     }
 }

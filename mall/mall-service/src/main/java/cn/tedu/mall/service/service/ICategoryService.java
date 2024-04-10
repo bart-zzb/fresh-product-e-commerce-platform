@@ -9,20 +9,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 public interface ICategoryService {
     void initCategory();
 
     List<CategoryVO> listCategoryByLevel(Integer level);
 
-    @Transactional
     void addCategory(CategoryAddDTO categoryAddDTO);
 
-    @Transactional
     void deleteCategoryById(Long id);
 
     CategoryPO getCategoryById(Long id);
 
-    @Transactional
     void updateCategory(CategoryUpdateDTO categoryUpdateDTO);
 
     List<CategoryTreeVO> treeCategory();
