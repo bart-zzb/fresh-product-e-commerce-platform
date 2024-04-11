@@ -1,6 +1,7 @@
 package cn.tedu.mall.service.service.impl;
 
 import cn.tedu.mall.common.constant.ServiceCode;
+import cn.tedu.mall.common.constant.ServiceConstant;
 import cn.tedu.mall.common.ex.ServiceException;
 import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.repository.ICategoryCacheRepository;
@@ -54,7 +55,7 @@ public class CategoryServiceImpl implements ICategoryService {
     public void addCategory(CategoryAddDTO categoryAddDTO) {
         Long countByCategoryName = categoryRepository.getCountByCategoryName(categoryAddDTO.getCategoryName());
         if (countByCategoryName >= 1L) {
-            throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, "商品类别已存在！");
+            throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, ServiceConstant.CATEGORY_ALREADY_EXISTED);
         } else {
             CategoryPO categoryPO = PojoConvert.convert(categoryAddDTO, CategoryPO.class);
             categoryPO.setIsParent(0);
@@ -63,10 +64,10 @@ public class CategoryServiceImpl implements ICategoryService {
             } else {
                 CategoryPO categoryParentPO = categoryRepository.getCategoryById(categoryAddDTO.getParentId());
                 if (categoryParentPO == null) {
-                    throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, "商品父类不存在！");
+                    throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, ServiceConstant.CATEGORY_PARENT_NOT_EXIST);
                 }
                 if (categoryParentPO.getEnable() == 0) {
-                    throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, "商品父类已禁用！");
+                    throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, ServiceConstant.CATEGORY_PARENT_NOT_ENABLE);
                 }
 
                 if (categoryParentPO.getIsParent() != 1) {
@@ -94,13 +95,13 @@ public class CategoryServiceImpl implements ICategoryService {
     public void deleteCategoryById(Long id) {
         CategoryPO categoryPO = categoryRepository.getCategoryById(id);
         if(categoryPO == null){
-            throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, "该商品分类不存在");
+            throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, ServiceConstant.CATEGORY_NOT_EXIST);
         }
         List<CategoryPO> categoryListByParentId = categoryRepository.getCategoryListByParentId(id);
-        StringBuffer errorMessage = new StringBuffer("该商品分类还有子类,请先删除子类类别: ");
+        StringBuffer errorMessage = new StringBuffer(ServiceConstant.CATEGORY_CHILDREN_IS_EXISTED);
         if (!categoryListByParentId.isEmpty()) {
             for (int i = 0; i < categoryListByParentId.size(); i++) {
-                errorMessage.append("[ "+ "id: "+categoryListByParentId.get(i).getId() + ", categoryName: " + categoryListByParentId.get(i).getCategoryName() + " ] ");
+                errorMessage.append(": [ "+ "id: "+categoryListByParentId.get(i).getId() + ", categoryName: " + categoryListByParentId.get(i).getCategoryName() + " ] ");
             }
             throw new ServiceException(ServiceCode.ERROR_DELETE, errorMessage.toString());
         } else {
@@ -119,7 +120,7 @@ public class CategoryServiceImpl implements ICategoryService {
     public void updateCategory(CategoryUpdateDTO categoryUpdateDTO) {
        CategoryPO origCategoryPO = categoryRepository.getCategoryById(categoryUpdateDTO.getId());
         if(origCategoryPO==null){
-            throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST,"商品类别不存在");
+            throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST,ServiceConstant.CATEGORY_NOT_EXIST);
         }
         CategoryPO categoryPO = PojoConvert.convert(categoryUpdateDTO, CategoryPO.class);
 

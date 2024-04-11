@@ -209,3 +209,50 @@ CREATE TABLE tb_shopping_cart
     amount                  INT(10) UNSIGNED        NOT NULL COMMENT '(SKU)数量',
     product_amount_total    DECIMAL(10,2)           NOT NULL COMMENT '商品总价'
 )DEFAULT CHARSET = utf8mb4 COMMENT = '购物车表';
+
+-- 创建首页轮播图表 sys_index_carousel
+DROP TABLE IF EXISTS sys_index_carousel;
+CREATE TABLE sys_index_carousel
+(
+    id                      BIGINT UNSIGNED         NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'id',
+    create_time             DATETIME                NOT NULL COMMENT '创建时间',
+    modified_time           DATETIME                NOT NULL COMMENT '修改时间',
+    img_url                 VARCHAR(50)             NOT NULL COMMENT '图片地址',
+    sort                    TINYINT(3) UNSIGNED     NOT NULL COMMENT '排序 (1:优先级最高)'
+)DEFAULT CHARSET = utf8mb4 COMMENT = '首页轮播图表';
+
+-- 创建首页横幅表 sys_index_banner
+DROP TABLE IF EXISTS sys_index_banner;
+CREATE TABLE sys_index_banner
+(
+    id                      BIGINT UNSIGNED         NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'id',
+    create_time             DATETIME                NOT NULL COMMENT '创建时间',
+    modified_time           DATETIME                NOT NULL COMMENT '修改时间',
+    img_url                 VARCHAR(50)             NOT NULL COMMENT '图片地址',
+    name                    VARCHAR(50)             DEFAULT '' COMMENT '名称',
+    sort                    TINYINT(3) UNSIGNED     NOT NULL COMMENT '排序 (1:优先级最高)'
+)DEFAULT CHARSET = utf8mb4 COMMENT = '首页横幅表';
+
+-- 创建直播卡片表 sys_live_card
+DROP TABLE IF EXISTS sys_live_card;
+CREATE TABLE sys_live_card
+(
+    id                      BIGINT UNSIGNED         NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'id',
+    create_time             DATETIME                NOT NULL COMMENT '创建时间',
+    modified_time           DATETIME                NOT NULL COMMENT '修改时间',
+    img_url                 VARCHAR(50)             NOT NULL COMMENT '图片地址',
+    sort                    TINYINT(3) UNSIGNED     NOT NULL COMMENT '排序 (1:优先级最高)'
+)DEFAULT CHARSET = utf8mb4 COMMENT = '直播卡片表';
+
+-- 创建首页标签表 sys_index_label
+DROP TABLE IF EXISTS sys_index_label;
+CREATE TABLE sys_index_label
+(
+    id                      BIGINT UNSIGNED         NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'id',
+    create_time             DATETIME                NOT NULL COMMENT '创建时间',
+    modified_time           DATETIME                NOT NULL COMMENT '修改时间',
+    img_url                 VARCHAR(50)             NOT NULL COMMENT '图片地址',
+    sort                    TINYINT(3) UNSIGNED     NOT NULL COMMENT '排序 (1:优先级最高)'
+)DEFAULT CHARSET = utf8mb4 COMMENT = '首页标签表';
+
+

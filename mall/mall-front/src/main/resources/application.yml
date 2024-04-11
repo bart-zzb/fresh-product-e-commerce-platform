@@ -43,6 +43,11 @@ spring:
         login-username: admin
         # 管理页面登陆的密码
         login-password: admin
+  web:
+    resources:
+      static-locations: file:${file-path}, classpath:static
+
+file-path: d:/files/e_mall/
 
 mybatis-plus:
   mapper-locations: classpath:/mappers/*.xml
@@ -54,4 +59,3 @@ mybatis-plus:
 logging:
   level:
     cn.tedu: debug
-

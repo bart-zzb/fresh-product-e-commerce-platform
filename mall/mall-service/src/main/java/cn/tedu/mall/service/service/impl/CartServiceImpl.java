@@ -1,6 +1,7 @@
 package cn.tedu.mall.service.service.impl;
 
 import cn.tedu.mall.common.constant.ServiceCode;
+import cn.tedu.mall.common.constant.ServiceConstant;
 import cn.tedu.mall.common.ex.ServiceException;
 import cn.tedu.mall.common.util.CalUtils;
 import cn.tedu.mall.common.util.PojoConvert;
@@ -46,7 +47,7 @@ public class CartServiceImpl implements ICartService {
     public void updateCartByCartUpdateDTO(CartUpdateDTO cartUpdateDTO) {
         CartPO origCartPO = cartRepository.selectCartById(cartUpdateDTO.getId());
         if (origCartPO == null){
-            throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST,"购物车类别不存在");
+            throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, ServiceConstant.CART_NOT_EXIST);
         }
         CartPO cartPO = PojoConvert.convert(cartUpdateDTO, CartPO.class);
         BigDecimal calTotal = CalUtils.calTotal(origCartPO.getPrice(), cartUpdateDTO.getAmount());

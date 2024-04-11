@@ -1,6 +1,7 @@
 package cn.tedu.mall.service.service.impl;
 
 import cn.tedu.mall.common.constant.ServiceCode;
+import cn.tedu.mall.common.constant.ServiceConstant;
 import cn.tedu.mall.common.ex.ServiceException;
 import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.repository.IOrderRepository;
@@ -26,7 +27,7 @@ public class OrderServiceImpl implements IOrderService {
     public void addOrder(OrderAddDTO orderAddDTO) {
         List<OrderItemsAddDTO> orderItemsAddDTOList = orderAddDTO.getOrderItemsAddDTOList();
         if(orderItemsAddDTOList.isEmpty()){
-            throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST,"商品列表不能为空");
+            throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, ServiceConstant.ORDER_ITEMS_NOT_EXIST);
         }
         //TODO 须调用商品的商品
     }
@@ -35,7 +36,7 @@ public class OrderServiceImpl implements IOrderService {
     public void updateOrder(OrderUpdateDTO orderUpdateDTO) {
         OrderPO orderPO = orderRepository.getOrderByIdAndUserId(orderUpdateDTO.getId(), orderUpdateDTO.getTbUserId());
         if(orderPO==null){
-            throw new ServiceException(ServiceCode.ERROR_NOT_FOUND, "订单不存在");
+            throw new ServiceException(ServiceCode.ERROR_NOT_FOUND, ServiceConstant.ORDER_NOT_EXIST);
         }
         orderPO.setStatus(orderUpdateDTO.getStatus());
         orderRepository.saveOrder(orderPO);
