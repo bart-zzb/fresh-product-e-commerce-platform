@@ -18,6 +18,8 @@ public class PrefixTypeHandler extends BaseTypeHandler<String> {
     @Value("${file-path}")
     private String filePath;
 
+    private final String IMG_URL = "img_url";
+
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, String parameter, JdbcType jdbcType) throws SQLException {
         ps.setString(i, filePath + parameter);
@@ -26,7 +28,11 @@ public class PrefixTypeHandler extends BaseTypeHandler<String> {
     @Override
     public String getNullableResult(ResultSet rs, String columnName) throws SQLException {
         String value = rs.getString(columnName);
-        return value == null ? null : filePath + value;
+        if (IMG_URL.equals(columnName)) {
+            return value == null ? null : filePath + value;
+        } else {
+            return value == null ? null : rs.getString(columnName);
+        }
     }
 
     @Override

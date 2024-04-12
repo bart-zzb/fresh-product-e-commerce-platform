@@ -37,6 +37,7 @@ public class WebConfig implements WebMvcConfigurer {
         excludePathList.add("/mall/cart/**");
         excludePathList.add("/mall/order/**");
         excludePathList.add("/mall/carousel/**");
+        excludePathList.add("/mall/banner/**");
         //配置相关Knife4j地址不用被拦截
         excludePathList.add("/doc.html/**");
         excludePathList.add("/swagger-resources/**");
