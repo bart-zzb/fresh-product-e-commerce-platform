@@ -8,10 +8,8 @@ import java.io.Serializable;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BannerIndexVO implements Serializable {
+public class LabelIndexVO implements Serializable {
     Long id;
 
     String imgUrl;
-
-    String name;
 }

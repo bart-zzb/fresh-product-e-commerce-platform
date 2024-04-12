@@ -1,8 +1,8 @@
 package cn.tedu.mall.front.controller;
 
 import cn.tedu.mall.common.web.JsonResult;
-import cn.tedu.mall.service.pojo.vo.BannerIndexVO;
-import cn.tedu.mall.service.service.IBannerService;
+import cn.tedu.mall.service.pojo.vo.LabelIndexVO;
+import cn.tedu.mall.service.service.ILabelService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -14,20 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Api(tags = "首页横幅模块")
+@Api(tags = "首页图标模块")
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/mall/banner")
-public class BannerController {
+@RequestMapping("/mall/label")
+public class LabelController {
     @Autowired
-    private IBannerService bannerService;
+    private ILabelService labelService;
 
-    @ApiOperation("查询横幅功能")
+    @ApiOperation("查询图标功能")
     @GetMapping("/index")
     public JsonResult listForIndex(){
-        List<BannerIndexVO> list = bannerService.listForIndex();
+        List<LabelIndexVO> list = labelService.listForIndex();
         return JsonResult.ok(list);
     }
-    //TODO 增加, 修改, 删除横幅
 }

@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.tedu.mall.service.dao.mapper.CarouselMapper">
-    <resultMap id="CarouselIndexVO" type="cn.tedu.mall.service.pojo.vo.CarouselIndexVO">
+    <resultMap id="CarouselIndexVOMap" type="cn.tedu.mall.service.pojo.vo.CarouselIndexVO">
         <id column="id" property="id"/>
-        <result column="img_url" property="imgUrl" typeHandler="cn.tedu.mall.front.interceptor.PrefixTypeHandler"/>
+        <result column="img_url" property="imgUrl" typeHandler="cn.tedu.mall.common.ex.PrefixTypeHandler"/>
     </resultMap>
 
-    <select id="selectListForIndex" resultMap="CarouselIndexVO">
+    <select id="selectListForIndex" resultMap="CarouselIndexVOMap">
         SELECT id, img_url
         FROM e_mall.sys_index_carousel
         ORDER BY sort

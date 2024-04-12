@@ -1,0 +1,48 @@
+package cn.tedu.mall.common.ex;
+
+import org.apache.ibatis.type.BaseTypeHandler;
+import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.TypeHandler;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+/**
+ * 自动为img_url字段值添加file-path路径
+ */
+@Component
+public class PrefixTypeHandler implements TypeHandler<String> {
+    @Value("${file-path}")
+    private String filePath;
+
+    @Override
+    public void setParameter(PreparedStatement ps, int i, String parameter, JdbcType jdbcType) throws SQLException {
+        ps.setString(i, parameter);
+    }
+
+    @Override
+    public String getResult(ResultSet rs, String columnName) throws SQLException {
+        return addSuffix(rs.getString(columnName));
+    }
+
+    @Override
+    public String getResult(ResultSet rs, int columnIndex) throws SQLException {
+        return addSuffix(rs.getString(columnIndex));
+    }
+
+    @Override
+    public String getResult(CallableStatement cs, int columnIndex) throws SQLException {
+        return addSuffix(cs.getString(columnIndex));
+    }
+
+    private String addSuffix(String originalUrl) {
+        if (originalUrl != null) {
+            return filePath + originalUrl;
+        }
+        return null;
+    }
+}

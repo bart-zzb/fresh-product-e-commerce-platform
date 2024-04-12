@@ -1,17 +1,17 @@
 package cn.tedu.mall.service.pojo.po;
 
-import cn.tedu.mall.service.pojo.vo.CarouselIndexVO;
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("e_mall.sys_index_banner")
+@TableName("e_mall.sys_index_label")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BannerPO implements Serializable {
+public class LabelPO implements Serializable {
     @TableId(type = IdType.AUTO)
     Long id;
 
@@ -22,8 +22,6 @@ public class BannerPO implements Serializable {
     LocalDateTime modifiedTime;
 
     String imgUrl;
-
-    String name;
 
     Integer sort;
 }
