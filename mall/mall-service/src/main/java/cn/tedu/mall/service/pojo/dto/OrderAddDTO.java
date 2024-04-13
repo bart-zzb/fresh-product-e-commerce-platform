@@ -29,7 +29,7 @@ public class OrderAddDTO implements Serializable {
     @ApiModelProperty(value = "支付方式",required = true,dataType = "Integer")
     Integer payChannel;
 
-    @ApiModelProperty(value = "备注",required = true,dataType = "String")
+    @ApiModelProperty(value = "备注",required = false,dataType = "String")
     String tbUserNotes;
 
     @Size(min = 1, message = "订单商品列表不能少于1个")
