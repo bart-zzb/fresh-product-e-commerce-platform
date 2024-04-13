@@ -11,6 +11,7 @@ import cn.tedu.mall.service.pojo.dto.ProductAddDTO;
 import cn.tedu.mall.service.pojo.po.BrandPO;
 import cn.tedu.mall.service.pojo.po.CategoryPO;
 import cn.tedu.mall.service.pojo.po.ProductPO;
+import cn.tedu.mall.service.pojo.vo.ProductVO;
 import cn.tedu.mall.service.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -50,5 +51,15 @@ public class ProductServiceImpl implements IProductService {
         }
         ProductPO productPO = PojoConvert.convert(productAddDTO, ProductPO.class);
         productRepository.saveProduct(productPO);
+    }
+
+    @Override
+    public void deleteProductById(Long id) {
+        productRepository.deleteProductById(id);
+    }
+
+    @Override
+    public ProductVO getProductById(Long id) {
+        return productRepository.getProductById(id);
     }
 }

@@ -3,6 +3,7 @@ package cn.tedu.mall.service.dao.repository.impl;
 import cn.tedu.mall.service.dao.mapper.ProductMapper;
 import cn.tedu.mall.service.dao.repository.IProductRepository;
 import cn.tedu.mall.service.pojo.po.ProductPO;
+import cn.tedu.mall.service.pojo.vo.ProductVO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -24,5 +25,15 @@ public class ProductRepositoryImpl implements IProductRepository {
     @Override
     public int saveProduct(ProductPO productPO) {
         return productMapper.insert(productPO);
+    }
+
+    @Override
+    public int deleteProductById(Long id) {
+        return productMapper.deleteById(id);
+    }
+
+    @Override
+    public ProductVO getProductById(Long id) {
+        return productMapper.selectProductById(id);
     }
 }
