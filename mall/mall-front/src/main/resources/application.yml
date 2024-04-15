@@ -47,7 +47,9 @@ spring:
     resources:
       static-locations: file:${file-path}, classpath:static
 
-file-path: d:/files/e_mall/
+file-path: d:/files/e_mall/imgs/
+
+#Base-url: http://localhost:8080/
 
 mybatis-plus:
   mapper-locations: classpath:/mappers/*.xml

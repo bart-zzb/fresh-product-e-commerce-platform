@@ -72,6 +72,7 @@ CREATE TABLE tb_product_specs
     amount          INT(10) UNSIGNED        DEFAULT 0 COMMENT '数量',
     sales           INT(10) UNSIGNED        DEFAULT 0 COMMENT '销售量',
     status          TINYINT(3) UNSIGNED     NOT NULL COMMENT '启用状态 (0: 未启用) (1: 启用)',
+    unit            VARCHAR(50)             DEFAULT '' COMMENT '单位',
     info            VARCHAR(50)             DEFAULT '' COMMENT '备注信息'
 )DEFAULT CHARSET = utf8mb4 COMMENT ='商品规格表[SKU]';
 
@@ -252,6 +253,7 @@ CREATE TABLE sys_index_label
     create_time             DATETIME                NOT NULL COMMENT '创建时间',
     modified_time           DATETIME                NOT NULL COMMENT '修改时间',
     img_url                 VARCHAR(50)             NOT NULL COMMENT '图片地址',
+    name                    VARCHAR(50)             DEFAULT '' COMMENT '图片名称',
     sort                    TINYINT(3) UNSIGNED     NOT NULL COMMENT '排序 (1:优先级最高)'
 )DEFAULT CHARSET = utf8mb4 COMMENT = '首页标签表';
 

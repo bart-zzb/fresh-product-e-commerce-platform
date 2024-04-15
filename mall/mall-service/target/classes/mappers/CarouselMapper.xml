@@ -4,7 +4,7 @@
 <mapper namespace="cn.tedu.mall.service.dao.mapper.CarouselMapper">
     <resultMap id="CarouselIndexVOMap" type="cn.tedu.mall.service.pojo.vo.CarouselIndexVO">
         <id column="id" property="id"/>
-        <result column="img_url" property="imgUrl" typeHandler="cn.tedu.mall.common.ex.PrefixTypeHandler"/>
+        <result column="img_url" property="imgUrl"/>
     </resultMap>
 
     <select id="selectListForIndex" resultMap="CarouselIndexVOMap">

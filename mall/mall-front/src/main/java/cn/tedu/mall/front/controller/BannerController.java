@@ -27,6 +27,7 @@ public class BannerController {
     @GetMapping("/index")
     public JsonResult listForIndex(){
         List<BannerIndexVO> list = bannerService.listForIndex();
+        log.debug("list"+ list);
         return JsonResult.ok(list);
     }
     //TODO 增加, 修改, 删除横幅

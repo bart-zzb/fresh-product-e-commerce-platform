@@ -4,7 +4,8 @@
 <mapper namespace="cn.tedu.mall.service.dao.mapper.BannerMapper">
     <resultMap id="BannerIndexVOMap" type="cn.tedu.mall.service.pojo.vo.BannerIndexVO">
         <id column="id" property="id"/>
-        <result column="img_url" property="imgUrl" typeHandler="cn.tedu.mall.common.ex.PrefixTypeHandler"/>
+<!--        <result column="img_url" property="imgUrl" typeHandler="cn.tedu.mall.common.ex.PrefixTypeHandler"/>-->
+        <result column="img_url" property="imgUrl"/>
         <result column="name" property="name"/>
     </resultMap>
 

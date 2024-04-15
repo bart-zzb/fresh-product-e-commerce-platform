@@ -4,7 +4,7 @@
 <mapper namespace="cn.tedu.mall.service.dao.mapper.LiveMapper">
     <resultMap id="LiveVOMap" type="cn.tedu.mall.service.pojo.vo.LiveVO">
         <id column="id" property="id"/>
-        <result column="img_url" property="imgUrl" typeHandler="cn.tedu.mall.common.ex.PrefixTypeHandler"/>
+        <result column="img_url" property="imgUrl"/>
     </resultMap>
 
     <select id="selectListForIndex" resultMap="LiveVOMap">

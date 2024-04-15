@@ -12,4 +12,6 @@ public class LabelIndexVO implements Serializable {
     Long id;
 
     String imgUrl;
+
+    String name;
 }

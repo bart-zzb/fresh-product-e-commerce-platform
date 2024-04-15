@@ -16,7 +16,7 @@
   <van-row style="padding-top: 55px;">
     <van-col span="24">
       <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-        <van-swipe-item v-for="item in carouselList"><img :src=item width="390px;"></van-swipe-item>
+        <van-swipe-item v-for="item in carouselList"><img :src="BASE_URL + item.imgUrl" width="390px;"></van-swipe-item>
       </van-swipe>
     </van-col>
   </van-row>
@@ -33,7 +33,7 @@
   <!--图标分类-->
   <van-row>
     <van-col v-for="item in labelList" span="6" style="margin: 10px auto;">
-      <img :src="item.imgUrl" style="width: 45px;">
+      <img :src="BASE_URL + item.imgUrl" style="width: 45px;">
       <div>{{ item.name }}</div>
     </van-col>
   </van-row>
@@ -63,23 +63,23 @@
   <!--横幅1-->
   <van-row>
     <van-col span="24">
-      <img :src="banner1" style="width:390px;">
+      <img :src="BASE_URL + banner1.imgUrl" style="width:390px;">
     </van-col>
   </van-row>
   <!--商品展示1-->
   <van-swipe :show-indicators="false">
-    <van-swipe-item v-for="list in productList1" >
+    <van-swipe-item v-for="list in productList1">
       <van-row gutter="4" style="margin: 2px 4px 20px;">
         <van-col span="8" v-for="item in list" style="height: 200px;">
           <!--商品卡片-->
           <router-link class="rl" to="/detail">
-            <van-image :src="item.imgUrl"></van-image>
-            <p style="margin: 2px;">{{ item.title }}</p>
+            <van-image :src="BASE_URL + item.imgUrl"></van-image>
+            <p style="margin: 2px;">{{ item.specsName }}</p>
           </router-link>
           <van-row>
             <van-col span="14">
-              <div style="color: #f00;margin:0;">{{ item.currentPrice }}</div>
-              <div style="margin: 0;"><s>{{ item.origPrice }}</s></div>
+              <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{item.unit}}</div>
+              <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{item.unit}}</s></div>
             </van-col>
             <van-col span="10">
               <van-icon name="cart-o" color="#f00" size="30"/>
@@ -89,27 +89,28 @@
       </van-row>
     </van-swipe-item>
   </van-swipe>
+
 
   <!--横幅2-->
   <van-row>
     <van-col span="24">
-      <img :src="banner2" style="width:390px;">
+      <img :src="BASE_URL + banner2.imgUrl" style="width:390px;">
     </van-col>
   </van-row>
   <!--商品展示2-->
   <van-swipe :show-indicators="false">
-    <van-swipe-item v-for="list in productList1" >
+    <van-swipe-item v-for="list in productList2">
       <van-row gutter="4" style="margin: 2px 4px 20px;">
         <van-col span="8" v-for="item in list" style="height: 200px;">
           <!--商品卡片-->
-          <van-image :src="item.imgUrl"></van-image>
-          <p style="margin: 2px;">{{ item.title }}</p>
+          <van-image :src="BASE_URL + item.imgUrl"></van-image>
+          <p style="margin: 2px;">{{ item.specsName }}</p>
           <van-row>
             <van-col span="14">
-              <div style="color: #f00;margin:0;">{{ item.currentPrice }}</div>
-              <div style="margin: 0;"><s>{{ item.origPrice }}</s></div>
+              <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
+              <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
             </van-col>
-            <van-col span="10">
+            <van-col span="10" style="margin-top: 10px;">
               <van-icon name="cart-o" color="#f00" size="30"/>
             </van-col>
           </van-row>
@@ -118,52 +119,52 @@
     </van-swipe-item>
   </van-swipe>
 
-  <!--横幅3-->
-  <van-row>
-    <van-col span="24">
-      <img :src="banner3" style="width:390px;">
-    </van-col>
-  </van-row>
-  <!--商品展示3-->
-  <van-swipe :show-indicators="false">
-    <van-swipe-item v-for="list in productList1" >
-      <van-row gutter="4" style="margin: 2px 4px 20px;">
-        <van-col span="8" v-for="item in list" style="height: 200px;">
-          <!--商品卡片-->
-          <van-image :src="item.imgUrl"></van-image>
-          <p style="margin: 2px;">{{ item.title }}</p>
-          <van-row>
-            <van-col span="14">
-              <div style="color: #f00;margin:0;">{{ item.currentPrice }}</div>
-              <div style="margin: 0;"><s>{{ item.origPrice }}</s></div>
-            </van-col>
-            <van-col span="10">
-              <van-icon name="cart-o" color="#f00" size="30"/>
-            </van-col>
-          </van-row>
-        </van-col>
-      </van-row>
-    </van-swipe-item>
-  </van-swipe>
+    <!--横幅3-->
+    <van-row>
+      <van-col span="24">
+        <img :src="BASE_URL + banner3.imgUrl" style="width:390px;">
+      </van-col>
+    </van-row>
+    <!--商品展示3-->
+    <van-swipe :show-indicators="false">
+      <van-swipe-item v-for="list in productList3" >
+        <van-row gutter="4" style="margin: 2px 4px 20px;">
+          <van-col span="8" v-for="item in list" style="height: 200px;">
+            <!--商品卡片-->
+            <van-image :src="BASE_URL + item.imgUrl"></van-image>
+            <p style="margin: 2px;">{{ item.specsName }}</p>
+            <van-row>
+              <van-col span="14">
+                <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{item.unit}}</div>
+                <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{item.unit}}</s></div>
+              </van-col>
+              <van-col span="10">
+                <van-icon name="cart-o" color="#f00" size="30"/>
+              </van-col>
+            </van-row>
+          </van-col>
+        </van-row>
+      </van-swipe-item>
+    </van-swipe>
 
   <!--横幅4-->
   <van-row>
     <van-col span="24">
-      <img :src="banner4" style="width:390px;">
+      <img :src="BASE_URL + banner4.imgUrl" style="width:390px;">
     </van-col>
   </van-row>
   <!--商品展示4-->
   <van-swipe :show-indicators="false">
-    <van-swipe-item v-for="list in productList1" >
+    <van-swipe-item v-for="list in productList4" >
       <van-row gutter="4" style="margin: 2px 4px 20px;">
         <van-col span="8" v-for="item in list" style="height: 200px;">
           <!--商品卡片-->
-          <van-image :src="item.imgUrl"></van-image>
-          <p style="margin: 2px;">{{ item.title }}</p>
+          <van-image :src="BASE_URL + item.imgUrl"></van-image>
+          <p style="margin: 2px;">{{ item.specsName }}</p>
           <van-row>
             <van-col span="14">
-              <div style="color: #f00;margin:0;">{{ item.currentPrice }}</div>
-              <div style="margin: 0;"><s>{{ item.origPrice }}</s></div>
+              <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{item.unit}}</div>
+              <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{item.unit}}</s></div>
             </van-col>
             <van-col span="10">
               <van-icon name="cart-o" color="#f00" size="30"/>
@@ -177,21 +178,21 @@
   <!--横幅5-->
   <van-row>
     <van-col span="24">
-      <img :src="banner5" style="width:390px;">
+      <img :src="BASE_URL + banner5.imgUrl" style="width:390px;">
     </van-col>
   </van-row>
   <!--商品展示5-->
   <van-swipe :show-indicators="false">
-    <van-swipe-item v-for="list in productList1" >
+    <van-swipe-item v-for="list in productList5" >
       <van-row gutter="4" style="margin: 2px 4px 20px;">
         <van-col span="8" v-for="item in list" style="height: 200px;">
           <!--商品卡片-->
-          <van-image :src="item.imgUrl"></van-image>
-          <p style="margin: 2px;">{{ item.title }}</p>
+          <van-image :src="BASE_URL + item.imgUrl"></van-image>
+          <p style="margin: 2px;">{{ item.specsName }}</p>
           <van-row>
             <van-col span="14">
-              <div style="color: #f00;margin:0;">{{ item.currentPrice }}</div>
-              <div style="margin: 0;"><s>{{ item.origPrice }}</s></div>
+              <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{item.unit}}</div>
+              <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{item.unit}}</s></div>
             </van-col>
             <van-col span="10">
               <van-icon name="cart-o" color="#f00" size="30"/>
@@ -201,32 +202,61 @@
       </van-row>
     </van-swipe-item>
   </van-swipe>
-
-
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import axios from "@/utils/request";
 
-const carouselList = ref([
-  "imgs/carousel/carousel1.png",
-  "imgs/carousel/carousel2.png",
-  "imgs/carousel/carousel3.png",
-  "imgs/carousel/carousel4.png",
-  "imgs/carousel/carousel5.png",
-  "imgs/carousel/carousel6.png"
-]);
+const carouselList = ref([]);
+const labelList = ref([]);
+const bannerList = ref([]);
 
-const labelList = ref([
-  {imgUrl: "/imgs/label/label1.png", name: "猪肉"},
-  {imgUrl: "/imgs/label/label2.png", name: "牛肉"},
-  {imgUrl: "/imgs/label/label3.png", name: "猪骨"},
-  {imgUrl: "/imgs/label/label4.png", name: "加工产品"},
-  {imgUrl: "/imgs/label/label5.png", name: "供港蔬菜"},
-  {imgUrl: "/imgs/label/label6.png", name: "本周秒杀"},
-  {imgUrl: "/imgs/label/label7.png", name: "高州特产"},
-  {imgUrl: "/imgs/label/label8.png", name: "优惠券领取"}
-]);
+const banner1 = ref({imgUrl: ""});
+const banner2 = ref({imgUrl: ""});
+const banner3 = ref({imgUrl: ""});
+const banner4 = ref({imgUrl: ""});
+const banner5 = ref({imgUrl: ""});
+
+const productList1 = ref([]);
+const productList2 = ref([]);
+const productList3 = ref([]);
+const productList4 = ref([]);
+const productList5 = ref([]);
+
+onMounted(() => {
+  axios.get("mall/carousel/index").then((response) => {
+    if (response.data.state == 20000) {
+      carouselList.value = response.data.data;
+    }
+  })
+
+  axios.get("mall/label/index").then((response) => {
+    if (response.data.state == 20000) {
+      labelList.value = response.data.data;
+    }
+  })
+
+  axios.get("mall/banner/index").then((response) => {
+    if (response.data.state == 20000) {
+      bannerList.value = response.data.data;
+      banner1.value = bannerList.value[0];
+      banner2.value = bannerList.value[1];
+      banner3.value = bannerList.value[2];
+      banner4.value = bannerList.value[3];
+      banner5.value = bannerList.value[4];
+    }
+  })
+
+  loadContents(7, productList1, 1, 3);
+  loadContents(8, productList1, 1, 6);
+  loadContents(19, productList2, 1, 9);
+  loadContents(22, productList3, 1, 6);
+  loadContents(9, productList4, 1, 3);
+  loadContents(10, productList5, 1, 3);
+  loadContents(11, productList5, 1, 3);
+
+})
 
 const orderList = ref([
   {time: "3时20分06秒", phone: "134****0318", amount: "1", productName: "猪扒(里脊)", specName: "300g/份"},
@@ -241,28 +271,35 @@ const messageList = ref([
   {message: "用户打开手机位置操作指引"}
 ]);
 
-const banner1 = ref("/imgs/banner/banner1.png");
-const banner2 = ref("/imgs/banner/banner2.png");
-const banner3 = ref("/imgs/banner/banner3.png");
-const banner4 = ref("/imgs/banner/banner4.png");
-const banner5 = ref("/imgs/banner/banner5.png");
+const loadContents = (categoryId, productList, pageNum, pageSize) => {
+  console.log("mall/product_specs/category/" + categoryId + "?pageNum=" + pageNum + "&pageSize=" + pageSize);
+  axios.get("mall/product_specs/category/" + categoryId + "?pageNum=" + pageNum + "&pageSize=" + pageSize).then((response) => {
+    if (response.data.state == 20000) {
+      //重新分组
+      let list = chunkArray(response.data.data.list, 3);
+      //加载数据到数组
+      regroupList(pageSize, 3, list, productList)
+    }
+  })
+}
 
-const productList1 = ref([
-  [
-    {imgUrl: "/imgs/product/product1.png", title: "天润喀拉峻高端纯牛奶(蛋白质>3.6%) 250g*12盒", currentPrice: "76.8/箱", origPrice: "98/箱"},
-    {imgUrl: "/imgs/product/product2.png", title: "闸坡鱼羹 250g", currentPrice: "19.8/份", origPrice: "24.8/份"},
-    {imgUrl: "/imgs/product/product3.png", title: "虾丸 250g", currentPrice: "18.8/份", origPrice: "23.8/份"}
-  ],
-  [
-    {imgUrl: "/imgs/product/product4.png", title: "腌制猪扒 400g/份", currentPrice: "23.9/份", origPrice: "35.9/份"},
-    {imgUrl: "/imgs/product/product5.png", title: "腌制牛扒 400g/份", currentPrice: "58.8/份", origPrice: "65/份"},
-    {imgUrl: "/imgs/product/product6.png", title: "肥牛 500g/份", currentPrice: "75.8/份", origPrice: "83.6/份"}
-  ],
-  [
-    {imgUrl: "/imgs/product/product7.png", title: "大连慢炖即食用海参 95g*6瓶", currentPrice: "499/份", origPrice: "699/份"},
-    {imgUrl: "/imgs/product/product8.png", title: "吊龙 500g/份", currentPrice: "89.8/份", origPrice: "98.8/份"}
-  ],
-]);
+const regroupList = (pageSize, gap, list, targetList) => {
+  let count = 0
+  while (pageSize > 0) {
+    targetList.value.push(list[count]);
+    pageSize -= gap;
+    count++;
+  }
+}
+
+const chunkArray = (array, size) => {
+  if (array.length === 0) {
+    return [];
+  }
+
+  return [array.slice(0, size)]
+      .concat(chunkArray(array.slice(size, array.length), size));
+}
 
 </script>
 
@@ -276,7 +313,8 @@ p {
   /*超出部分替换成...*/
   text-overflow: ellipsis;
 }
-*{
+
+* {
   text-align: center;
 }
 

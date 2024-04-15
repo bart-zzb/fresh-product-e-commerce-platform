@@ -34,5 +34,7 @@ public class ProductPO implements Serializable {
 
     Integer status;
 
+    String unit;
+
     String info;
 }

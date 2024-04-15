@@ -11,13 +11,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
+/**暂时不需要
  * 自动为img_url字段值添加file-path路径
  */
-@Component
+//@Component
 public class PrefixTypeHandler implements TypeHandler<String> {
-    @Value("${file-path}")
-    private String filePath;
+    @Value("${Base-url}")
+    private String baseUrl;
 
     @Override
     public void setParameter(PreparedStatement ps, int i, String parameter, JdbcType jdbcType) throws SQLException {
@@ -41,7 +41,7 @@ public class PrefixTypeHandler implements TypeHandler<String> {
 
     private String addSuffix(String originalUrl) {
         if (originalUrl != null) {
-            return filePath + originalUrl;
+            return baseUrl + originalUrl;
         }
         return null;
     }

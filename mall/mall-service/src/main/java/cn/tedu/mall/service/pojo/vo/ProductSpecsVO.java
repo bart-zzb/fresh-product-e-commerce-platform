@@ -29,5 +29,7 @@ public class ProductSpecsVO implements Serializable {
 
     Integer status;
 
+    String unit;
+
     String info;
 }
