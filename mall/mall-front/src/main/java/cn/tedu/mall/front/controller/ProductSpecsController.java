@@ -2,6 +2,7 @@ package cn.tedu.mall.front.controller;
 
 import cn.tedu.mall.common.web.JsonResult;
 import cn.tedu.mall.common.web.PageData;
+import cn.tedu.mall.service.pojo.vo.ProductSpecsTreeVO;
 import cn.tedu.mall.service.pojo.vo.ProductSpecsVO;
 import cn.tedu.mall.service.service.IProductSpecsService;
 import io.swagger.annotations.Api;
@@ -44,5 +45,12 @@ public class ProductSpecsController {
         PageData<ProductSpecsVO> pageData = productSpecsService.getProductSpecsByCategoryId(id, pageNum, pageSize);
         log.debug("pageData:"+pageData);
         return JsonResult.ok(pageData);
+    }
+
+    @ApiOperation("根据商品分类树包含商品SKU")
+    @GetMapping("/tree")
+    public JsonResult getProductSpecsTree(){
+        List<ProductSpecsTreeVO> list = productSpecsService.getProductSpecsTree();
+        return JsonResult.ok(list);
     }
 }

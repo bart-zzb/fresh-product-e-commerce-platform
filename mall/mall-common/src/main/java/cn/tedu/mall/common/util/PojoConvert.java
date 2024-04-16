@@ -2,7 +2,9 @@ package cn.tedu.mall.common.util;
 
 import org.springframework.beans.BeanUtils;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -38,5 +40,32 @@ public class PojoConvert {
         }).collect(Collectors.toList());
     }
 
+    public static <T,E>List<T> convertListWithFields(List<E> list, Class<T> cls, Map<String, String> fieldMap){
+        return list.stream().map(workOrderVo -> {
+            T exportVo = null;
+            try{
+                exportVo = (T) cls.newInstance();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            assert exportVo != null;
+            BeanUtils.copyProperties(workOrderVo, exportVo);
+            for (Map.Entry<String, String> entry: fieldMap.entrySet()) {
+                try {
+                    Field sourceField = workOrderVo.getClass().getDeclaredField(entry.getKey());
+                    sourceField.setAccessible(true);
+                    Object o = sourceField.get(workOrderVo);
+                    Field targetField = exportVo.getClass().getDeclaredField(entry.getValue());
+                    targetField.setAccessible(true);
+                    targetField.set(exportVo,o);
+                    sourceField.setAccessible(false);
+                    targetField.setAccessible(false);
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
 
+            return exportVo;
+        }).collect(Collectors.toList());
+    }
 }

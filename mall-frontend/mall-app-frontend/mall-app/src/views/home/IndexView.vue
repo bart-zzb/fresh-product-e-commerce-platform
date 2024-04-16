@@ -33,8 +33,10 @@
   <!--图标分类-->
   <van-row>
     <van-col v-for="item in labelList" span="6" style="margin: 10px auto;">
-      <img :src="BASE_URL + item.imgUrl" style="width: 45px;">
-      <div>{{ item.name }}</div>
+      <router-link class="rl" :to="'/list?id='+item.id">
+        <img :src="BASE_URL + item.imgUrl" style="width: 45px;">
+        <div>{{ item.name }}</div>
+      </router-link>
     </van-col>
   </van-row>
 
@@ -78,8 +80,8 @@
           </router-link>
           <van-row>
             <van-col span="14">
-              <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{item.unit}}</div>
-              <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{item.unit}}</s></div>
+              <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
+              <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
             </van-col>
             <van-col span="10">
               <van-icon name="cart-o" color="#f00" size="30"/>
@@ -119,33 +121,33 @@
     </van-swipe-item>
   </van-swipe>
 
-    <!--横幅3-->
-    <van-row>
-      <van-col span="24">
-        <img :src="BASE_URL + banner3.imgUrl" style="width:390px;">
-      </van-col>
-    </van-row>
-    <!--商品展示3-->
-    <van-swipe :show-indicators="false">
-      <van-swipe-item v-for="list in productList3" >
-        <van-row gutter="4" style="margin: 2px 4px 20px;">
-          <van-col span="8" v-for="item in list" style="height: 200px;">
-            <!--商品卡片-->
-            <van-image :src="BASE_URL + item.imgUrl"></van-image>
-            <p style="margin: 2px;">{{ item.specsName }}</p>
-            <van-row>
-              <van-col span="14">
-                <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{item.unit}}</div>
-                <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{item.unit}}</s></div>
-              </van-col>
-              <van-col span="10">
-                <van-icon name="cart-o" color="#f00" size="30"/>
-              </van-col>
-            </van-row>
-          </van-col>
-        </van-row>
-      </van-swipe-item>
-    </van-swipe>
+  <!--横幅3-->
+  <van-row>
+    <van-col span="24">
+      <img :src="BASE_URL + banner3.imgUrl" style="width:390px;">
+    </van-col>
+  </van-row>
+  <!--商品展示3-->
+  <van-swipe :show-indicators="false">
+    <van-swipe-item v-for="list in productList3">
+      <van-row gutter="4" style="margin: 2px 4px 20px;">
+        <van-col span="8" v-for="item in list" style="height: 200px;">
+          <!--商品卡片-->
+          <van-image :src="BASE_URL + item.imgUrl"></van-image>
+          <p style="margin: 2px;">{{ item.specsName }}</p>
+          <van-row>
+            <van-col span="14">
+              <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
+              <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
+            </van-col>
+            <van-col span="10">
+              <van-icon name="cart-o" color="#f00" size="30"/>
+            </van-col>
+          </van-row>
+        </van-col>
+      </van-row>
+    </van-swipe-item>
+  </van-swipe>
 
   <!--横幅4-->
   <van-row>
@@ -155,7 +157,7 @@
   </van-row>
   <!--商品展示4-->
   <van-swipe :show-indicators="false">
-    <van-swipe-item v-for="list in productList4" >
+    <van-swipe-item v-for="list in productList4">
       <van-row gutter="4" style="margin: 2px 4px 20px;">
         <van-col span="8" v-for="item in list" style="height: 200px;">
           <!--商品卡片-->
@@ -163,8 +165,8 @@
           <p style="margin: 2px;">{{ item.specsName }}</p>
           <van-row>
             <van-col span="14">
-              <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{item.unit}}</div>
-              <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{item.unit}}</s></div>
+              <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
+              <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
             </van-col>
             <van-col span="10">
               <van-icon name="cart-o" color="#f00" size="30"/>
@@ -183,7 +185,7 @@
   </van-row>
   <!--商品展示5-->
   <van-swipe :show-indicators="false">
-    <van-swipe-item v-for="list in productList5" >
+    <van-swipe-item v-for="list in productList5">
       <van-row gutter="4" style="margin: 2px 4px 20px;">
         <van-col span="8" v-for="item in list" style="height: 200px;">
           <!--商品卡片-->
@@ -191,8 +193,8 @@
           <p style="margin: 2px;">{{ item.specsName }}</p>
           <van-row>
             <van-col span="14">
-              <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{item.unit}}</div>
-              <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{item.unit}}</s></div>
+              <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
+              <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
             </van-col>
             <van-col span="10">
               <van-icon name="cart-o" color="#f00" size="30"/>
@@ -272,7 +274,6 @@ const messageList = ref([
 ]);
 
 const loadContents = (categoryId, productList, pageNum, pageSize) => {
-  console.log("mall/product_specs/category/" + categoryId + "?pageNum=" + pageNum + "&pageSize=" + pageSize);
   axios.get("mall/product_specs/category/" + categoryId + "?pageNum=" + pageNum + "&pageSize=" + pageSize).then((response) => {
     if (response.data.state == 20000) {
       //重新分组
