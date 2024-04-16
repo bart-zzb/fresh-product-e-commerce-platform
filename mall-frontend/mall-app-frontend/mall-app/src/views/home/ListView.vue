@@ -3,20 +3,28 @@
   <van-search v-model="searchValue" placeholder="请输入搜索关键词"/>
   <van-tabs v-model:active="active">
     <van-tab v-for="cat in categoryList" :title="cat.text">
-      <van-tree-select v-model:main-active-index="activeList[active].subActiveIndex[activeIndex]" height="auto" :items="cat.children">
+      <van-tree-select v-model:main-active-index="activeList[active].subActiveIndex[activeIndex]" height="auto"
+                       :items="cat.children">
         <template #content>
           <div v-if="activeList[active].subActiveIndex[activeIndex] == 0 && cat.children.length>=1">
             <!--商品卡片-->
             <van-row v-for="item in cat.children[activeList[active].subActiveIndex[activeIndex]].productSpecsList">
               <van-col span="10">
-                <van-image :src="BASE_URL+item.imgUrl"></van-image>
+                <router-link class="rl" :to="'/detail?id='+item.id">
+                  <van-image :src="BASE_URL+item.imgUrl"></van-image>
+                </router-link>
               </van-col>
               <van-col span="14" style="position: relative;">
                 <p style="margin: 10px 4px;">{{ item.specsName }}</p>
                 <van-row>
                   <van-col span="18" style="position: absolute;bottom: 6px;left:6px;">
-                    <div style="color: #f00;margin-left:10px;text-align: left;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
-                    <div style="margin-left:10px;text-align: left;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
+                    <div style="color: #f00;margin-left:10px;text-align: left;">{{
+                        item.currentPrice
+                      }}&nbsp;/&nbsp;{{ item.unit }}
+                    </div>
+                    <div style="margin-left:10px;text-align: left;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{
+                        item.unit
+                      }}</s></div>
                   </van-col>
                   <van-col span="6" style="position: absolute;bottom: 10px;right: 10px;">
                     <van-icon name="add-o" color="#f00" size="25" style="margin-top: 5px;"/>
@@ -29,14 +37,21 @@
             <!--商品卡片-->
             <van-row v-for="item in cat.children[activeList[active].subActiveIndex[activeIndex]].productSpecsList">
               <van-col span="10">
-                <van-image :src="BASE_URL+item.imgUrl"></van-image>
+                <router-link class="rl" :to="'/detail?id='+item.id">
+                  <van-image :src="BASE_URL+item.imgUrl"></van-image>
+                </router-link>
               </van-col>
               <van-col span="14" style="position: relative;">
                 <p style="margin: 2px 4px;">{{ item.specsName }}</p>
                 <van-row>
                   <van-col span="18" style="position: absolute;bottom: 2px;">
-                    <div style="color: #f00;margin-left:10px;text-align: left;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
-                    <div style="margin-left:10px;text-align: left;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
+                    <div style="color: #f00;margin-left:10px;text-align: left;">{{
+                        item.currentPrice
+                      }}&nbsp;/&nbsp;{{ item.unit }}
+                    </div>
+                    <div style="margin-left:10px;text-align: left;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{
+                        item.unit
+                      }}</s></div>
                   </van-col>
                   <van-col span="6" style="position: absolute;bottom: 10px;right: 10px;">
                     <van-icon name="add-o" color="#f00" size="25" style="margin-top: 5px;"/>
@@ -49,14 +64,21 @@
             <!--商品卡片-->
             <van-row v-for="item in cat.children[activeList[active].subActiveIndex[activeIndex]].productSpecsList">
               <van-col span="10">
-                <van-image :src="BASE_URL+item.imgUrl"></van-image>
+                <router-link class="rl" :to="'/detail?id='+item.id">
+                  <van-image :src="BASE_URL+item.imgUrl"></van-image>
+                </router-link>
               </van-col>
               <van-col span="14" style="position: relative;">
                 <p style="margin: 2px 4px;">{{ item.specsName }}</p>
                 <van-row>
                   <van-col span="18" style="position: absolute;bottom: 2px;">
-                    <div style="color: #f00;margin-left:10px;text-align: left;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
-                    <div style="margin-left:10px;text-align: left;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
+                    <div style="color: #f00;margin-left:10px;text-align: left;">{{
+                        item.currentPrice
+                      }}&nbsp;/&nbsp;{{ item.unit }}
+                    </div>
+                    <div style="margin-left:10px;text-align: left;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{
+                        item.unit
+                      }}</s></div>
                   </van-col>
                   <van-col span="6" style="position: absolute;bottom: 10px;right: 10px;">
                     <van-icon name="add-o" color="#f00" size="25" style="margin-top: 5px;"/>
@@ -69,14 +91,21 @@
             <!--商品卡片-->
             <van-row v-for="item in cat.children[activeList[active].subActiveIndex[activeIndex]].productSpecsList">
               <van-col span="10">
-                <van-image :src="BASE_URL+item.imgUrl"></van-image>
+                <router-link class="rl" :to="'/detail?id='+item.id">
+                  <van-image :src="BASE_URL+item.imgUrl"></van-image>
+                </router-link>
               </van-col>
               <van-col span="14" style="position: relative;">
                 <p style="margin: 2px 4px;">{{ item.specsName }}</p>
                 <van-row>
                   <van-col span="18" style="position: absolute;bottom: 2px;">
-                    <div style="color: #f00;margin-left:10px;text-align: left;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
-                    <div style="margin-left:10px;text-align: left;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
+                    <div style="color: #f00;margin-left:10px;text-align: left;">{{
+                        item.currentPrice
+                      }}&nbsp;/&nbsp;{{ item.unit }}
+                    </div>
+                    <div style="margin-left:10px;text-align: left;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{
+                        item.unit
+                      }}</s></div>
                   </van-col>
                   <van-col span="6" style="position: absolute;bottom: 10px;right: 10px;">
                     <van-icon name="add-o" color="#f00" size="25" style="margin-top: 5px;"/>
@@ -89,14 +118,21 @@
             <!--商品卡片-->
             <van-row v-for="item in cat.children[activeList[active].subActiveIndex[activeIndex]].productSpecsList">
               <van-col span="10">
-                <van-image :src="BASE_URL+item.imgUrl"></van-image>
+                <router-link class="rl" :to="'/detail?id='+item.id">
+                  <van-image :src="BASE_URL+item.imgUrl"></van-image>
+                </router-link>
               </van-col>
               <van-col span="14" style="position: relative;">
                 <p style="margin: 2px 4px;">{{ item.specsName }}</p>
                 <van-row>
                   <van-col span="18" style="position: absolute;bottom: 2px;">
-                    <div style="color: #f00;margin-left:10px;text-align: left;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
-                    <div style="margin-left:10px;text-align: left;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
+                    <div style="color: #f00;margin-left:10px;text-align: left;">{{
+                        item.currentPrice
+                      }}&nbsp;/&nbsp;{{ item.unit }}
+                    </div>
+                    <div style="margin-left:10px;text-align: left;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{
+                        item.unit
+                      }}</s></div>
                   </van-col>
                   <van-col span="6" style="position: absolute;bottom: 10px;right: 10px;">
                     <van-icon name="add-o" color="#f00" size="25" style="margin-top: 5px;"/>
@@ -115,7 +151,7 @@
 import {onMounted, ref} from "vue";
 import axios from "@/utils/request";
 
-const active=ref(0);
+const active = ref(0);
 const activeIndex = ref(0);
 const activeList = ref([])
 
@@ -130,34 +166,34 @@ onMounted(() => {
       loadActiveList();
     }
   })
-  if(id==1){
-    active.value=3;
-    activeIndex.value=0;
-  }else if(id==2){
-    active.value=4;
-    activeIndex.value=0;
-  }else if(id==3){
-    active.value=3
-    activeIndex.value=1;
-  }else if(id==4){
-    active.value=0;
-    activeIndex.value=1;
-  }else if(id==5){
-    active.value=0;
-    activeIndex.value=2;
-  }else if(id==6){
-    active.value=0;
-    activeIndex.value=0;
-  }else if(id==7){
-    active.value=1;
-    activeIndex.value=0;
-  }else if(id==8){
-    active.value=2;
-    activeIndex.value=0;
+  if (id == 1) {
+    active.value = 3;
+    activeIndex.value = 0;
+  } else if (id == 2) {
+    active.value = 4;
+    activeIndex.value = 0;
+  } else if (id == 3) {
+    active.value = 3
+    activeIndex.value = 1;
+  } else if (id == 4) {
+    active.value = 0;
+    activeIndex.value = 1;
+  } else if (id == 5) {
+    active.value = 0;
+    activeIndex.value = 2;
+  } else if (id == 6) {
+    active.value = 0;
+    activeIndex.value = 0;
+  } else if (id == 7) {
+    active.value = 1;
+    activeIndex.value = 0;
+  } else if (id == 8) {
+    active.value = 2;
+    activeIndex.value = 0;
   }
 })
 
-const loadActiveList =()=>{
+const loadActiveList = () => {
   for (let i = 0; i < categoryList.value.length; i++) {
     let temp = {};
     temp.activeIndex = i;

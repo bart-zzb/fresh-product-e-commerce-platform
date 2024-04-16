@@ -1,32 +1,32 @@
 <template>
-<!--  顶部栏-->
-  <div style="height: 844px;">
+  <!--  顶部栏-->
+  <div>
     <van-row style="position: fixed;width: 390px;background-color: white;">
       <van-col span="3">
-        <van-icon name="arrow-left" size="25" @click="router.push('/')" style="margin-top: 13px;"/>
+        <van-icon name="arrow-left" size="25" @click="router.back()" style="margin-top: 13px;"/>
       </van-col>
-      <van-col span="16">
-        <div style="line-height: 50px;font-weight: bold;font-size: 18px;margin-left: 8px;">{{ content.title }}</div>
+      <van-col span="19">
+        <div style="line-height: 50px;font-weight: bold;font-size: 18px;margin-left: 8px;">{{ content.specsName }}</div>
       </van-col>
-      <van-col span="3">
-        <van-icon name="guide-o"  size="25" style="margin-top: 13px;"/>
-      </van-col>
-      <van-col span="2">
-        <van-icon name="circle" size="25" style="margin-top: 13px;"/>
-      </van-col>
+      <!--      <van-col span="3">-->
+      <!--        <van-icon name="guide-o"  size="25" style="margin-top: 13px;"/>-->
+      <!--      </van-col>-->
+      <!--      <van-col span="2">-->
+      <!--        <van-icon name="circle" size="25" style="margin-top: 13px;"/>-->
+      <!--      </van-col>-->
     </van-row>
-    <img :src="content.imgUrl" style="width:390px;">
+    <img :src="BASE_URL+content.imgUrl" style="width:390px;">
     <van-row>
       <!--    价格-->
-      <van-col span="17" >
+      <van-col span="17">
         <div style="background-color: darkseagreen;color: azure; line-height: 50px;">
-          <b style="font-size: 25px; margin-left: 20px;">{{content.newPrice}}</b><s> 零售价：￥{{ content.oldPrice }}</s>
+          <b style="font-size: 25px; margin-left: 20px;">{{ content.currentPrice }}</b><s> 零售价：￥{{ content.originalPrice }}</s>
         </div>
       </van-col>
       <van-col span="7">
         <div style="padding: 5px 0 0 10px;">
           <p style="font-size: 10px;padding:0 0 5px 15px;">据结束仅剩</p>
-          <van-count-down :time="content.discountsTime">
+          <van-count-down :time="discountsTime">
             <template #default="timeData">
               <span class="block">{{ timeData.hours }}</span>
               <span class="colon">:</span>
@@ -40,16 +40,18 @@
     </van-row>
     <!--标题-->
     <van-row style="margin: 10px 0 0 15px;">
-      <van-col :span="21" >
-        <p style="line-height: 30px;font-size: 21px;">{{ content.title }}</p>
+      <van-col :span="21">
+        <p style="line-height: 30px;font-size: 21px;">{{ content.specsName }}</p>
       </van-col>
-      <van-col :span="3"><van-icon name="share-o" size="25"/></van-col>
+      <van-col :span="3">
+        <van-icon name="share-o" size="25"/>
+      </van-col>
     </van-row>
     <!---->
     <van-row style="color: darkgrey; font-size: 16px;margin: 10px 0 0 15px;">
-      <van-col :span="8">货号:{{ content.goodsId }}</van-col>
-      <van-col :span="8">库存：{{ content.count }}</van-col>
-      <van-col :span="8">销量：{{ content.salesVolume }}</van-col>
+      <van-col :span="8">货号:{{ content.id }}</van-col>
+      <van-col :span="8">库存：{{ content.amount }}</van-col>
+      <van-col :span="8">销量：{{ content.sales }}</van-col>
     </van-row>
 
     <div style="margin-left: 15px;">
@@ -57,7 +59,8 @@
       <van-row style="margin-top: 30px; line-height:100%;color: darkgrey">
         <van-col :span="6">取货时间</van-col>
         <van-col :span="18">
-          <p style="width: 225px;font-size: 10px;border: 1px solid red;color: firebrick">佛山市区内次日送达，市外以物流配送时间为准。</p></van-col>
+          <p style="width: 225px;font-size: 10px;border: 1px solid red;color: firebrick">佛山市区内次日送达，市外以物流配送时间为准。</p>
+        </van-col>
       </van-row>
 
       <!-- 优惠券单元格 -->
@@ -84,8 +87,8 @@
       <!-- 已选择：-->
       <van-row style="color: darkgrey; font-size: 16px;margin-top: 30px;">
         <van-col :span="6">已选择：</van-col>
-        <van-col :span="16">300g/份起售
-          <b style="font-weight: lighter;margin-left: 130px;color: #2c3e50;">{{num}}份</b></van-col>
+        <van-col :span="16">1{{ content.unit }}起售
+          <b style="font-weight: lighter;margin-left: 130px;color: #2c3e50;">{{ num }}份</b></van-col>
         <van-col :span="2">
           <van-cell is-link @click="show = true"/>
         </van-col>
@@ -94,23 +97,27 @@
       <van-popup v-model:show="show" position="bottom" style="height: 40%;">
         <van-row style=" margin-left: 15px;">
           <van-col :span="6">
-            <img :src="content.imgUrl" style="width:80px;margin-top: 10px;"></van-col>
+            <img :src="BASE_URL + content.imgUrl" style="width:80px;margin-top: 10px;"></van-col>
           <van-col :span="18">
-              <p style="margin: 20px 0 20px; font-weight: bold;font-size: 18px;">{{ content.title }}</p>
-              <b style="color: #ff2221;font-size: 20px;">￥{{ content.newPrice}} </b> 库存{{content.count}}
+            <p style="margin: 20px 0 20px; font-weight: bold;font-size: 18px;">{{ content.specsName }}</p>
+            <b style="color: #ff2221;font-size: 20px;">￥{{ content.currentPrice }} </b> 库存{{ content.amount }}
           </van-col>
         </van-row>
         <div style="width: 80px;margin: 20px 0 0 15px;">
           规格<br>
-          <van-button type="danger" style="width: 60px;">份</van-button>
+          <van-button type="danger" style="width: 60px;">{{ content.unit }}</van-button>
         </div>
         <div style="width: 80px;margin: 20px 0 0 15px;">
           数量<br>
           <table style="width: 100px;">
             <tr>
-              <td><button style="font-size: large; width: 25px;" @click="subtract">-</button></td>
+              <td>
+                <button style="font-size: large; width: 25px;" @click="subtract">-</button>
+              </td>
               <td>{{ num }}</td>
-              <td><button style="font-size: large; width: 25px;" @click="add">+</button></td>
+              <td>
+                <button style="font-size: large; width: 25px;" @click="add">+</button>
+              </td>
             </tr>
           </table>
         </div>
@@ -118,51 +125,52 @@
 
     </div>
 
-<!--  商品介绍  -->
+    <!--  商品介绍  -->
     <div style="margin-top:30px;height: 30px;line-height: 30px;background-color: darkseagreen;text-align: center;">
-      商品介绍</div>
-    <img :src="content.detailImgUrl" style="width:395px;">
+      商品介绍
+    </div>
+<!--    <img :src="content.detailImgUrl" style="width:395px;">-->
 
   </div>
 
   <div>
     <van-tabbar route>
       <!--  底部栏-->
-      <van-action-bar position="bottom">
-        <van-action-bar-icon icon="chat-o" text="客服" />
+      <van-action-bar position="bottom" style="height: 80px;">
+        <van-action-bar-icon icon="chat-o" text="客服"/>
         <van-action-bar-icon icon="cart-o" text="购物车" @click="router.push('/cart')"/>
-        <van-action-bar-icon icon="shop-o" text="店铺" />
-        <van-action-bar-button type="warning" text="加入购物车" @click="show=true" />
+        <van-action-bar-icon icon="shop-o" text="店铺"/>
+        <van-action-bar-button type="warning" text="加入购物车" @click="show=true"/>
         <van-action-bar-button type="danger" text="立即购买" @click="show=true"/>
       </van-action-bar>
     </van-tabbar>
   </div>
 
 
-
-
-
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import router from "@/router";
+import axios from "@/utils/request";
 
-const content = ref({
-  title:'五花肉 300g/份', imgUrl:'/imgs/detail/detail1.jpg',
-  newPrice:13.9, oldPrice:18.2, goodsId:'0169',
-  count:24, salesVolume:1812, discountsTime:30 * 60 * 60 * 1000,
-  detailImgUrl:"/imgs/detail/detail1-1.jpg"
-});
+const content = ref({imgUrl:''});
+const discountsTime= ref(30 * 60 * 60 * 1000);
+// const content = ref({
+//   title: '五花肉 300g/份', imgUrl: '/imgs/detail/detail1.jpg',
+//   newPrice: 13.9, oldPrice: 18.2, goodsId: '0169',
+//   count: 24, salesVolume: 1812, discountsTime: 30 * 60 * 60 * 1000,
+//   detailImgUrl: "/imgs/detail/detail1-1.jpg"
+// });
 
 const num = ref(1);
-const subtract=()=>{
-  if (num.value>1){
-    num.value=num.value-1;
+const subtract = () => {
+  if (num.value > 1) {
+    num.value = num.value - 1;
   }
 }
-const add=()=>{
-  num.value=num.value+1;
+const add = () => {
+  num.value = num.value + 1;
 }
 
 const coupon = {
@@ -191,7 +199,15 @@ const onExchange = (code) => {
 const show = ref(false);
 
 
+onMounted(() => {
+  let id = new URLSearchParams(location.search).get('id');
 
+  axios.get("/mall/product_specs/" + id).then((response) => {
+    if (response.data.state == 20000) {
+      content.value = response.data.data;
+    }
+  })
+})
 
 </script>
 
@@ -206,6 +222,7 @@ const show = ref(false);
   margin: 3px 4px;
   color: darkseagreen;
 }
+
 .block {
   display: inline-block;
   width: 22px;

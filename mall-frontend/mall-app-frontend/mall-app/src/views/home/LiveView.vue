@@ -1,13 +1,22 @@
 <template>
   <h2>直播</h2>
-  <img src="imgs/live_carousel/live_carousel1.png" width="390px;">
-  <img src="imgs/live_carousel/live_carousel2.png" width="390px;">
-  <img src="imgs/live_carousel/live_carousel3.png" width="390px;">
-  <img src="imgs/live_carousel/live_carousel4.png" width="390px;">
+  <div v-for="item in liveCardList">
+    <img :src="BASE_URL+item.imgUrl" width="390px;">
+  </div>
 </template>
 
 <script setup>
+import {onMounted, ref} from "vue";
+import axios from "@/utils/request";
 
+const liveCardList = ref([]);
+onMounted(()=>{
+  axios.get("mall/live/index").then((response)=>{
+    if(response.data.state==20000){
+      liveCardList.value = response.data.data;
+    }
+  })
+})
 </script>
 
 <style scoped>

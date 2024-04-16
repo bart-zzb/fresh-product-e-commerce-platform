@@ -74,19 +74,19 @@
       <van-row gutter="4" style="margin: 2px 4px 20px;">
         <van-col span="8" v-for="item in list" style="height: 200px;">
           <!--商品卡片-->
-          <router-link class="rl" to="/detail">
+          <router-link class="rl" :to="'/detail?id='+item.id">
             <van-image :src="BASE_URL + item.imgUrl"></van-image>
             <p style="margin: 2px;">{{ item.specsName }}</p>
+            <van-row>
+              <van-col span="14">
+                <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
+                <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
+              </van-col>
+              <van-col span="10">
+                <van-icon name="cart-o" color="#f00" size="30"/>
+              </van-col>
+            </van-row>
           </router-link>
-          <van-row>
-            <van-col span="14">
-              <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
-              <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
-            </van-col>
-            <van-col span="10">
-              <van-icon name="cart-o" color="#f00" size="30"/>
-            </van-col>
-          </van-row>
         </van-col>
       </van-row>
     </van-swipe-item>
@@ -105,17 +105,19 @@
       <van-row gutter="4" style="margin: 2px 4px 20px;">
         <van-col span="8" v-for="item in list" style="height: 200px;">
           <!--商品卡片-->
-          <van-image :src="BASE_URL + item.imgUrl"></van-image>
-          <p style="margin: 2px;">{{ item.specsName }}</p>
-          <van-row>
-            <van-col span="14">
-              <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
-              <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
-            </van-col>
-            <van-col span="10" style="margin-top: 10px;">
-              <van-icon name="cart-o" color="#f00" size="30"/>
-            </van-col>
-          </van-row>
+          <router-link class="rl" :to="'/detail?id='+item.id">
+            <van-image :src="BASE_URL + item.imgUrl"></van-image>
+            <p style="margin: 2px;">{{ item.specsName }}</p>
+            <van-row>
+              <van-col span="14">
+                <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
+                <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
+              </van-col>
+              <van-col span="10" style="margin-top: 10px;">
+                <van-icon name="cart-o" color="#f00" size="30"/>
+              </van-col>
+            </van-row>
+          </router-link>
         </van-col>
       </van-row>
     </van-swipe-item>
@@ -133,17 +135,19 @@
       <van-row gutter="4" style="margin: 2px 4px 20px;">
         <van-col span="8" v-for="item in list" style="height: 200px;">
           <!--商品卡片-->
-          <van-image :src="BASE_URL + item.imgUrl"></van-image>
-          <p style="margin: 2px;">{{ item.specsName }}</p>
-          <van-row>
-            <van-col span="14">
-              <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
-              <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
-            </van-col>
-            <van-col span="10">
-              <van-icon name="cart-o" color="#f00" size="30"/>
-            </van-col>
-          </van-row>
+          <router-link class="rl" :to="'/detail?id='+item.id">
+            <van-image :src="BASE_URL + item.imgUrl"></van-image>
+            <p style="margin: 2px;">{{ item.specsName }}</p>
+            <van-row>
+              <van-col span="14">
+                <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
+                <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
+              </van-col>
+              <van-col span="10">
+                <van-icon name="cart-o" color="#f00" size="30"/>
+              </van-col>
+            </van-row>
+          </router-link>
         </van-col>
       </van-row>
     </van-swipe-item>
@@ -161,17 +165,19 @@
       <van-row gutter="4" style="margin: 2px 4px 20px;">
         <van-col span="8" v-for="item in list" style="height: 200px;">
           <!--商品卡片-->
-          <van-image :src="BASE_URL + item.imgUrl"></van-image>
-          <p style="margin: 2px;">{{ item.specsName }}</p>
-          <van-row>
-            <van-col span="14">
-              <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
-              <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
-            </van-col>
-            <van-col span="10">
-              <van-icon name="cart-o" color="#f00" size="30"/>
-            </van-col>
-          </van-row>
+          <router-link class="rl" :to="'/detail?id='+item.id">
+            <van-image :src="BASE_URL + item.imgUrl"></van-image>
+            <p style="margin: 2px;">{{ item.specsName }}</p>
+            <van-row>
+              <van-col span="14">
+                <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
+                <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
+              </van-col>
+              <van-col span="10">
+                <van-icon name="cart-o" color="#f00" size="30"/>
+              </van-col>
+            </van-row>
+          </router-link>
         </van-col>
       </van-row>
     </van-swipe-item>
@@ -189,17 +195,19 @@
       <van-row gutter="4" style="margin: 2px 4px 20px;">
         <van-col span="8" v-for="item in list" style="height: 200px;">
           <!--商品卡片-->
-          <van-image :src="BASE_URL + item.imgUrl"></van-image>
-          <p style="margin: 2px;">{{ item.specsName }}</p>
-          <van-row>
-            <van-col span="14">
-              <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
-              <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
-            </van-col>
-            <van-col span="10">
-              <van-icon name="cart-o" color="#f00" size="30"/>
-            </van-col>
-          </van-row>
+          <router-link class="rl" :to="'/detail?id='+item.id">
+            <van-image :src="BASE_URL + item.imgUrl"></van-image>
+            <p style="margin: 2px;">{{ item.specsName }}</p>
+            <van-row>
+              <van-col span="14">
+                <div style="color: #f00;margin:0;">{{ item.currentPrice }}&nbsp;/&nbsp;{{ item.unit }}</div>
+                <div style="margin: 0;"><s>{{ item.originalPrice }}&nbsp;/&nbsp;{{ item.unit }}</s></div>
+              </van-col>
+              <van-col span="10">
+                <van-icon name="cart-o" color="#f00" size="30"/>
+              </van-col>
+            </van-row>
+          </router-link>
         </van-col>
       </van-row>
     </van-swipe-item>
