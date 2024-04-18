@@ -1,12 +1,17 @@
 package cn.tedu.mall.front.controller;
 
 import cn.tedu.mall.common.constant.ServiceCode;
+import cn.tedu.mall.common.constant.ServiceConstant;
+import cn.tedu.mall.common.ex.ServiceException;
 import cn.tedu.mall.common.util.JwtUtils;
 import cn.tedu.mall.common.util.PasswordEncoderUtils;
 import cn.tedu.mall.common.web.JsonResult;
+import cn.tedu.mall.service.pojo.authentication.CurrentPrincipal;
 import cn.tedu.mall.service.pojo.dto.UserLoginByPsdDTO;
+import cn.tedu.mall.service.service.IUserService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +28,8 @@ import java.util.Map;
 @RequestMapping("/admin/user")
 @RestController
 public class UserController {
+    @Autowired
+    private IUserService userService;
 
     @PostMapping("/loginByUsernameAndPassword")
     public JsonResult loginByUserNameAndPassword(UserLoginByPsdDTO userLoginByPsdDTO,
@@ -30,7 +37,10 @@ public class UserController {
         log.debug(userLoginByPsdDTO.getUsername() + userLoginByPsdDTO.getPassword());
 
         // 根据用户名去到数据库拿密码 TODO
-
+        CurrentPrincipal currentPrincipal = userService.getCurrentPrincipalByUsernameAndPassword(userLoginByPsdDTO.getUsername(), userLoginByPsdDTO.getPassword());
+        if(currentPrincipal==null){
+            throw new ServiceException(ServiceCode.ERR_USERNAME_PASSWORD, ServiceConstant.ERROR_USERNAME_PASSWORD);
+        }
         // sigPwd模拟从数据库拿出来的密码，改密码在注册时加密放入，数据库存储的是密文例：$2a$10$B4WcenV2GOOpIPVG/sQSWuZ04llGaDdQSOvzXfJtpMYOKZHpJNLx.
 
         // 结构解释了解即可：$2a$：这部分是算法的版本标识。 10$：这是成本（或难度）参数，表示加密的计算复杂度。
@@ -43,7 +53,9 @@ public class UserController {
         if (matches) {
             // 准备jwt的数据
             Map<String, Object> map = new HashMap<>();
-            map.put("username", userLoginByPsdDTO.getUsername());
+            map.put("id", currentPrincipal.getId());
+            map.put("username", currentPrincipal.getUsername());
+
             // 生产token并返回
             return JsonResult.ok(JwtUtils.getToken(map));
         }

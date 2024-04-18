@@ -255,7 +255,7 @@ const addCart = () => {
   showToast({
     message: '<div style="font-size: 20px;margin: 20px;">' +
         '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-passed" style="color:#13DEA5;"></span></div>' +
-        '<div>加入购物车成功</div></div>',
+        '<div style="text-align: center;">加入购物车成功</div></div>',
     type: 'html',
     overlay: true,
     duration: 1500,

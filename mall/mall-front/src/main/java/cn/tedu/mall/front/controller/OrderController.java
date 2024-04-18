@@ -1,6 +1,8 @@
 package cn.tedu.mall.front.controller;
 
+import cn.tedu.mall.common.annotation.CurrentUser;
 import cn.tedu.mall.common.web.JsonResult;
+import cn.tedu.mall.service.pojo.authentication.CurrentPrincipal;
 import cn.tedu.mall.service.pojo.dto.OrderAddDTO;
 import cn.tedu.mall.service.pojo.dto.OrderUpdateDTO;
 import cn.tedu.mall.service.pojo.po.OrderPO;
@@ -14,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -35,7 +38,8 @@ public class OrderController {
      */
     @ApiOperation("增加订单")
     @PostMapping("/add")
-    public JsonResult addOrder(@Validated OrderAddDTO orderAddDTO) {
+    public JsonResult addOrder(@CurrentUser CurrentPrincipal currentPrincipal, @Validated OrderAddDTO orderAddDTO) {
+        log.debug("currentPrincipal"+ currentPrincipal);
         orderService.addOrder(orderAddDTO);
         return JsonResult.ok();
     }
@@ -56,16 +60,14 @@ public class OrderController {
     /**
      * 查询用户所有订单
      *
-     * @param userId 查询用户所有订单
+     * @param currentPrincipal 查询用户所有订单
      * @return JsonResult(List < OrderPO >)
      */
-    @ApiOperation("查询用户所有订单")
-    @GetMapping("/select/{userId}")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "userId", value = "用户id", required = true, dataType = "Long"),
-    })
-    public JsonResult getOrderByUserId(@PathVariable @NotNull(message = "用户id不能为空") Long userId) {
-        List<OrderVO> orderPOList = orderService.getOrderByUserId(userId);
+    @ApiOperation("查询当前用户所有订单")
+    @GetMapping("/select/all")
+    public JsonResult getOrderByUserId(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal) {
+        log.debug("currentPrincipal"+currentPrincipal);
+        List<OrderVO> orderPOList = orderService.getOrderByUserId(currentPrincipal.getId());
         return JsonResult.ok(orderPOList);
     }
 }

@@ -1,8 +1,10 @@
 package cn.tedu.mall.front.configuration;
 
 import cn.tedu.mall.front.interceptor.JwtInterceptor;
+import cn.tedu.mall.front.resolver.LoginUserHandlerMethodArgumentResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -26,6 +28,15 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Autowired
+    private LoginUserHandlerMethodArgumentResolver loginUserHandlerMethodArgumentResolver;
+
+    //自定义Resolver
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers){
+        argumentResolvers.add(loginUserHandlerMethodArgumentResolver);
+    }
+
+    @Autowired
     private JwtInterceptor jwtInterceptor;
 
     @Override
@@ -39,7 +50,7 @@ public class WebConfig implements WebMvcConfigurer {
         excludePathList.add("/mall/carousel/**");
         excludePathList.add("/mall/banner/**");
         excludePathList.add("/mall/label/**");
-        excludePathList.add("/mall/live/**");
+        //excludePathList.add("/mall/live/**");
         excludePathList.add("/mall/product/**");
         excludePathList.add("/mall/brand/**");
         excludePathList.add("/mall/product_specs/**");
@@ -62,7 +73,7 @@ public class WebConfig implements WebMvcConfigurer {
         excludePathList.add("/api-docs/**");
 
         registry.addInterceptor(jwtInterceptor)
-                .addPathPatterns("/**")
+                .addPathPatterns("/mall/**")
                 .excludePathPatterns(excludePathList);
     }
 

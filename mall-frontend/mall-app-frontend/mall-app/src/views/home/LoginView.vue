@@ -51,8 +51,8 @@ const user = ref({
 const submit =()=>{
   let data = qs.stringify(user.value)
   axios.post("/admin/user/loginByUsernameAndPassword",data).then((response)=>{
-    console.log(response)
-    localStorage.setItem("token",response.data);
+    localStorage.setItem("token",response.data.data);
+    console.log(localStorage);
   })
 }
 

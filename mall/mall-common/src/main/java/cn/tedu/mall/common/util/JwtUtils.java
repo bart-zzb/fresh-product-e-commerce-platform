@@ -2,6 +2,9 @@ package cn.tedu.mall.common.util;
 
 
 import cn.tedu.mall.common.constant.JwtConstants;
+import cn.tedu.mall.common.constant.ServiceCode;
+import cn.tedu.mall.common.constant.ServiceConstant;
+import cn.tedu.mall.common.ex.ServiceException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -9,6 +12,7 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.NativeWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
@@ -27,11 +31,14 @@ public class JwtUtils {
      */
     private final static String SIGNATURE = "token!Q2W#E$RW";
 
-    @Autowired
-    private HttpServletRequest request;
+//    @Autowired
+//    private static HttpServletRequest request;
 
-    public Map<String, Object> getUserInfo() {
-        String header = request.getHeader(JwtConstants.AUTHORIZATION);
+    public static Map<String, Object> getUserInfo(NativeWebRequest nativeWebRequest) {
+        String header = nativeWebRequest.getHeader(JwtConstants.AUTHORIZATION);
+        if(header == null){
+            throw new ServiceException(ServiceCode.ERR_JWT_NOT_EXIST, ServiceConstant.JWT_NOT_FOUND);
+        }
         String token = header.substring(JwtConstants.AUTHORIZATION_BEARER.length());
         DecodedJWT tokenInfo = JWT.require(Algorithm.HMAC256(SIGNATURE)).build().verify(token);
         Map<String, Claim> claims = tokenInfo.getClaims();
@@ -70,9 +77,5 @@ public class JwtUtils {
      */
     public static void verify(String token) {
         JWT.require(Algorithm.HMAC256(SIGNATURE)).build().verify(token);
-    }
-
-    public static void main(String[] args) {
-
     }
 }
