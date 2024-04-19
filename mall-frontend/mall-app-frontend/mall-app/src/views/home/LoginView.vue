@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import axios from '@/utils/request'
 import qs from "qs";
 
@@ -48,11 +48,15 @@ const user = ref({
   password:""
 })
 
+onMounted(()=>{
+  user.value.username="xiaoy";
+  user.value.password="123456";
+})
+
 const submit =()=>{
   let data = qs.stringify(user.value)
   axios.post("/admin/user/loginByUsernameAndPassword",data).then((response)=>{
     localStorage.setItem("token",response.data.data);
-    console.log(localStorage);
   })
 }
 

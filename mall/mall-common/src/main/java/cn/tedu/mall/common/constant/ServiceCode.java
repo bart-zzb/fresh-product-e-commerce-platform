@@ -62,7 +62,7 @@ public enum ServiceCode {
      */
     ERR_USERNAME_PASSWORD(60300),
     /**
-     * 错误：登录名或密码错误
+     * 错误：JWT不存在
      */
     ERR_JWT_NOT_EXIST(60400),
     /**

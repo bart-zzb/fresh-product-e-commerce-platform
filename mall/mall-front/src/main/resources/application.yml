@@ -57,7 +57,7 @@ mybatis-plus:
   configuration:
     # 将下划线映射为驼峰格式
     map-underscore-to-camel-case: true
-  type-handlers-package: cn.tedu.mall.common.ex.PrefixTypeHandler
+  type-handlers-package: cn.tedu.mall.common.handler.PrefixTypeHandler
 
 logging:
   level:

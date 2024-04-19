@@ -1,4 +1,4 @@
-package cn.tedu.mall.common.ex;
+package cn.tedu.mall.common.handler;
 
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;

@@ -1,8 +1,10 @@
-package cn.tedu.mall.common.ex;
+package cn.tedu.mall.common.handler;
 
 
 import cn.tedu.mall.common.constant.ServiceCode;
+import cn.tedu.mall.common.ex.ServiceException;
 import cn.tedu.mall.common.web.JsonResult;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
@@ -32,9 +34,15 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
+    public JsonResult handleTokenExpiredException(JWTVerificationException e){
+        log.debug("全局异常处理器开始处理JWTVerificationException");
+        return JsonResult.fail(ServiceCode.ERR_JWT_NOT_EXIST,"未登录,请重新登录");
+    }
+
+    @ExceptionHandler
     public JsonResult handleServiceException(ServiceException e) {
         log.debug("全局异常处理器开始处理ServiceException");
-        return JsonResult.fail(e);
+        return JsonResult.fail(e.getServiceCode(), e.getMessage());
     }
 
     @ExceptionHandler

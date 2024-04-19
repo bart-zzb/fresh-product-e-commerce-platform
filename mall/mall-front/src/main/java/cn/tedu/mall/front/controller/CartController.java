@@ -1,7 +1,9 @@
 package cn.tedu.mall.front.controller;
 
 
+import cn.tedu.mall.common.annotation.CurrentUser;
 import cn.tedu.mall.common.web.JsonResult;
+import cn.tedu.mall.service.pojo.authentication.CurrentPrincipal;
 import cn.tedu.mall.service.pojo.dto.CartAddDTO;
 import cn.tedu.mall.service.pojo.dto.CartUpdateDTO;
 import cn.tedu.mall.service.pojo.vo.CartVO;
@@ -14,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -68,7 +71,7 @@ public class CartController {
 
     /**
      * 查询购物车
-     * @param userId 用户id
+     * @param currentPrincipal 当前用户, userId 用户id
      * @return JsonResult(List<CartVO>)
      */
     @ApiOperation("查询购物车")
@@ -76,8 +79,20 @@ public class CartController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId",value = "用户id",required = true,dataType = "Long"),
     })
-    public JsonResult getCartByUserId(@PathVariable @NotNull(message = "用户id不能为空") Long userId){
+    public JsonResult getCartByUserId(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @PathVariable @NotNull(message = "用户id不能为空") Long userId){
         List<CartVO> list =  cartService.getCartByUserId(userId);
+        return JsonResult.ok(list);
+    }
+
+    /**
+     * 查询购物车
+     * @param currentPrincipal 用户id
+     * @return JsonResult(List<CartVO>)
+     */
+    @ApiOperation("根据当前用户查询购物车")
+    @GetMapping("/get")
+    public JsonResult getCartByCurrentPrincipal(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal){
+        List<CartVO> list =  cartService.getCartByUserId(currentPrincipal.getId());
         return JsonResult.ok(list);
     }
 }

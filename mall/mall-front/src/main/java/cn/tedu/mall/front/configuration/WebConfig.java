@@ -45,12 +45,12 @@ public class WebConfig implements WebMvcConfigurer {
         excludePathList.add("/admin/**");
         //配置测试接口, 避免测试时被拦截
         excludePathList.add("/mall/category/**");
-        excludePathList.add("/mall/cart/**");
+        //excludePathList.add("/mall/cart/**");
         excludePathList.add("/mall/order/**");
         excludePathList.add("/mall/carousel/**");
         excludePathList.add("/mall/banner/**");
         excludePathList.add("/mall/label/**");
-        //excludePathList.add("/mall/live/**");
+        excludePathList.add("/mall/live/**");
         excludePathList.add("/mall/product/**");
         excludePathList.add("/mall/brand/**");
         excludePathList.add("/mall/product_specs/**");

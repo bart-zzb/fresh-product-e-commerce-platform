@@ -1,4 +1,4 @@
-package cn.tedu.mall.common.ex;
+package cn.tedu.mall.common.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;

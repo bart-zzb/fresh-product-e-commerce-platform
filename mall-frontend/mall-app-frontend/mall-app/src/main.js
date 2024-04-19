@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import { Toast } from 'vant';
 
+
 const BASE_URL = 'http://localhost:8080/';
 //在window中添加的都是全局属性 这样在JS代码中就可以使用这个值了 JavaScript
 window.BASE_URL = BASE_URL;
