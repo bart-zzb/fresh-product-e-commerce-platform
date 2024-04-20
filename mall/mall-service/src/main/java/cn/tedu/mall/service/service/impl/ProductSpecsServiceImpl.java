@@ -41,7 +41,7 @@ public class ProductSpecsServiceImpl implements IProductSpecsService {
         List<CategoryPO> topCategoryPO = categoryRepository.getCategoryListByParentId(0L);
         Map<String, String> map = new HashMap<>();
         map.put("categoryName","text");
-        List<ProductSpecsTreeVO> topCategoryTreeVOS = PojoConvert.convertListWithFields(topCategoryPO, ProductSpecsTreeVO.class, map);
+        List<ProductSpecsTreeVO> topCategoryTreeVOS = PojoConvert.convertList(topCategoryPO, ProductSpecsTreeVO.class, map);
         List<CategoryPO> all = categoryRepository.getAll();
 
         for (ProductSpecsTreeVO topVo : topCategoryTreeVOS) {

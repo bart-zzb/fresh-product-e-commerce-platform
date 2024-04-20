@@ -20,10 +20,6 @@ public class CartAddDTO implements Serializable {
     @ApiModelProperty(value = "用户id",required = true,dataType = "Long")
     Long tbUserId;
 
-    @NotNull(message = "SPU id不能为空")
-    @ApiModelProperty(value = "SPU id",required = true,dataType = "Long")
-    Long tbProductId;
-
     @NotNull(message = "SKU id不能为空")
     @ApiModelProperty(value = "SKU id",required = true,dataType = "Long")
     Long tbProductSpecId;

@@ -2,39 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.tedu.mall.service.dao.mapper.ProductSpecsMapper">
-    <resultMap id="ProductSpecsVOMapper" type="cn.tedu.mall.service.pojo.vo.ProductSpecsVO">
-        <id column="id" property="id"/>
-        <result column="tb_product_id" property="tbProductId"/>
-        <result column="specs_name" property="specsName"/>
-        <result column="img_url" property="imgUrl"/>
-        <result column="current_price" property="currentPrice"/>
-        <result column="original_price" property="originalPrice"/>
-        <result column="amount" property="amount"/>
-        <result column="sales" property="sales"/>
-        <result column="status" property="status"/>
-        <result column="unit" property="unit"/>
-        <result column="info" property="info"/>
-    </resultMap>
-
-    <select id="selectProductSpecsById" resultMap="ProductSpecsVOMapper">
-        SELECT id,
+    <select id="selectProductSpecsById" resultType="cn.tedu.mall.service.pojo.vo.ProductSpecsVO">
+        SELECT specs.id,
                tb_product_id,
+               product_name,
                specs_name,
                img_url,
                current_price,
                original_price,
                amount,
-               sales,
-               status,
+               specs.sales,
+               specs.status,
                unit,
-               info
-        FROM e_mall.tb_product_specs
-        WHERE id = #{id}
+               specs.info
+        FROM e_mall.tb_product_specs specs
+                 LEFT JOIN e_mall.tb_product prod ON specs.tb_product_id = prod.id
+        WHERE specs.id = #{id}
     </select>
 
     <select id="selectProductSpecsByCategoryId" resultType="cn.tedu.mall.service.pojo.vo.ProductSpecsVO">
         SELECT specs.id,
                tb_product_id,
+               product_name,
                specs_name,
                img_url,
                product_specs,

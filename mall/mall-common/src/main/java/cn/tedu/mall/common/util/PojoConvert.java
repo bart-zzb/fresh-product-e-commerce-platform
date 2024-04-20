@@ -26,6 +26,35 @@ public class PojoConvert {
         }
         return null;
     }
+
+    public static <T>T convert(Object o, Class<T> cls, Map<String, String> fieldMap){
+        T t = null;
+        try {
+            t = cls.newInstance();
+            BeanUtils.copyProperties(o, t);
+            for (Map.Entry<String, String> entry: fieldMap.entrySet()) {
+                try {
+                    Field sourceField = o.getClass().getDeclaredField(entry.getKey());
+                    sourceField.setAccessible(true);
+                    Object object = sourceField.get(o);
+                    Field targetField = t.getClass().getDeclaredField(entry.getValue());
+                    targetField.setAccessible(true);
+                    targetField.set(t,object);
+                    sourceField.setAccessible(false);
+                    targetField.setAccessible(false);
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+            return t;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static <T,E>List<T> convertList(List<E> list, Class<T> cls){
         return list.stream().map(workOrderVo -> {
             T exportVo = null;
@@ -40,7 +69,7 @@ public class PojoConvert {
         }).collect(Collectors.toList());
     }
 
-    public static <T,E>List<T> convertListWithFields(List<E> list, Class<T> cls, Map<String, String> fieldMap){
+    public static <T,E>List<T> convertList(List<E> list, Class<T> cls, Map<String, String> fieldMap){
         return list.stream().map(workOrderVo -> {
             T exportVo = null;
             try{
