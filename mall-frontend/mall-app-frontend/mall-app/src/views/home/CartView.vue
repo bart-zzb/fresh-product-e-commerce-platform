@@ -33,7 +33,7 @@
             :num="products.amount"
             :price="products.price"
             :desc="products.tbProductName"
-            :title="products.specName"
+            :title="products.specsName"
             :thumb="BASE_URL + products.imgUrl">
           <template #footer>
             <van-stepper v-model="products.amount" theme="round" button-size="22" @change="change(index)" disable-input/>
@@ -95,21 +95,25 @@ const cartProducts = ref([])
 //     imageUrl: '/imgs/detail/detail1.jpg',
 //     checked: false
 //   }]);
+//购物车总价
+const totalPrice = ref(0.00);
+//商品数量
+const selectCount = ref(7);
 
 onMounted(()=>{
   axios.get("mall/cart/get").then((response)=>{
     if(response.data.state==20000){
       cartProducts.value = response.data.data;
-      //change();
+    }
+  })
+
+  axios.get("mall/cart/totalPrice").then((response)=>{
+    if(response.data.state==20000){
+      totalPrice.value = response.data.data.productAmountTotal*100;
     }
   })
 })
 
-//购物车总价
-const totalPrice = ref(17930.00);
-
-//商品数量
-const selectCount = ref(7);
 
 //是否选择全部商品
 const allChecked = ref(false);

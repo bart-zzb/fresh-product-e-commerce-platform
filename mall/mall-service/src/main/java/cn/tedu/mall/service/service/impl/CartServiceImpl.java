@@ -3,6 +3,7 @@ package cn.tedu.mall.service.service.impl;
 import cn.tedu.mall.service.dao.repository.ICartCacheRepository;
 import cn.tedu.mall.service.pojo.dto.CartAddDTO;
 import cn.tedu.mall.service.pojo.vo.CartCacheVO;
+import cn.tedu.mall.service.pojo.vo.CartTotalVO;
 import cn.tedu.mall.service.service.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -39,6 +40,11 @@ public class CartServiceImpl implements ICartService {
     @Override
     public void modifyChecked(Long userId, Long productSpecId, Integer productChecked) {
         cartCacheRepository.modifyChecked(userId, productSpecId, productChecked);
+    }
+
+    @Override
+    public CartTotalVO getTotal(Long userId) {
+        return cartCacheRepository.getTotal(userId);
     }
 
 //使用数据库存储方案

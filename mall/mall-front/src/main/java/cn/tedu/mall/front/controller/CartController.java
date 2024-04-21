@@ -6,6 +6,7 @@ import cn.tedu.mall.common.web.JsonResult;
 import cn.tedu.mall.service.pojo.authentication.CurrentPrincipal;
 import cn.tedu.mall.service.pojo.dto.CartAddDTO;
 import cn.tedu.mall.service.pojo.vo.CartCacheVO;
+import cn.tedu.mall.service.pojo.vo.CartTotalVO;
 import cn.tedu.mall.service.service.ICartService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -80,7 +81,7 @@ public class CartController {
      * @param productNum       SKU 数量
      * @return JsonResult.ok()
      */
-    @ApiOperation("修改商品数量-替换")
+    @ApiOperation("修改商品数量")
     @PostMapping("/modify_amount")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "productSpecId", value = "商品SKUid", required = true, dataType = "Long"),
@@ -89,7 +90,7 @@ public class CartController {
     public JsonResult updateCartAmount(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal,
                                  @Range(min = 1, message = "请输入合法的商品id") Long productSpecId,
                                  @Range(min = 1, max = 100, message = "商品数量必须是1~100之间!") Integer productNum) {
-        log.debug("增加商品-入参 用户id:{},商品id:{},商品数量:{}", currentPrincipal.getId(), productSpecId, productNum);
+        log.debug("修改商品数量-入参 用户id:{},商品SKUid:{},商品数量:{}", currentPrincipal.getId(), productSpecId, productNum);
         cartService.modifyAmount(currentPrincipal.getId(), productSpecId, productNum);
         return JsonResult.ok();
     }
@@ -101,7 +102,7 @@ public class CartController {
      * @param productChecked   SKU 选中状态
      * @return JsonResult.ok()
      */
-    @ApiOperation("修改商品状态-替换")
+    @ApiOperation("修改商品状态")
     @PostMapping("/modify_checked")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "productSpecId", value = "商品SKUid", required = true, dataType = "Long"),
@@ -110,9 +111,22 @@ public class CartController {
     public JsonResult updateCartChecked(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal,
                                  @Range(min = 1, message = "请输入合法的商品id") Long productSpecId,
                                  @Range(min = 0, max = 1, message = "商品选中状态必须是0~1之间!") Integer productChecked) {
-        log.debug("增加商品-入参 用户id:{},商品id:{},商品数量:{}", currentPrincipal.getId(), productSpecId, productChecked);
+        log.debug("修改商品状态-入参 用户id:{},商品SKUid:{},商品选中状态:{}", currentPrincipal.getId(), productSpecId, productChecked);
         cartService.modifyChecked(currentPrincipal.getId(), productSpecId, productChecked);
         return JsonResult.ok();
+    }
+
+    /**
+     * 查询当前用户购物车价格总和
+     * @param currentPrincipal 当前用户
+     * @return JsonResult.ok(CartTotalVO)
+     */
+    @ApiOperation("查询当前用户购物车价格总和")
+    @GetMapping("/totalPrice")
+    public JsonResult updateCartChecked(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal) {
+        log.debug("增加商品-入参 用户id:{}", currentPrincipal.getId());
+        CartTotalVO cartTotalVO = cartService.getTotal(currentPrincipal.getId());
+        return JsonResult.ok(cartTotalVO);
     }
 //使用数据库存储方案
 //    /**
