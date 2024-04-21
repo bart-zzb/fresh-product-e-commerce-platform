@@ -1,24 +1,13 @@
 package cn.tedu.mall.service.service.impl;
 
-import cn.tedu.mall.common.constant.ServiceCode;
-import cn.tedu.mall.common.constant.ServiceConstant;
-import cn.tedu.mall.common.ex.ServiceException;
-import cn.tedu.mall.common.util.CalUtils;
-import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.repository.ICartCacheRepository;
-import cn.tedu.mall.service.dao.repository.ICartRepository;
 import cn.tedu.mall.service.pojo.dto.CartAddDTO;
-import cn.tedu.mall.service.pojo.dto.CartUpdateDTO;
-import cn.tedu.mall.service.pojo.po.CartPO;
 import cn.tedu.mall.service.pojo.vo.CartCacheVO;
-import cn.tedu.mall.service.pojo.vo.CartVO;
 import cn.tedu.mall.service.service.ICartService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Primary
@@ -28,13 +17,28 @@ public class CartServiceImpl implements ICartService {
     private ICartCacheRepository cartCacheRepository;
 
     @Override
-    public List<CartCacheVO> getCartByUserId(Long id) {
-        return cartCacheRepository.listByUser(id);
+    public List<CartCacheVO> getCartByUserId(Long userId) {
+        return cartCacheRepository.listByUser(userId);
     }
 
     @Override
-    public void addCart(Long id, CartAddDTO cartAddDTO) {
-        cartCacheRepository.addCart(id, cartAddDTO);
+    public void addCart(Long userId, CartAddDTO cartAddDTO) {
+        cartCacheRepository.addCart(userId, cartAddDTO);
+    }
+
+    @Override
+    public void deleteCart(Long userId, Long productSpecId) {
+        cartCacheRepository.deleteCart(userId, productSpecId);
+    }
+
+    @Override
+    public void modifyAmount(Long userId, Long productSpecId, Integer productNum) {
+        cartCacheRepository.modifyAmount(userId, productSpecId, productNum);
+    }
+
+    @Override
+    public void modifyChecked(Long userId, Long productSpecId, Integer productChecked) {
+        cartCacheRepository.modifyChecked(userId, productSpecId, productChecked);
     }
 
 //使用数据库存储方案

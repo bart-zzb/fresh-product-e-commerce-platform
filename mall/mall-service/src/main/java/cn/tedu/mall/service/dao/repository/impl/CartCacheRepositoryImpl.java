@@ -1,6 +1,7 @@
 package cn.tedu.mall.service.dao.repository.impl;
 
 import cn.tedu.mall.common.constant.RedisConstants;
+import cn.tedu.mall.common.util.CalUtils;
 import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.repository.ICartCacheRepository;
 import cn.tedu.mall.service.dao.repository.IProductSpecsRepository;
@@ -70,23 +71,24 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
                     result.add(cartCachePO);
                 }
             });
-//            //过滤商品信息
-//            result.forEach(po -> {
-//                //取出商品id
-//                Long productId = po.getTbProductId();
-//                //拼接商品数量的hash_key 商品id_num
-//                String productNumHashKey = getProductNumHashKey(productId);
-//                //从大key对应的所有数据里获取商品数量
-//                Object productNum = entries.get(productNumHashKey);
-//                //把商品数量转换为Integer并且设置到商品信息
-//                po.setAmount(Integer.valueOf(String.valueOf(productNum)));
-//                //拼接商品选择状态的hash_key 商品id_checked
-//                String productCheckedHashKey = getProductCheckedHashKey(productId);
-//                //从大key对应的所有数据里获取商品选中状态
-//                Object productChecked = entries.get(productCheckedHashKey);
-//                //把商品是否选中转换为Integer并且设置到商品信息
-//                po.setTbProductChecked(Integer.valueOf(String.valueOf(productChecked)));
-//            });
+
+            //过滤商品信息, 因为cartCachePO内的选中和数量需要同步更新
+            result.forEach(cartCachePO -> {
+                //取出商品id
+                Long productId = cartCachePO.getTbProductSpecId();
+                //拼接商品数量的hash_key 商品id_num
+                String productNumHashKey = getProductNumHashKey(productId);
+                //从大key对应的所有数据里获取商品数量
+                Object productNum = entries.get(productNumHashKey);
+                //把商品数量转换为Integer并且设置到商品信息
+                cartCachePO.setAmount(Integer.valueOf(String.valueOf(productNum)));
+                //拼接商品选择状态的hash_key 商品id_checked
+                String productCheckedHashKey = getProductCheckedHashKey(productId);
+                //从大key对应的所有数据里获取商品选中状态
+                Object productChecked = entries.get(productCheckedHashKey);
+                //把商品是否选中转换为Integer并且设置到商品信息
+                cartCachePO.setTbProductChecked(Integer.valueOf(String.valueOf(productChecked)));
+            });
         }
         log.debug("一次查询所有购物车数据,用户id:{},购物车数据:{}", userId, entries);
         //2 多次 先把hashkey 查出来,然后通过hashkey 查具体的值
@@ -105,34 +107,100 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
 
     @Override
     public void addCart(Long userId, CartAddDTO cartAddDTO) {
-        log.debug("购物车数据缓存入参:userId-{},购物车参数:{}",userId,cartAddDTO);
+        log.debug("购物车数据缓存入参:userId-{},购物车参数:{}", userId, cartAddDTO);
 
+        //将数据转换成CartCachePO
         HashOperations<String, Object, Object> hashOperations = redisTemplate.opsForHash();
         ProductSpecsVO productSpecsVO = productSpecsRepository.getProductSpecsById(cartAddDTO.getTbProductSpecId());
         HashMap<String, String> fieldMap = new HashMap<>();
-        fieldMap.put("ProductName","tbProductName");
-        fieldMap.put("currentPrice","price");
+        fieldMap.put("ProductName", "tbProductName");
+        fieldMap.put("currentPrice", "price");
         CartCachePO cartCachePO = PojoConvert.convert(productSpecsVO, CartCachePO.class, fieldMap);
         cartCachePO.setAmount(cartAddDTO.getAmount());
         cartCachePO.setTbProductSpecId(cartAddDTO.getTbProductSpecId());
         cartCachePO.setTbProductChecked(1);
         cartCachePO.setCreateTime(LocalDateTime.now());
         cartCachePO.setModifiedTime(LocalDateTime.now());
+        cartCachePO.setProductAmountTotal(CalUtils.calTotal(cartCachePO.getPrice(), cartCachePO.getAmount()));
 
-        log.debug("购物车数据存入缓存:userId-{},购物车数据:{}",userId,cartCachePO);
+        log.debug("购物车数据存入缓存:userId-{},购物车数据:{}", userId, cartCachePO);
 
+        //大key
         String cartKey = getCartKey(userId);
-        Long productId = cartCachePO.getTbProductSpecId();
 
-        String productNumHashKey = getProductNumHashKey(productId);
-        String productCheckedHashKey = getProductCheckedHashKey(productId);
-        String productInfoHashKey = getProductInfoHashKey(productId);
+        //三个小key
+        Long productSpecId = cartCachePO.getTbProductSpecId();
+        String productNumHashKey = getProductNumHashKey(productSpecId);
+        String productCheckedHashKey = getProductCheckedHashKey(productSpecId);
+        String productInfoHashKey = getProductInfoHashKey(productSpecId);
 
-        Map<String,Object> smallMap = new HashMap<>();
-        smallMap.put(productNumHashKey,cartCachePO.getAmount());
-        smallMap.put(productCheckedHashKey,cartCachePO.getTbProductChecked());
-        smallMap.put(productInfoHashKey,cartCachePO);
-        hashOperations.putAll(cartKey,smallMap);
+        Map<String, Object> smallMap = new HashMap<>();
+        smallMap.put(productNumHashKey, cartCachePO.getAmount());
+        smallMap.put(productCheckedHashKey, cartCachePO.getTbProductChecked());
+        smallMap.put(productInfoHashKey, cartCachePO);
+        hashOperations.putAll(cartKey, smallMap);
+    }
+
+    @Override
+    public void deleteCart(Long userId, Long productSpecId) {
+        HashOperations<String, String, Object> hashOperations = redisTemplate.opsForHash();
+        //获取大key
+        String cartKey = getCartKey(userId);
+        //获取三个小key
+        String productNumHashKey = getProductNumHashKey(productSpecId);
+        String productCheckedHashKey = getProductCheckedHashKey(productSpecId);
+        String productInfoHashKey = getProductInfoHashKey(productSpecId);
+        hashOperations.delete(cartKey, productNumHashKey, productCheckedHashKey,productInfoHashKey );
+    }
+
+    @Override
+    public void modifyAmount(Long userId, Long productSpecId, Integer productNum) {
+        updateKeyValue(userId, productSpecId, productNum, null);
+    }
+
+    @Override
+    public void modifyChecked(Long userId, Long productSpecId, Integer productChecked) {
+        updateKeyValue(userId, productSpecId, null, productChecked);
+    }
+
+    private void updateKeyValue(Long userId, Long productSpecId, Integer productNum, Integer productChecked) {
+        String cartKey = getCartKey(userId);
+        HashOperations<String, String, Object> hashOperations = redisTemplate.opsForHash();
+        String productNumHashKey = getProductNumHashKey(productSpecId);
+        String productCheckedHashKey = getProductCheckedHashKey(productSpecId);
+        //商品id_num
+        if (productNum != null) {
+            hashOperations.put(cartKey, productNumHashKey, productNum);
+        }
+        //商品checked
+        if (productChecked != null) {
+            hashOperations.put(cartKey, productCheckedHashKey, productChecked);
+        }
+
+        //通过大key获取所有数据
+        Map<String, Object> entries = hashOperations.entries(cartKey);
+        //判断数据是否为空
+        if (!CollectionUtils.isEmpty(entries)) {
+            String productInfoHashKey = getProductInfoHashKey(productSpecId);
+            CartCachePO cartCachePO = (CartCachePO) entries.get(productInfoHashKey);
+
+            if (cartCachePO != null) {
+                if (productNum != null) {
+                    //更新CachePO值
+                    Object productAmount = entries.get(productNumHashKey);
+                    //把商品数量转换为Integer并且设置到商品信息
+                    cartCachePO.setAmount(Integer.valueOf(String.valueOf(productAmount)));
+                    //更新总价
+                    cartCachePO.setProductAmountTotal(CalUtils.calTotal(cartCachePO.getPrice(), cartCachePO.getAmount()));
+                }
+
+                if (productChecked != null) {
+                    Object tbProductChecked = entries.get(productCheckedHashKey);
+                    cartCachePO.setTbProductChecked((Integer) tbProductChecked);
+                }
+                hashOperations.put(cartKey, productInfoHashKey, cartCachePO);
+            }
+        }
     }
 }
 

@@ -16,10 +16,6 @@ import java.math.BigDecimal;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CartAddDTO implements Serializable {
 
-    @NotNull(message = "用户id不能为空")
-    @ApiModelProperty(value = "用户id",required = true,dataType = "Long")
-    Long tbUserId;
-
     @NotNull(message = "SKU id不能为空")
     @ApiModelProperty(value = "SKU id",required = true,dataType = "Long")
     Long tbProductSpecId;

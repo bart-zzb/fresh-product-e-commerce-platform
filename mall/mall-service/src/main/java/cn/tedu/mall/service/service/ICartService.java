@@ -10,9 +10,15 @@ import java.util.List;
 
 @Transactional
 public interface ICartService {
-    List<CartCacheVO> getCartByUserId(Long id);
+    List<CartCacheVO> getCartByUserId(Long userId);
 
-    void addCart(Long id, CartAddDTO cartAddDTO);
+    void addCart(Long userId, CartAddDTO cartAddDTO);
+
+    void deleteCart(Long userId, Long productSpecId);
+
+    void modifyAmount(Long userId, Long productSpecId, Integer productNum);
+
+    void modifyChecked(Long userId, Long productSpecId, Integer productChecked);
 
 //使用数据库存储方案
 //    void addCart(CartAddDTO cartAddDTO);
