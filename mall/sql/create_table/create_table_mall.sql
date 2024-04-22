@@ -208,7 +208,7 @@ CREATE TABLE tb_shopping_cart
     img_url                 VARCHAR(50)             NOT NULL COMMENT '(SKU)图片地址',
     price                   DECIMAL(10,2)           NOT NULL COMMENT '(SKU)价格',
     amount                  INT(10) UNSIGNED        NOT NULL COMMENT '(SKU)数量',
-    product_amount_total    DECIMAL(10,2)           NOT NULL COMMENT '商品总价'
+    total_price             DECIMAL(10,2)           NOT NULL COMMENT '商品总价'
 )DEFAULT CHARSET = utf8mb4 COMMENT = '购物车表';
 
 -- 创建首页轮播图表 sys_index_carousel

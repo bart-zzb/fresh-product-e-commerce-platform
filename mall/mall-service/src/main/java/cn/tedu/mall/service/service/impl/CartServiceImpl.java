@@ -1,21 +1,33 @@
 package cn.tedu.mall.service.service.impl;
 
+import cn.tedu.mall.common.util.CalUtils;
+import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.repository.ICartCacheRepository;
+import cn.tedu.mall.service.dao.repository.IProductSpecsRepository;
 import cn.tedu.mall.service.pojo.dto.CartAddDTO;
+import cn.tedu.mall.service.pojo.po.CartCachePO;
 import cn.tedu.mall.service.pojo.vo.CartCacheVO;
 import cn.tedu.mall.service.pojo.vo.CartTotalVO;
+import cn.tedu.mall.service.pojo.vo.ProductSpecsVO;
 import cn.tedu.mall.service.service.ICartService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
+@Slf4j
 @Primary
 @Service
 public class CartServiceImpl implements ICartService {
     @Autowired
     private ICartCacheRepository cartCacheRepository;
+
+    @Autowired
+    private IProductSpecsRepository productSpecsRepository;
 
     @Override
     public List<CartCacheVO> getCartByUserId(Long userId) {
@@ -24,7 +36,21 @@ public class CartServiceImpl implements ICartService {
 
     @Override
     public void addCart(Long userId, CartAddDTO cartAddDTO) {
-        cartCacheRepository.addCart(userId, cartAddDTO);
+        log.debug("购物车数据缓存入参:userId-{},购物车参数:{}", userId, cartAddDTO);
+
+        ProductSpecsVO productSpecsVO = productSpecsRepository.getProductSpecsById(cartAddDTO.getTbProductSpecId());
+        HashMap<String, String> fieldMap = new HashMap<>();
+        fieldMap.put("ProductName", "tbProductName");
+        fieldMap.put("currentPrice", "price");
+        CartCachePO cartCachePO = PojoConvert.convert(productSpecsVO, CartCachePO.class, fieldMap);
+        cartCachePO.setAmount(cartAddDTO.getAmount());
+        cartCachePO.setTbProductSpecId(cartAddDTO.getTbProductSpecId());
+        cartCachePO.setTbProductChecked(1);
+        cartCachePO.setCreateTime(LocalDateTime.now());
+        cartCachePO.setModifiedTime(LocalDateTime.now());
+        cartCachePO.setProductAmountTotal(CalUtils.calTotal(cartCachePO.getPrice(), cartCachePO.getAmount()));
+
+        cartCacheRepository.addCart(userId, cartCachePO);
     }
 
     @Override
@@ -47,42 +73,9 @@ public class CartServiceImpl implements ICartService {
         return cartCacheRepository.getTotal(userId);
     }
 
-//使用数据库存储方案
-//    @Autowired
-//    private ICartRepository cartRepository;
-//
-//    @Override
-//    public void addCart(CartAddDTO cartAddDTO) {
-//        CartPO cartPO = cartRepository.selectCartByInfo(cartAddDTO.getTbUserId(), cartAddDTO.getTbProductId(), cartAddDTO.getTbProductSpecId());
-//        if(cartPO!=null){
-//            BeanUtils.copyProperties(cartAddDTO, cartPO);
-//            BigDecimal calTotal = CalUtils.calTotal(cartPO.getPrice(), cartPO.getAmount());
-//            cartPO.setProductAmountTotal(calTotal);
-//            cartRepository.saveCart(cartPO);
-//        }else{
-//            //TODO 根据商品id查询相关信息增加到购物车当中
-//        }
-//    }
-//
-//    @Override
-//    public void deleteCartById(Long id) {
-//        cartRepository.deleteCartById(id);
-//    }
-//
-//    @Override
-//    public void updateCartByCartUpdateDTO(CartUpdateDTO cartUpdateDTO) {
-//        CartPO origCartPO = cartRepository.selectCartById(cartUpdateDTO.getId());
-//        if (origCartPO == null){
-//            throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, ServiceConstant.CART_NOT_EXIST);
-//        }
-//        CartPO cartPO = PojoConvert.convert(cartUpdateDTO, CartPO.class);
-//        BigDecimal calTotal = CalUtils.calTotal(origCartPO.getPrice(), cartUpdateDTO.getAmount());
-//        cartPO.setProductAmountTotal(calTotal);
-//        cartRepository.updateCart(cartPO);
-//    }
-//
-//    @Override
-//    public List<CartVO> getCartByUserId(Long userId) {
-//        return cartRepository.selectCartByUserId(userId);
-//    }
+    @Override
+    public CartTotalVO getTotalByAllCheckedChanged(Long userId, boolean currentAllChecked) {
+        return cartCacheRepository.getTotalByAllCheckedChanged(userId, currentAllChecked);
+    }
+
 }

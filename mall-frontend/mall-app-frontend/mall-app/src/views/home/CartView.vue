@@ -16,9 +16,15 @@
       </van-col>
     </van-row>
     <div style="margin: 20px 0 20px 20px;">
-    购物数量 {{ selectCount }}
-    <button v-show="!show" style="margin-left: 220px;" @click="show=true">管理</button>
-    <button v-show="show" style="margin-left: 220px;" @click="show=false">取消</button>
+      <van-row>
+        <van-col span="19">
+          购物数量 {{ selectCount }}
+        </van-col>
+        <van-col span="5">
+          <button v-show="!show" @click="show=true">管理</button>
+          <button v-show="show" @click="show=false">取消</button>
+        </van-col>
+      </van-row>
     </div>
   </div>
 
@@ -26,7 +32,8 @@
   <!--<van-checkbox-group v-model="checked">-->
   <div style="padding-bottom: 80px;padding-top: 150px;z-index: -1;">
     <div v-for="(products, index) in cartProducts" :key="index" style="margin-left:10px;">
-      <van-checkbox :name="products.id" :label="products.id" v-model="products.tbProductChecked" @change="change(index)"
+      <van-checkbox :name="products.id" :label="products.id" v-model="products.tbProductChecked"
+                    @change="change(products.tbProductSpecId, products.tbProductChecked)"
                     style="margin-bottom: 4px;" label-disabled>
         <van-card
             style="width: 330px;"
@@ -36,7 +43,9 @@
             :title="products.specsName"
             :thumb="BASE_URL + products.imgUrl">
           <template #footer>
-            <van-stepper v-model="products.amount" theme="round" button-size="22" @change="change(index)" disable-input/>
+            <van-stepper v-model="products.amount" theme="round" button-size="22"
+                         @change="change(products.tbProductSpecId, products.tbProductChecked)"
+                         disable-input/>
           </template>
         </van-card>
       </van-checkbox>
@@ -98,52 +107,75 @@ const cartProducts = ref([])
 //购物车总价
 const totalPrice = ref(0.00);
 //商品数量
-const selectCount = ref(7);
+const selectCount = ref(0);
+//是否选择全部商品
+const allChecked = ref();
 
-onMounted(()=>{
-  axios.get("mall/cart/get").then((response)=>{
-    if(response.data.state==20000){
+const loadContents = () => {
+  axios.get("mall/cart/get").then((response) => {
+    if (response.data.state == 20000) {
       cartProducts.value = response.data.data;
     }
   })
+};
 
-  axios.get("mall/cart/totalPrice").then((response)=>{
-    if(response.data.state==20000){
-      totalPrice.value = response.data.data.productAmountTotal*100;
+const loadDetails = (showAllChecked) => {
+  axios.get("mall/cart/total").then((response) => {
+    if (response.data.state == 20000) {
+      totalPrice.value = response.data.data.totalPrice * 100;
+      selectCount.value = response.data.data.totalAmount;
+      if (showAllChecked) {
+        allChecked.value = response.data.data.allChecked;
+      }
     }
   })
+}
+
+onMounted(() => {
+  loadContents();
+  loadDetails(true);
 })
-
-
-//是否选择全部商品
-const allChecked = ref(false);
 
 //是否选择全部商品
 const selectAll = (signal) => {
-  if (signal == true) {
-    for (let i = 0; i < cartProducts.value.length; i++) {
-      cartProducts.value[i].tbProductChecked = true;
+  axios.get("mall/cart/allChecked/" + signal).then((response) => {
+    if (response.data.state == 20000) {
+      loadContents();
+      loadDetails(false);
     }
-  } else {
-    for (let i = 0; i < cartProducts.value.length; i++) {
-      cartProducts.value[i].tbProductChecked = false;
-    }
-  }
+  })
+
+  // if (signal == true) {
+  //   for (let i = 0; i < cartProducts.value.length; i++) {
+  //     cartProducts.value[i].tbProductChecked = true;
+  //   }
+  // } else {
+  //   for (let i = 0; i < cartProducts.value.length; i++) {
+  //     cartProducts.value[i].tbProductChecked = false;
+  //   }
+  // }
 }
 
 //商品选择状态改变
-const change = () => {
-  totalPrice.value = 0;
-  selectCount.value = 0;
-  allChecked.value = true;
-  for (let i = 0; i < cartProducts.value.length; i++) {
-    if (cartProducts.value[i].tbProductChecked == true) {
-      totalPrice.value += cartProducts.value[i].price * cartProducts.value[i].amount * 100;
-      selectCount.value += cartProducts.value[i].amount;
-    } else {
-      allChecked.value = false;
+const change = (tbProductSpecId, tbProductChecked) => {
+
+  axios.post("mall/cart/modify_checked/" + tbProductSpecId + "/" + tbProductChecked).then((response) => {
+    if (response.data.state == 20000) {
+      loadContents();
+      loadDetails(true);
     }
-  }
+  })
+  // totalPrice.value = 0;
+  // selectCount.value = 0;
+  // allChecked.value = true;
+  // for (let i = 0; i < cartProducts.value.length; i++) {
+  //   if (cartProducts.value[i].tbProductChecked == true) {
+  //     totalPrice.value += cartProducts.value[i].price * cartProducts.value[i].amount * 100;
+  //     selectCount.value += cartProducts.value[i].amount;
+  //   } else {
+  //     allChecked.value = false;
+  //   }
+  // }
 }
 
 //删除按钮
@@ -154,7 +186,7 @@ const del = () => {
       saveList.push(cartProducts.value[i])
     }
   }
-  if (saveList != cartProducts.value){
+  if (saveList != cartProducts.value) {
     cartProducts.value = saveList;
     change();
   }

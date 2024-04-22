@@ -1,10 +1,8 @@
 package cn.tedu.mall.service.service;
 
 import cn.tedu.mall.service.pojo.dto.CartAddDTO;
-import cn.tedu.mall.service.pojo.dto.CartUpdateDTO;
 import cn.tedu.mall.service.pojo.vo.CartCacheVO;
 import cn.tedu.mall.service.pojo.vo.CartTotalVO;
-import cn.tedu.mall.service.pojo.vo.CartVO;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -23,12 +21,5 @@ public interface ICartService {
 
     CartTotalVO getTotal(Long userId);
 
-//使用数据库存储方案
-//    void addCart(CartAddDTO cartAddDTO);
-//
-//    void deleteCartById(Long id);
-//
-//    void updateCartByCartUpdateDTO(CartUpdateDTO cartUpdateDTO);
-//
-//    List<CartVO> getCartByUserId(Long userId);
+    CartTotalVO getTotalByAllCheckedChanged(Long userId, boolean currentAllChecked);
 }

@@ -213,7 +213,7 @@ INSERT INTO tb_shopping_cart(id,
                              img_url,
                              price,
                              amount,
-                             product_amount_total)
+                             total_price)
 VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 2, 2, '纯手工鲜肉水饺 约300g (15个装)', 1, 6, '韭菜鲜肉馅', 'product/product6.png', 27.50, 3,
         82.50),
        (2, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 2, 2, '纯手工鲜肉水饺 约300g (15个装)', 1, 7, '芹菜鲜肉馅', 'product/product7.png', 27.50, 2,

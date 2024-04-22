@@ -19,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -103,97 +104,44 @@ public class CartController {
      * @return JsonResult.ok()
      */
     @ApiOperation("修改商品状态")
-    @PostMapping("/modify_checked")
+    @PostMapping("/modify_checked/{productSpecId}/{productChecked}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "productSpecId", value = "商品SKUid", required = true, dataType = "Long"),
             @ApiImplicitParam(name = "productChecked", value = "商品SKU选中状态", required = true, dataType = "Integer"),
     })
     public JsonResult updateCartChecked(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal,
-                                 @Range(min = 1, message = "请输入合法的商品id") Long productSpecId,
-                                 @Range(min = 0, max = 1, message = "商品选中状态必须是0~1之间!") Integer productChecked) {
+                                 @PathVariable @Range(min = 1, message = "请输入合法的商品id") Long productSpecId,
+                                 @PathVariable @Range(min = 0, max = 1, message = "商品选中状态必须是0~1之间!") Integer productChecked) {
         log.debug("修改商品状态-入参 用户id:{},商品SKUid:{},商品选中状态:{}", currentPrincipal.getId(), productSpecId, productChecked);
         cartService.modifyChecked(currentPrincipal.getId(), productSpecId, productChecked);
         return JsonResult.ok();
     }
 
     /**
-     * 查询当前用户购物车价格总和
+     * 查询当前用户购物车价格总和以及选中商品总数量
      * @param currentPrincipal 当前用户
      * @return JsonResult.ok(CartTotalVO)
      */
     @ApiOperation("查询当前用户购物车价格总和")
-    @GetMapping("/totalPrice")
+    @GetMapping("/total")
     public JsonResult updateCartChecked(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal) {
-        log.debug("增加商品-入参 用户id:{}", currentPrincipal.getId());
+        log.debug("查询当前用户购物车价格总和-入参 用户id:{}", currentPrincipal.getId());
         CartTotalVO cartTotalVO = cartService.getTotal(currentPrincipal.getId());
         return JsonResult.ok(cartTotalVO);
     }
-//使用数据库存储方案
-//    /**
-//     * 增加购物车
-//     * @param cartAddDTO 商品
-//     * @return JsonResult
-//     */
-//    @ApiOperation("增加购物车")
-//    @PostMapping("/add")
-//    public JsonResult addCart(@Validated CartAddDTO cartAddDTO){
-//        cartService.addCart(cartAddDTO);
-//        return JsonResult.ok();
-//    }
-//
-//    /**
-//     * 删除购物车
-//     * @param id 购物车id
-//     * @return JsonResult
-//     */
-//    @ApiOperation("删除购物车")
-//    @PostMapping("/delete/{id}")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "id",value = "购物车id",required = true,dataType = "Long"),
-//    })
-//    public JsonResult deleteCartById(@PathVariable @NotNull(message = "购物车id不能为空") Long id){
-//        cartService.deleteCartById(id);
-//        return JsonResult.ok();
-//    }
-//
-//    /**
-//     * 更新购物车
-//     * @param cartUpdateDTO 购物车更新DTO
-//     * @return JsonResult
-//     */
-//    @ApiOperation("更新购物车")
-//    @PostMapping("/update")
-//    public JsonResult updateCartByCartUpdateDTO(@Validated CartUpdateDTO cartUpdateDTO){
-//        cartService.updateCartByCartUpdateDTO(cartUpdateDTO);
-//        return JsonResult.ok();
-//    }
-//
-//    /**
-//     * 查询购物车
-//     * @param currentPrincipal 当前用户, userId 用户id
-//     * @return JsonResult(List<CartVO>)
-//     */
-//    @ApiOperation("查询购物车")
-//    @GetMapping("/{userId}")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "userId",value = "用户id",required = true,dataType = "Long"),
-//    })
-//    public JsonResult getCartByUserId(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @PathVariable @NotNull(message = "用户id不能为空") Long userId){
-//        List<CartVO> list =  cartService.getCartByUserId(userId);
-//        return JsonResult.ok(list);
-//    }
-//
-//    /**
-//     * 查询购物车
-//     * @param currentPrincipal 用户id
-//     * @return JsonResult(List<CartVO>)
-//     */
-//    @ApiOperation("根据当前用户查询购物车")
-//    @GetMapping("/get")
-//    public JsonResult getCartByCurrentPrincipal(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal){
-//        List<CartVO> list =  cartService.getCartByUserId(currentPrincipal.getId());
-//        return JsonResult.ok(list);
-//    }
+
+    /**
+     * 修改当前用户购物车所有商品的选中状态
+     * @param currentPrincipal 当前用户
+     * @return JsonResult.ok()
+     */
+    @ApiOperation("修改当前用户购物车所有商品的选中状态")
+    @GetMapping("/allChecked/{currentAllChecked}")
+    public JsonResult getCartAllChecked(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @PathVariable boolean currentAllChecked) {
+        log.debug("修改当前用户购物车所有商品的选中状态-入参 用户id:{} 当前选中状态{}", currentPrincipal.getId(), currentAllChecked);
+        CartTotalVO cartTotalVO = cartService.getTotalByAllCheckedChanged(currentPrincipal.getId(), currentAllChecked);
+        return JsonResult.ok(cartTotalVO);
+    }
 }
 
 

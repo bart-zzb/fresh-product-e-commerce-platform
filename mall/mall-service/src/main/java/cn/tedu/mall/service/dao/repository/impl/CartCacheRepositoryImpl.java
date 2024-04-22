@@ -4,12 +4,9 @@ import cn.tedu.mall.common.constant.RedisConstants;
 import cn.tedu.mall.common.util.CalUtils;
 import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.repository.ICartCacheRepository;
-import cn.tedu.mall.service.dao.repository.IProductSpecsRepository;
-import cn.tedu.mall.service.pojo.dto.CartAddDTO;
 import cn.tedu.mall.service.pojo.po.CartCachePO;
 import cn.tedu.mall.service.pojo.vo.CartCacheVO;
 import cn.tedu.mall.service.pojo.vo.CartTotalVO;
-import cn.tedu.mall.service.pojo.vo.ProductSpecsVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -21,7 +18,6 @@ import org.springframework.util.CollectionUtils;
 import java.io.Serializable;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -31,9 +27,6 @@ import java.util.*;
 public class CartCacheRepositoryImpl implements ICartCacheRepository {
     @Autowired
     private RedisTemplate<String, Serializable> redisTemplate;
-
-    @Autowired
-    private IProductSpecsRepository productSpecsRepository;
 
     private String getCartKey(Long userId) {
         return RedisConstants.KEY_PREFIX_CART + userId + RedisConstants.DATA;
@@ -76,36 +69,21 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
         }
         log.debug("购物车数据转化为PO后的结果:{}", result);
 
-        Collections.sort(result, new Comparator<CartCachePO>() {
+        result.sort(new Comparator<CartCachePO>() {
             @Override
             public int compare(CartCachePO o1, CartCachePO o2) {
                 return o1.getModifiedTime().compareTo(o2.getModifiedTime());
             }
         });
 
-        List<CartCacheVO> cartCacheVOS = PojoConvert.convertList(result, CartCacheVO.class);
-        return cartCacheVOS;
+        return PojoConvert.convertList(result, CartCacheVO.class);
     }
 
     @Override
-    public void addCart(Long userId, CartAddDTO cartAddDTO) {
-        log.debug("购物车数据缓存入参:userId-{},购物车参数:{}", userId, cartAddDTO);
-
+    public void addCart(Long userId, CartCachePO cartCachePO) {
+        log.debug("购物车数据存入缓存:userId-{},购物车数据:{}", userId, cartCachePO);
         //将数据转换成CartCachePO
         HashOperations<String, Object, Object> hashOperations = redisTemplate.opsForHash();
-        ProductSpecsVO productSpecsVO = productSpecsRepository.getProductSpecsById(cartAddDTO.getTbProductSpecId());
-        HashMap<String, String> fieldMap = new HashMap<>();
-        fieldMap.put("ProductName", "tbProductName");
-        fieldMap.put("currentPrice", "price");
-        CartCachePO cartCachePO = PojoConvert.convert(productSpecsVO, CartCachePO.class, fieldMap);
-        cartCachePO.setAmount(cartAddDTO.getAmount());
-        cartCachePO.setTbProductSpecId(cartAddDTO.getTbProductSpecId());
-        cartCachePO.setTbProductChecked(1);
-        cartCachePO.setCreateTime(LocalDateTime.now());
-        cartCachePO.setModifiedTime(LocalDateTime.now());
-        cartCachePO.setProductAmountTotal(CalUtils.calTotal(cartCachePO.getPrice(), cartCachePO.getAmount()));
-
-        log.debug("购物车数据存入缓存:userId-{},购物车数据:{}", userId, cartCachePO);
 
         //大key
         String cartKey = getCartKey(userId);
@@ -132,7 +110,7 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
         String productNumHashKey = getProductNumHashKey(productSpecId);
         String productCheckedHashKey = getProductCheckedHashKey(productSpecId);
         String productInfoHashKey = getProductInfoHashKey(productSpecId);
-        hashOperations.delete(cartKey, productNumHashKey, productCheckedHashKey,productInfoHashKey );
+        hashOperations.delete(cartKey, productNumHashKey, productCheckedHashKey, productInfoHashKey);
     }
 
     @Override
@@ -156,7 +134,9 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
         //通过大key获取所有数据
         Map<String, Object> entries = hashOperations.entries(cartKey);
         //判断数据是否为空
-        BigDecimal total = new BigDecimal("0.00");
+        BigDecimal totalPrice = new BigDecimal("0.00");
+        Integer totalAmount = 0;
+        boolean allChecked = true;
 
         if (!CollectionUtils.isEmpty(entries)) {
             //遍历所有数据,过滤出商品信息
@@ -170,16 +150,33 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
                 }
             });
 
-            for (CartCachePO cartCachePO:result){
-                if(cartCachePO.getTbProductChecked()==1){
-                    total = total.add(cartCachePO.getProductAmountTotal());
+            for (CartCachePO cartCachePO : result) {
+                if (cartCachePO.getTbProductChecked() == 1) {
+                    totalPrice = totalPrice.add(cartCachePO.getProductAmountTotal());
+                    totalAmount += cartCachePO.getAmount();
+                }else {
+                    allChecked = false;
                 }
             }
         }
 
         CartTotalVO cartTotalVO = new CartTotalVO();
-        cartTotalVO.setProductAmountTotal(total);
+        cartTotalVO.setTotalPrice(totalPrice);
+        cartTotalVO.setTotalAmount(totalAmount);
+        cartTotalVO.setAllChecked(allChecked);
         return cartTotalVO;
+    }
+
+    @Override
+    public CartTotalVO getTotalByAllCheckedChanged(Long userId, boolean currentAllChecked) {
+        List<CartCacheVO> cartCacheVOS = listByUser(userId);
+        Integer allChecked = 0;
+        if (currentAllChecked){allChecked = 1;}
+        log.debug("选中状态修改为" + allChecked);
+        for (CartCacheVO cartCacheVO: cartCacheVOS) {
+            updateKeyValue(userId, cartCacheVO.getTbProductSpecId(), null, allChecked);
+        }
+        return getTotal(userId);
     }
 
     private void updateKeyValue(Long userId, Long productSpecId, Integer productNum, Integer productChecked) {
