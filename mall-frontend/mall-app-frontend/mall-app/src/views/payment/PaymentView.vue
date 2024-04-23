@@ -152,8 +152,9 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import router from "@/router";
+import axios from "axios";
 
 const order = ref({
   productCount: 2, totalPrice: 75.8 * 3 + 89.8 * 2, productList: [
@@ -176,6 +177,9 @@ const order = ref({
       productTotalPrice: 98.8 * 2
     },
   ]
+})
+
+onMounted(()=>{
 })
 
 const onBack =()=>{

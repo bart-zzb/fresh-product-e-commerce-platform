@@ -19,6 +19,3 @@
 
 ## 4.数据库设计
 - #### https://k0gvly5pumi.feishu.cn/wiki/XAGZwivodiZ49Hk1OTAclVhenZb
-
-## 5.接口设计
-- #### https://k0gvly5pumi.feishu.cn/wiki/KcvXwRsclitvnMkssp6cGJRlnYd

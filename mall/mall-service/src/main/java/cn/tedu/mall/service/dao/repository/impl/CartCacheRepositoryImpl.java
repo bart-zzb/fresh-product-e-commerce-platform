@@ -1,5 +1,6 @@
 package cn.tedu.mall.service.dao.repository.impl;
 
+import cn.tedu.mall.common.constant.ProductConstants;
 import cn.tedu.mall.common.constant.RedisConstants;
 import cn.tedu.mall.common.util.CalUtils;
 import cn.tedu.mall.common.util.PojoConvert;
@@ -49,7 +50,7 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
         HashOperations<String, String, Object> hashOperations = redisTemplate.opsForHash();
         //大key e_mall_tb_shopping_cart_用户id_data
         String cartKey = getCartKey(userId);
-        //1 一次 通过大key全部查询,用程序来过滤
+        // 一次 通过大key全部查询,用程序来过滤
         //所有商品信息
         List<CartCachePO> result = new ArrayList<>();
         //通过大key获取所有数据
@@ -95,8 +96,14 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
         String productInfoHashKey = getProductInfoHashKey(productSpecId);
 
         Map<String, Object> smallMap = new HashMap<>();
-        smallMap.put(productNumHashKey, cartCachePO.getAmount());
-        smallMap.put(productCheckedHashKey, cartCachePO.getTbProductChecked());
+        Integer amount = (Integer) hashOperations.get(cartKey, productNumHashKey);
+        if(amount!=null){
+            smallMap.put(productNumHashKey, amount + cartCachePO.getAmount());
+            cartCachePO.setAmount(amount + cartCachePO.getAmount());
+        }else{
+            smallMap.put(productNumHashKey, cartCachePO.getAmount());
+        }
+        smallMap.put(productCheckedHashKey, ProductConstants.CHECKED.getValue());
         smallMap.put(productInfoHashKey, cartCachePO);
         hashOperations.putAll(cartKey, smallMap);
     }
@@ -113,7 +120,7 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
             entries.forEach((k, v) -> {
                 if (k.contains(RedisConstants.PRODUCT_CHECKED)) {
                     Object tbProductChecked = entries.get(k);
-                    if(tbProductChecked.equals(1)){
+                    if(tbProductChecked.equals(ProductConstants.CHECKED.getValue())){
                         productSpecIdList.add(Long.valueOf(k.replace(RedisConstants.PRODUCT_CHECKED, "")));
                     }
                 }
@@ -145,7 +152,7 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
         HashOperations<String, String, Object> hashOperations = redisTemplate.opsForHash();
         //大key e_mall_tb_shopping_cart_用户id_data
         String cartKey = getCartKey(userId);
-        //1 一次 通过大key全部查询,用程序来过滤
+        // 一次 通过大key全部查询,用程序来过滤
         //所有商品信息
         List<CartCachePO> result = new ArrayList<>();
         //通过大key获取所有数据
@@ -168,7 +175,7 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
             });
 
             for (CartCachePO cartCachePO : result) {
-                if (cartCachePO.getTbProductChecked() == 1) {
+                if (cartCachePO.getTbProductChecked() == ProductConstants.CHECKED.getValue()) {
                     totalPrice = totalPrice.add(cartCachePO.getProductAmountTotal());
                     totalAmount += cartCachePO.getAmount();
                 }else {
@@ -187,8 +194,8 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
     @Override
     public CartTotalVO getTotalByAllCheckedChanged(Long userId, boolean currentAllChecked) {
         List<CartCacheVO> cartCacheVOS = listByUser(userId);
-        Integer allChecked = 0;
-        if (currentAllChecked){allChecked = 1;}
+        Integer allChecked = ProductConstants.UNCHECKED.getValue();
+        if (currentAllChecked){allChecked = ProductConstants.CHECKED.getValue();}
         log.debug("选中状态修改为" + allChecked);
         for (CartCacheVO cartCacheVO: cartCacheVOS) {
             updateKeyValue(userId, cartCacheVO.getTbProductSpecId(), null, allChecked);

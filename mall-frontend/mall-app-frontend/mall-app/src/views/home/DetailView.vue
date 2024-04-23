@@ -125,7 +125,7 @@
         </div>
         <div style="margin: 15px 20px 0px 20px;">
           <van-button color="#D54431" style="width: 100%;height: 35px;font-size: 18px;border-radius: 50px;"
-                      @click="addCart()">加入购物车
+                      @click="addCart(content.id, num)">加入购物车
           </van-button>
         </div>
 
@@ -194,6 +194,7 @@ import {onMounted, ref} from "vue";
 import router from "@/router";
 import axios from "@/utils/request";
 import {showToast} from "vant";
+import qs from "qs";
 
 const content = ref({imgUrl: ''});
 const discountsTime = ref(30 * 60 * 60 * 1000);
@@ -251,19 +252,25 @@ onMounted(() => {
   })
 })
 
-const addCart = () => {
-  showToast({
-    message: '<div style="font-size: 20px;margin: 20px;">' +
-        '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-passed" style="color:#13DEA5;"></span></div>' +
-        '<div style="text-align: center;">加入购物车成功</div></div>',
-    type: 'html',
-    overlay: true,
-    duration: 1500,
-    'close-on-click-overlay': true
+const addCart = (id, num) => {
+  let add = {tbProductSpecId:id, amount:num};
+  let data = qs.stringify(add);
+  axios.post("/mall/cart/add", data).then((response)=>{
+    if (response.data.state == 20000){
+      showToast({
+        message: '<div style="font-size: 20px;margin: 20px;">' +
+            '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-passed" style="color:#13DEA5;"></span></div>' +
+            '<div style="text-align: center;">加入购物车成功</div></div>',
+        type: 'html',
+        overlay: true,
+        duration: 1500,
+        'close-on-click-overlay': true
+      })
+      setTimeout(() => {
+        showCart.value = false;
+      }, 100);
+    }
   })
-  setTimeout(() => {
-    showCart.value = false;
-  }, 100);
 }
 
 </script>
