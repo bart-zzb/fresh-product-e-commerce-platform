@@ -63,13 +63,12 @@ public class CartController {
      * 根据productSpecId删除当前用户的购物车
      *
      * @param currentPrincipal 当前用户
-     * @param productSpecId    SKU id
      * @return JsonResult.ok()
      */
-    @ApiOperation("删除当前用户的购物车商品")
-    @PostMapping("/delete/{productSpecId}")
-    public JsonResult deleteCart(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @PathVariable @NotNull @Range(min = 1) Long productSpecId) {
-        cartService.deleteCart(currentPrincipal.getId(), productSpecId);
+    @ApiOperation("删除当前用户的购物车选中的商品")
+    @PostMapping("/delete")
+    public JsonResult deleteCart(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal) {
+        cartService.deleteCart(currentPrincipal.getId());
         return JsonResult.ok();
     }
 
@@ -83,14 +82,14 @@ public class CartController {
      * @return JsonResult.ok()
      */
     @ApiOperation("修改商品数量")
-    @PostMapping("/modify_amount")
+    @PostMapping("/modify_amount/{productSpecId}/{productNum}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "productSpecId", value = "商品SKUid", required = true, dataType = "Long"),
             @ApiImplicitParam(name = "productNum", value = "商品SKU数量", required = true, dataType = "Integer"),
     })
     public JsonResult updateCartAmount(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal,
-                                 @Range(min = 1, message = "请输入合法的商品id") Long productSpecId,
-                                 @Range(min = 1, max = 100, message = "商品数量必须是1~100之间!") Integer productNum) {
+                                 @PathVariable @Range(min = 1, message = "请输入合法的商品id") Long productSpecId,
+                                 @PathVariable @Range(min = 1, max = 100, message = "商品数量必须是1~100之间!") Integer productNum) {
         log.debug("修改商品数量-入参 用户id:{},商品SKUid:{},商品数量:{}", currentPrincipal.getId(), productSpecId, productNum);
         cartService.modifyAmount(currentPrincipal.getId(), productSpecId, productNum);
         return JsonResult.ok();
@@ -133,6 +132,7 @@ public class CartController {
     /**
      * 修改当前用户购物车所有商品的选中状态
      * @param currentPrincipal 当前用户
+     * @param currentAllChecked 当前选中状态
      * @return JsonResult.ok()
      */
     @ApiOperation("修改当前用户购物车所有商品的选中状态")

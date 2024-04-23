@@ -11,7 +11,7 @@ public interface ICartCacheRepository {
 
     void addCart(Long userId, CartCachePO cartCachePO);
 
-    void deleteCart(Long id, Long productSpecId);
+    void deleteCart(Long id);
 
     void modifyAmount(Long id, Long productSpecId, Integer productNum);
 

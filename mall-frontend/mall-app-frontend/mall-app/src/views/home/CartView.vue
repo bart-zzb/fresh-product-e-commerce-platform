@@ -33,7 +33,7 @@
   <div style="padding-bottom: 80px;padding-top: 150px;z-index: -1;">
     <div v-for="(products, index) in cartProducts" :key="index" style="margin-left:10px;">
       <van-checkbox :name="products.id" :label="products.id" v-model="products.tbProductChecked"
-                    @change="change(products.tbProductSpecId, products.tbProductChecked)"
+                    @change="changeChecked(products.tbProductSpecId, products.tbProductChecked)"
                     style="margin-bottom: 4px;" label-disabled>
         <van-card
             style="width: 330px;"
@@ -44,7 +44,7 @@
             :thumb="BASE_URL + products.imgUrl">
           <template #footer>
             <van-stepper v-model="products.amount" theme="round" button-size="22"
-                         @change="change(products.tbProductSpecId, products.tbProductChecked)"
+                         @change="changeAmount(products.tbProductSpecId, products.amount)"
                          disable-input/>
           </template>
         </van-card>
@@ -61,7 +61,7 @@
   </van-submit-bar>
   <van-submit-bar v-show="show"
                   style="margin-bottom: 80px;"
-                  button-text="删除" @submit="del">
+                  button-text="删除" @submit="del()">
     <van-checkbox style="margin-right: 180px;width: 100px;" v-model="allChecked" @toggle="selectAll(allChecked)">
       全选({{ selectCount }})
     </van-checkbox>
@@ -77,33 +77,7 @@ import axios from "@/utils/request";
 const show = ref(false);
 
 const cartProducts = ref([])
-// const cartProducts = ref([{
-//   id: 1,
-//   num: 2,
-//   price: 13.9,
-//   desc: '规格:300g/2份起售',
-//   title: '五花肉 300g/份',
-//   imageUrl: '/imgs/detail/detail1.jpg',
-//   checked: false
-// },
-//   {
-//     id: 2,
-//     num: 3,
-//     price: 49.6,
-//     desc: '规格:500g/2份起售',
-//     title: '牛扒 500g/份',
-//     imageUrl: '/imgs/product/product5.png',
-//     checked: false
-//   },
-//   {
-//     id: 3,
-//     num: 2,
-//     price: 13.9,
-//     desc: '规格:300g/2份起售',
-//     title: '五花肉 300g/份',
-//     imageUrl: '/imgs/detail/detail1.jpg',
-//     checked: false
-//   }]);
+
 //购物车总价
 const totalPrice = ref(0.00);
 //商品数量
@@ -144,52 +118,40 @@ const selectAll = (signal) => {
       loadDetails(false);
     }
   })
-
-  // if (signal == true) {
-  //   for (let i = 0; i < cartProducts.value.length; i++) {
-  //     cartProducts.value[i].tbProductChecked = true;
-  //   }
-  // } else {
-  //   for (let i = 0; i < cartProducts.value.length; i++) {
-  //     cartProducts.value[i].tbProductChecked = false;
-  //   }
-  // }
 }
 
 //商品选择状态改变
-const change = (tbProductSpecId, tbProductChecked) => {
-
-  axios.post("mall/cart/modify_checked/" + tbProductSpecId + "/" + tbProductChecked).then((response) => {
+const changeChecked = (tbProductSpecId, tbProductChecked) => {
+  let checked = 0
+  if(tbProductChecked==true){
+    checked = 1
+  }
+  axios.post("mall/cart/modify_checked/" + tbProductSpecId + "/" + checked).then((response) => {
     if (response.data.state == 20000) {
       loadContents();
       loadDetails(true);
     }
   })
-  // totalPrice.value = 0;
-  // selectCount.value = 0;
-  // allChecked.value = true;
-  // for (let i = 0; i < cartProducts.value.length; i++) {
-  //   if (cartProducts.value[i].tbProductChecked == true) {
-  //     totalPrice.value += cartProducts.value[i].price * cartProducts.value[i].amount * 100;
-  //     selectCount.value += cartProducts.value[i].amount;
-  //   } else {
-  //     allChecked.value = false;
-  //   }
-  // }
+}
+
+//商品数量改变
+const changeAmount = (tbProductSpecId, amount) => {
+  axios.post("mall/cart/modify_amount/" + tbProductSpecId + "/" + amount).then((response) => {
+    if (response.data.state == 20000) {
+      loadContents();
+      loadDetails(true);
+    }
+  })
 }
 
 //删除按钮
 const del = () => {
-  let saveList = [];
-  for (let i = 0; i < cartProducts.value.length; i++) {
-    if (cartProducts.value[i].tbProductChecked == false) {
-      saveList.push(cartProducts.value[i])
+  axios.post("mall/cart/delete").then((response)=>{
+    if (response.data.state == 20000) {
+      loadContents();
+      loadDetails(true);
     }
-  }
-  if (saveList != cartProducts.value) {
-    cartProducts.value = saveList;
-    change();
-  }
+  })
 }
 
 const onSubmit = () => {

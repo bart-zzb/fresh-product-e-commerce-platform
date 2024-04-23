@@ -13,7 +13,7 @@ public interface ICartService {
 
     void addCart(Long userId, CartAddDTO cartAddDTO);
 
-    void deleteCart(Long userId, Long productSpecId);
+    void deleteCart(Long userId);
 
     void modifyAmount(Long userId, Long productSpecId, Integer productNum);
 

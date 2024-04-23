@@ -102,15 +102,32 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
     }
 
     @Override
-    public void deleteCart(Long userId, Long productSpecId) {
+    public void deleteCart(Long userId) {
         HashOperations<String, String, Object> hashOperations = redisTemplate.opsForHash();
         //获取大key
         String cartKey = getCartKey(userId);
-        //获取三个小key
-        String productNumHashKey = getProductNumHashKey(productSpecId);
-        String productCheckedHashKey = getProductCheckedHashKey(productSpecId);
-        String productInfoHashKey = getProductInfoHashKey(productSpecId);
-        hashOperations.delete(cartKey, productNumHashKey, productCheckedHashKey, productInfoHashKey);
+        List<Long> productSpecIdList = new ArrayList<>();
+        Map<String, Object> entries = hashOperations.entries(cartKey);
+        if (!CollectionUtils.isEmpty(entries)) {
+            //遍历所有数据,过滤选中商品的信息
+            entries.forEach((k, v) -> {
+                if (k.contains(RedisConstants.PRODUCT_CHECKED)) {
+                    Object tbProductChecked = entries.get(k);
+                    if(tbProductChecked.equals(1)){
+                        productSpecIdList.add(Long.valueOf(k.replace(RedisConstants.PRODUCT_CHECKED, "")));
+                    }
+                }
+            });
+        }
+
+        if (!CollectionUtils.isEmpty(productSpecIdList)){
+            for (Long productSpecId:productSpecIdList) {
+                String productNumHashKey = getProductNumHashKey(productSpecId);
+                String productCheckedHashKey = getProductCheckedHashKey(productSpecId);
+                String productInfoHashKey = getProductInfoHashKey(productSpecId);
+                hashOperations.delete(cartKey, productNumHashKey, productCheckedHashKey, productInfoHashKey);
+            }
+        }
     }
 
     @Override

@@ -54,8 +54,8 @@ public class CartServiceImpl implements ICartService {
     }
 
     @Override
-    public void deleteCart(Long userId, Long productSpecId) {
-        cartCacheRepository.deleteCart(userId, productSpecId);
+    public void deleteCart(Long userId) {
+        cartCacheRepository.deleteCart(userId);
     }
 
     @Override
