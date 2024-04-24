@@ -61,20 +61,21 @@
       />
 
       <van-swipe-cell v-for="(item,index) in order.productList">
-            <van-card
-                :num="item.productCount"
-                :price="item.productUnitPrice"
-                :desc="item.productDescription"
-                :title="item.productName"
-                class="goods-card"
-                :thumb="item.productImgUrl"
-            />
+        <van-card
+            :num="item.amount"
+            :price="item.price"
+            :desc="item.tbProductName"
+            :title="item.specsName"
+            class="goods-card"
+            :thumb="BASE_URL + item.imgUrl"
+        />
       </van-swipe-cell>
 
     </div>
 
     <!-- 优惠券模块 -->
-    <div style="margin-top: 10px;background-color: #fff;border-top-left-radius: 15px;border-top-right-radius: 15px;padding-top: 4px;">
+    <div
+        style="margin-top: 10px;background-color: #fff;border-top-left-radius: 15px;border-top-right-radius: 15px;padding-top: 4px;">
       <van-cell title="优惠券"
                 style="text-align: left;
                 --van-cell-font-size:18px;
@@ -92,7 +93,7 @@
                 --van-cell-font-size:18px;
                 --van-cell-horizontal-padding:30px;
                 --van-cell-icon-size:20px;"
-                />
+      />
 
       <!-- 分割线 -->
       <van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0', margin:'0' }"/>
@@ -122,11 +123,11 @@
       />
 
       <!-- 支付模块 -->
-        <van-radio-group v-model="payChecked" direction="horizontal" style="margin-left: 50px;padding-bottom: 10px;">
-          <van-radio name="alipay">支付宝</van-radio>
-          <van-radio name="wechatpay">微信支付</van-radio>
-          <van-radio name="bankcard">余额:{{balance}}</van-radio>
-        </van-radio-group>
+      <van-radio-group v-model="payChecked" direction="horizontal" style="margin-left: 50px;padding-bottom: 10px;">
+        <van-radio name="alipay">支付宝</van-radio>
+        <van-radio name="wechatpay">微信支付</van-radio>
+        <van-radio name="bankcard">余额:{{ balance }}</van-radio>
+      </van-radio-group>
 
     </div>
   </div>
@@ -143,7 +144,8 @@
         </p>
       </van-col>
       <van-col span="12" style="margin:8px auto;">
-        <van-button color="#D54431" style="width:100%;height: 45px;font-size: 20px;border-radius: 50px;" >立即结算
+        <van-button color="#D54431" style="width:100%;height: 45px;font-size: 20px;border-radius: 50px;"
+                    @click="submit()">立即结算
         </van-button>
       </van-col>
     </van-row>
@@ -154,41 +156,90 @@
 <script setup>
 import {onMounted, ref} from "vue";
 import router from "@/router";
-import axios from "axios";
+import axios from "@/utils/request";
+import {showToast} from "vant";
+import qs from "qs";
 
 const order = ref({
-  productCount: 2, totalPrice: 75.8 * 3 + 89.8 * 2, productList: [
-    {
-      checked: true,
-      productName: "肥牛",
-      productImgUrl: "/imgs/product/product6.png",
-      productDescription: "500g/份",
-      productUnitPrice: 75.8,
-      productCount: 3,
-      productTotalPrice: 75.8 * 3
-    },
-    {
-      checked: true,
-      productName: "吊龙",
-      productImgUrl: "/imgs/product/product8.png",
-      productDescription: "500g/份",
-      productUnitPrice: 89.8,
-      productCount: 2,
-      productTotalPrice: 98.8 * 2
-    },
-  ]
+  // productCount: 2, totalPrice: 75.8 * 3 + 89.8 * 2, productList: [
+  //   {
+  //     productName: "肥牛",
+  //     productImgUrl: "/imgs/product/product6.png",
+  //     productDescription: "500g/份",
+  //     productUnitPrice: 75.8,
+  //     productCount: 3,
+  //     productTotalPrice: 75.8 * 3
+  //   },
+  //   {
+  //     productName: "吊龙",
+  //     productImgUrl: "/imgs/product/product8.png",
+  //     productDescription: "500g/份",
+  //     productUnitPrice: 89.8,
+  //     productCount: 2,
+  //     productTotalPrice: 98.8 * 2
+  //   },
+  // ]
+  productCount: 0, totalPrice: 0, productList: []
 })
 
-onMounted(()=>{
+onMounted(() => {
+  axios.get("mall/cart/get/allChecked").then((response) => {
+    if (response.data.state == 20000) {
+      order.value.productList = response.data.data;
+      axios.get("mall/cart/total").then((response) => {
+        if (response.data.state == 20000) {
+          order.value.totalPrice = response.data.data.totalPrice;
+          order.value.productCount = response.data.data.totalAmount;
+        }
+      })
+    }
+  })
 })
 
-const onBack =()=>{
-    router.push("/cart");
+const onBack = () => {
+  router.push("/cart");
 }
 
-const payChecked= ref();
+const payChecked = ref();
 
 const balance = ref(153.65);
+
+const submit = () => {
+  axios.post("mall/cart/delete").then((response) => {
+    if (response.data.state == 20000) {
+    }
+  })
+  let productSpecDeleteDTOS = [];
+  for (let i = 0; i < order.value.productList.length; i++) {
+    productSpecDeleteDTOS.push({tbProductSpecId: order.value.productList[i].tbProductSpecId,
+                amount: order.value.productList[i].amount})
+  }
+  axios  ({
+    method: "post",
+    headers: {
+      'Content-Type':'application/json',
+    },
+    dataType:"json",
+    data: JSON.stringify(productSpecDeleteDTOS),
+    url: "mall/product_specs/modify"
+  }).then((response) => {
+    if (response.data.state == 20000) {
+      showToast({
+        message: '<div style="font-size: 20px;margin: 20px;">' +
+            '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-success" style="color:#13DEA5;"></span></div>' +
+            '<div style="text-align: center;">支付成功</div></div>',
+        type: 'html',
+        overlay: true,
+        duration: 1500,
+        'close-on-click-overlay': true
+      })
+      setTimeout(() => {
+        router.push('/personal');
+      }, 1000);
+    }
+  })
+}
+
 </script>
 
 <style scoped>
@@ -221,8 +272,8 @@ const balance = ref(153.65);
 
 /*修改cell所有label的font-size*/
 .van-cell
-    ::v-deep .van-cell__title{
-    font-size: 18px;
-  }
+::v-deep .van-cell__title {
+  font-size: 18px;
+}
 
 </style>

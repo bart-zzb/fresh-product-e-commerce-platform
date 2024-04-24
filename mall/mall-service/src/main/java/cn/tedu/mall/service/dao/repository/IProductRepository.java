@@ -11,4 +11,6 @@ public interface IProductRepository{
     int deleteProductById(Long id);
 
     ProductVO getProductById(Long id);
+
+    void modifyProductSales(Long productId, Integer amount);
 }

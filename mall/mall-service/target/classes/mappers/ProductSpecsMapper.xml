@@ -40,4 +40,10 @@
         WHERE cat.id = #{id}
 
     </select>
+
+    <select id="selectProductIdByProductSpecsId" resultType="cn.tedu.mall.service.pojo.bo.ProductSpecsBO">
+        SELECT tb_product_id
+        FROM e_mall.tb_product_specs
+        WHERE id = #{id}
+    </select>
 </mapper>

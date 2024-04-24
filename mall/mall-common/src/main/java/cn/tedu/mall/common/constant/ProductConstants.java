@@ -1,18 +1,16 @@
 package cn.tedu.mall.common.constant;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum ProductConstants {
-    //商品选中
-    CHECKED(1),
-    //商品未选中
-    UNCHECKED(0);
+    CHECKED(1, "商品选中"),
+
+    UNCHECKED(0 , "商品未选中");
 
     private Integer value;
 
-    ProductConstants(Integer value) {
-        this.value = value;
-    }
-
-    public Integer getValue() {
-        return value;
-    }
+    private String description;
 }

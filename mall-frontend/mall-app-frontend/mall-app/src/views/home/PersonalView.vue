@@ -124,7 +124,7 @@
 import {ref} from "vue";
 
 const user = ref(
-    {nickname:"五里雾", memberType:"超级会员",id:"20451",phone:"绑定手机",balance:"153.65",couponsCount:"2"}
+    {nickname:"xiaoy", memberType:"超级会员",id:"20451",phone:"绑定手机",balance:"153.65",couponsCount:"2"}
 )
 </script>
 

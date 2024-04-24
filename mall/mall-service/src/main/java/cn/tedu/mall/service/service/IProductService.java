@@ -4,7 +4,7 @@ import cn.tedu.mall.service.pojo.dto.ProductAddDTO;
 import cn.tedu.mall.service.pojo.vo.ProductVO;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public interface IProductService {
     void addProduct(ProductAddDTO productAddDTO);
 

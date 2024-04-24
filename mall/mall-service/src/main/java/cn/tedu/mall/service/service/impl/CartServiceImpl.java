@@ -78,4 +78,9 @@ public class CartServiceImpl implements ICartService {
         return cartCacheRepository.getTotalByAllCheckedChanged(userId, currentAllChecked);
     }
 
+    @Override
+    public List<CartCacheVO> getCheckedCartByUserId(Long userId) {
+        return cartCacheRepository.listCheckedByUserId(userId);
+    }
+
 }

@@ -47,6 +47,10 @@ spring:
     resources:
       static-locations: file:${file-path}, classpath:static
 
+  redis:
+    host: localhost
+    port: 6379
+
 file-path: d:/files/e_mall/imgs/
 
 #Base-url: http://localhost:8080/

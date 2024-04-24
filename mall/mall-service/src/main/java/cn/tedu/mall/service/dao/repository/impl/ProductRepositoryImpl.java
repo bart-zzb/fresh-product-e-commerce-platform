@@ -36,4 +36,11 @@ public class ProductRepositoryImpl implements IProductRepository {
     public ProductVO getProductById(Long id) {
         return productMapper.selectProductById(id);
     }
+
+    @Override
+    public void modifyProductSales(Long productId, Integer amount) {
+        ProductPO productPO = productMapper.selectById(productId);
+        productPO.setSales(productPO.getSales()+amount);
+        productMapper.updateById(productPO);
+    }
 }

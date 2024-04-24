@@ -3,11 +3,15 @@ package cn.tedu.mall.service.service.impl;
 import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.common.web.PageData;
 import cn.tedu.mall.service.dao.repository.ICategoryRepository;
+import cn.tedu.mall.service.dao.repository.IProductRepository;
 import cn.tedu.mall.service.dao.repository.IProductSpecsRepository;
+import cn.tedu.mall.service.pojo.bo.ProductSpecsBO;
+import cn.tedu.mall.service.pojo.dto.ProductSpecDeleteDTO;
 import cn.tedu.mall.service.pojo.po.CategoryPO;
 import cn.tedu.mall.service.pojo.vo.ProductSpecsTreeVO;
 import cn.tedu.mall.service.pojo.vo.ProductSpecsVO;
 import cn.tedu.mall.service.service.IProductSpecsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -17,11 +21,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Primary
 @Service
 public class ProductSpecsServiceImpl implements IProductSpecsService {
     @Autowired
     private IProductSpecsRepository productSpecsRepository;
+
+    @Autowired
+    private IProductRepository productRepository;
 
     @Autowired
     private ICategoryRepository categoryRepository;
@@ -40,7 +48,7 @@ public class ProductSpecsServiceImpl implements IProductSpecsService {
     public List<ProductSpecsTreeVO> getProductSpecsTree() {
         List<CategoryPO> topCategoryPO = categoryRepository.getCategoryListByParentId(0L);
         Map<String, String> map = new HashMap<>();
-        map.put("categoryName","text");
+        map.put("categoryName", "text");
         List<ProductSpecsTreeVO> topCategoryTreeVOS = PojoConvert.convertList(topCategoryPO, ProductSpecsTreeVO.class, map);
         List<CategoryPO> all = categoryRepository.getAll();
 
@@ -48,6 +56,19 @@ public class ProductSpecsServiceImpl implements IProductSpecsService {
             appendChild(topVo, all);
         }
         return topCategoryTreeVOS;
+    }
+
+    @Override
+    public void deleteProductSpecsAmount(Long id, List<ProductSpecDeleteDTO> productSpecDeleteDTOS) {
+        log.debug("当前用户" + id);
+        if(!productSpecDeleteDTOS.isEmpty()){
+            for (ProductSpecDeleteDTO productSpecDeleteDTO : productSpecDeleteDTOS) {
+                log.debug("入参{}", productSpecDeleteDTOS);
+                productSpecsRepository.deleteProductSpecsAmountByIdAndAmount(productSpecDeleteDTO.getTbProductSpecId(), productSpecDeleteDTO.getAmount());
+                ProductSpecsBO productSpecsBO = productSpecsRepository.getProductIdByProductSpecsId(productSpecDeleteDTO.getTbProductSpecId());
+                productRepository.modifyProductSales(productSpecsBO.getTbProductId(), productSpecDeleteDTO.getAmount());
+            }
+        }
     }
 
     //递归方法
@@ -64,7 +85,7 @@ public class ProductSpecsServiceImpl implements IProductSpecsService {
             }
         }
         vo.setChildren(children);
-        vo.setProductSpecsList(getProductSpecsByCategoryId(vo.getId(),1,Integer.MAX_VALUE).getList());
+        vo.setProductSpecsList(getProductSpecsByCategoryId(vo.getId(), 1, Integer.MAX_VALUE).getList());
         return vo;
     }
 }

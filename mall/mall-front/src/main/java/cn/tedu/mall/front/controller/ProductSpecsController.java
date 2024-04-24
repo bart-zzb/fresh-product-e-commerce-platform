@@ -1,7 +1,10 @@
 package cn.tedu.mall.front.controller;
 
+import cn.tedu.mall.common.annotation.CurrentUser;
 import cn.tedu.mall.common.web.JsonResult;
 import cn.tedu.mall.common.web.PageData;
+import cn.tedu.mall.service.pojo.authentication.CurrentPrincipal;
+import cn.tedu.mall.service.pojo.dto.ProductSpecDeleteDTO;
 import cn.tedu.mall.service.pojo.vo.ProductSpecsTreeVO;
 import cn.tedu.mall.service.pojo.vo.ProductSpecsVO;
 import cn.tedu.mall.service.service.IProductSpecsService;
@@ -14,6 +17,7 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -43,14 +47,22 @@ public class ProductSpecsController {
     })
     public JsonResult getProductSpecsByCategoryId(@PathVariable @NotNull Long id, @Range(min = 1) @RequestParam Integer pageNum, @RequestParam @Range(min = 1) Integer pageSize) {
         PageData<ProductSpecsVO> pageData = productSpecsService.getProductSpecsByCategoryId(id, pageNum, pageSize);
-        log.debug("pageData:"+pageData);
+        log.debug("pageData:" + pageData);
         return JsonResult.ok(pageData);
     }
 
     @ApiOperation("根据商品分类树包含商品SKU")
     @GetMapping("/tree")
-    public JsonResult getProductSpecsTree(){
+    public JsonResult getProductSpecsTree() {
         List<ProductSpecsTreeVO> list = productSpecsService.getProductSpecsTree();
         return JsonResult.ok(list);
+    }
+
+    @ApiOperation("删除商品的库存")
+    @PostMapping("/modify")
+    public JsonResult deleteProductSpecsAmount(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @Validated @RequestBody List<ProductSpecDeleteDTO> productSpecDeleteDTOS) {
+        log.debug("入参" + productSpecDeleteDTOS);
+        productSpecsService.deleteProductSpecsAmount(currentPrincipal.getId(), productSpecDeleteDTOS);
+        return JsonResult.ok();
     }
 }

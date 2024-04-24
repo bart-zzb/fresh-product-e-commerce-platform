@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public interface ICartService {
     List<CartCacheVO> getCartByUserId(Long userId);
 
@@ -22,4 +22,6 @@ public interface ICartService {
     CartTotalVO getTotal(Long userId);
 
     CartTotalVO getTotalByAllCheckedChanged(Long userId, boolean currentAllChecked);
+
+    List<CartCacheVO> getCheckedCartByUserId(Long userid);
 }

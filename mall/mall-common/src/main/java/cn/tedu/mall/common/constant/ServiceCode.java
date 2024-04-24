@@ -1,8 +1,13 @@
 package cn.tedu.mall.common.constant;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 业务状态码
  */
+@AllArgsConstructor
+@Getter
 public enum ServiceCode {
 
     /**
@@ -80,24 +85,12 @@ public enum ServiceCode {
     /**
      * 错误：其它异常
      */
-    ERROR_UNKNOWN(99999);
+    ERROR_UNKNOWN(99999),
 
+    ERROR_STOCK_NO_ENOUGH(30000);
     /**
      * 枚举对象的值
      */
-    private Integer value;
-
-    ServiceCode(Integer value) {
-        this.value = value;
-    }
-
-    /**
-     * 获取枚举对象的值
-     *
-     * @return 枚举对象的值
-     */
-    public Integer getValue() {
-        return value;
-    }
+    private final Integer value;
 
 }

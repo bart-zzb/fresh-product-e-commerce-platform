@@ -24,4 +24,5 @@ public class ServiceConstant {
     public static final String BRAND_NOT_EXIST = "品牌不存在";
 
     public static final String ERROR_USERNAME_PASSWORD = "用户名或密码错误";
+    public static final String PRODUCT_STOCK_NO_ENOUGH = "购买数量超过库存";
 }

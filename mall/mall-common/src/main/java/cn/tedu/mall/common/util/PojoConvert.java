@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
  */
 public class PojoConvert {
 
-
     public static <T>T convert(Object o, Class<T> cls){
         T t = null;
         try {
@@ -93,7 +92,6 @@ public class PojoConvert {
                     e.printStackTrace();
                 }
             }
-
             return exportVo;
         }).collect(Collectors.toList());
     }

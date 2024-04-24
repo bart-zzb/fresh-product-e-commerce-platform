@@ -19,8 +19,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Api(tags = "购物车模块")
@@ -141,6 +139,18 @@ public class CartController {
         log.debug("修改当前用户购物车所有商品的选中状态-入参 用户id:{} 当前选中状态{}", currentPrincipal.getId(), currentAllChecked);
         CartTotalVO cartTotalVO = cartService.getTotalByAllCheckedChanged(currentPrincipal.getId(), currentAllChecked);
         return JsonResult.ok(cartTotalVO);
+    }
+
+    /**
+     * 根据当前用户查询当前购物车已选中的所有商品
+     * @param currentPrincipal 用户id
+     * @return JsonResult(List < CartVO >)
+     */
+    @ApiOperation("根据当前用户查询当前购物车已选中的所有商品")
+    @GetMapping("/get/allChecked")
+    public JsonResult getCheckedCartByCurrentPrincipal(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal) {
+        List<CartCacheVO> list = cartService.getCheckedCartByUserId(currentPrincipal.getId());
+        return JsonResult.ok(list);
     }
 }
 

@@ -20,4 +20,6 @@ public interface ICartCacheRepository {
     CartTotalVO getTotal(Long userId);
 
     CartTotalVO getTotalByAllCheckedChanged(Long userId, boolean currentAllChecked);
+
+    List<CartCacheVO> listCheckedByUserId(Long userId);
 }

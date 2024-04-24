@@ -9,11 +9,9 @@ import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CartAddDTO implements Serializable {
-
+public class ProductSpecDeleteDTO implements Serializable {
     @NotNull(message = "SKU id不能为空")
     @ApiModelProperty(value = "SKU id",required = true,dataType = "Long")
     Long tbProductSpecId;

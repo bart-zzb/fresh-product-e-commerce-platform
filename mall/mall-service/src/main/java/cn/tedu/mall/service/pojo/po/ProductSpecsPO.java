@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("e_mall.tb_product")
+@TableName("e_mall.tb_product_specs")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductSpecsPO implements Serializable {
     @TableId(type = IdType.AUTO)

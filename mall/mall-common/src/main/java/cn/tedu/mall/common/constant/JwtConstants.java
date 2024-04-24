@@ -36,9 +36,9 @@ public class JwtConstants {
 
     public static final String SHOP_ID = "shopId";
 
-
     public static final String USER_ID = "id";
 
     public static final String PHONE = "phone";
+
     public static final String USER_NAME = "username";
 }

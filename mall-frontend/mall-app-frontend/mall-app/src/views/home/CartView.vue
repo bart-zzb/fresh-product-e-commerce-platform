@@ -73,6 +73,7 @@
 import {onMounted, ref} from "vue";
 import router from "@/router";
 import axios from "@/utils/request";
+import {showToast} from "vant";
 
 const show = ref(false);
 
@@ -83,7 +84,7 @@ const totalPrice = ref(0.00);
 //商品数量
 const selectCount = ref(0);
 //是否选择全部商品
-const allChecked = ref();
+const allChecked = ref(false);
 
 const loadContents = () => {
   axios.get("mall/cart/get").then((response) => {
@@ -155,7 +156,25 @@ const del = () => {
 }
 
 const onSubmit = () => {
-  router.push("/payment");
+  axios.get("mall/cart/get/allChecked").then((response)=>{
+    if(response.data.state == 20000){
+      let tempList = response.data.data;
+      if (tempList.length==0){
+        showToast({
+          message: '<div style="font-size: 20px;margin: 20px;">' +
+              '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-fail" style="color:#13DEA5;"></span></div>' +
+              '<div style="text-align: center;">未选择任何商品</div></div>',
+          type: 'html',
+          overlay: true,
+          duration: 1500,
+          'close-on-click-overlay': true
+        })
+      }else{
+        router.push("/payment");
+      }
+    }
+  })
+
 }
 
 </script>

@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public interface IOrderService {
     void addOrder(OrderAddDTO orderAddDTO);
 

@@ -24,5 +24,4 @@ public class PageInfoToPageDataConverter {
                 .setList(pageInfo.getList());
         return pageData;
     }
-
 }

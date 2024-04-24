@@ -47,37 +47,7 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
 
     @Override
     public List<CartCacheVO> listByUser(Long userId) {
-        HashOperations<String, String, Object> hashOperations = redisTemplate.opsForHash();
-        //大key e_mall_tb_shopping_cart_用户id_data
-        String cartKey = getCartKey(userId);
-        // 一次 通过大key全部查询,用程序来过滤
-        //所有商品信息
-        List<CartCachePO> result = new ArrayList<>();
-        //通过大key获取所有数据
-        Map<String, Object> entries = hashOperations.entries(cartKey);
-        //判断数据是否为空
-        if (!CollectionUtils.isEmpty(entries)) {
-            //遍历所有数据,过滤出商品信息
-            //过滤条件是 hash_key 是否包含 "_product_info"
-            entries.forEach((k, v) -> {
-                if (k.contains(RedisConstants.PRODUCT_INFO)) {
-                    //商品信息
-                    CartCachePO cartCachePO = (CartCachePO) v;
-                    //放到所有商品信息的list
-                    result.add(cartCachePO);
-                }
-            });
-        }
-        log.debug("购物车数据转化为PO后的结果:{}", result);
-
-        result.sort(new Comparator<CartCachePO>() {
-            @Override
-            public int compare(CartCachePO o1, CartCachePO o2) {
-                return o1.getModifiedTime().compareTo(o2.getModifiedTime());
-            }
-        });
-
-        return PojoConvert.convertList(result, CartCacheVO.class);
+        return listCartByUserId(userId, null);
     }
 
     @Override
@@ -97,10 +67,10 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
 
         Map<String, Object> smallMap = new HashMap<>();
         Integer amount = (Integer) hashOperations.get(cartKey, productNumHashKey);
-        if(amount!=null){
+        if (amount != null) {
             smallMap.put(productNumHashKey, amount + cartCachePO.getAmount());
             cartCachePO.setAmount(amount + cartCachePO.getAmount());
-        }else{
+        } else {
             smallMap.put(productNumHashKey, cartCachePO.getAmount());
         }
         smallMap.put(productCheckedHashKey, ProductConstants.CHECKED.getValue());
@@ -120,15 +90,15 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
             entries.forEach((k, v) -> {
                 if (k.contains(RedisConstants.PRODUCT_CHECKED)) {
                     Object tbProductChecked = entries.get(k);
-                    if(tbProductChecked.equals(ProductConstants.CHECKED.getValue())){
+                    if (tbProductChecked.equals(ProductConstants.CHECKED.getValue())) {
                         productSpecIdList.add(Long.valueOf(k.replace(RedisConstants.PRODUCT_CHECKED, "")));
                     }
                 }
             });
         }
 
-        if (!CollectionUtils.isEmpty(productSpecIdList)){
-            for (Long productSpecId:productSpecIdList) {
+        if (!CollectionUtils.isEmpty(productSpecIdList)) {
+            for (Long productSpecId : productSpecIdList) {
                 String productNumHashKey = getProductNumHashKey(productSpecId);
                 String productCheckedHashKey = getProductCheckedHashKey(productSpecId);
                 String productInfoHashKey = getProductInfoHashKey(productSpecId);
@@ -178,7 +148,7 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
                 if (cartCachePO.getTbProductChecked() == ProductConstants.CHECKED.getValue()) {
                     totalPrice = totalPrice.add(cartCachePO.getProductAmountTotal());
                     totalAmount += cartCachePO.getAmount();
-                }else {
+                } else {
                     allChecked = false;
                 }
             }
@@ -195,13 +165,63 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
     public CartTotalVO getTotalByAllCheckedChanged(Long userId, boolean currentAllChecked) {
         List<CartCacheVO> cartCacheVOS = listByUser(userId);
         Integer allChecked = ProductConstants.UNCHECKED.getValue();
-        if (currentAllChecked){allChecked = ProductConstants.CHECKED.getValue();}
+        if (currentAllChecked) {
+            allChecked = ProductConstants.CHECKED.getValue();
+        }
         log.debug("选中状态修改为" + allChecked);
-        for (CartCacheVO cartCacheVO: cartCacheVOS) {
+        for (CartCacheVO cartCacheVO : cartCacheVOS) {
             updateKeyValue(userId, cartCacheVO.getTbProductSpecId(), null, allChecked);
         }
         return getTotal(userId);
     }
+
+    @Override
+    public List<CartCacheVO> listCheckedByUserId(Long userId) {
+        return listCartByUserId(userId, ProductConstants.CHECKED.getValue());
+    }
+
+    private List<CartCacheVO> listCartByUserId(Long userId, Integer checked) {
+        HashOperations<String, String, Object> hashOperations = redisTemplate.opsForHash();
+        //大key e_mall_tb_shopping_cart_用户id_data
+        String cartKey = getCartKey(userId);
+        // 一次 通过大key全部查询,用程序来过滤
+        //所有商品信息
+        List<CartCachePO> result = new ArrayList<>();
+        //通过大key获取所有数据
+        Map<String, Object> entries = hashOperations.entries(cartKey);
+        //判断数据是否为空
+        if (!CollectionUtils.isEmpty(entries)) {
+            //遍历所有数据,过滤出商品信息
+            //过滤条件是 hash_key 是否包含 "_product_info"
+            entries.forEach((k, v) -> {
+                if (k.contains(RedisConstants.PRODUCT_INFO)) {
+                    //商品信息
+                    CartCachePO cartCachePO = (CartCachePO) v;
+                    //放到所有商品信息的list
+                    if (ProductConstants.CHECKED.getValue().equals(checked)) {
+                        if (cartCachePO.getTbProductChecked().equals(ProductConstants.CHECKED.getValue())) {
+                            result.add(cartCachePO);
+                        }
+                    } else {
+                        result.add(cartCachePO);
+                    }
+                }
+            });
+
+
+        }
+        log.debug("购物车数据转化为PO后的结果:{}", result);
+
+        result.sort(new Comparator<CartCachePO>() {
+            @Override
+            public int compare(CartCachePO o1, CartCachePO o2) {
+                return o1.getModifiedTime().compareTo(o2.getModifiedTime());
+            }
+        });
+
+        return PojoConvert.convertList(result, CartCacheVO.class);
+    }
+
 
     private void updateKeyValue(Long userId, Long productSpecId, Integer productNum, Integer productChecked) {
         String cartKey = getCartKey(userId);
