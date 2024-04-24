@@ -124,7 +124,7 @@ const selectAll = (signal) => {
 //商品选择状态改变
 const changeChecked = (tbProductSpecId, tbProductChecked) => {
   let checked = 0
-  if(tbProductChecked==true){
+  if (tbProductChecked == true) {
     checked = 1
   }
   axios.post("mall/cart/modify_checked/" + tbProductSpecId + "/" + checked).then((response) => {
@@ -147,7 +147,7 @@ const changeAmount = (tbProductSpecId, amount) => {
 
 //删除按钮
 const del = () => {
-  axios.post("mall/cart/delete").then((response)=>{
+  axios.post("mall/cart/delete").then((response) => {
     if (response.data.state == 20000) {
       loadContents();
       loadDetails(true);
@@ -156,10 +156,10 @@ const del = () => {
 }
 
 const onSubmit = () => {
-  axios.get("mall/cart/get/allChecked").then((response)=>{
-    if(response.data.state == 20000){
+  axios.get("mall/cart/get/allChecked").then((response) => {
+    if (response.data.state == 20000) {
       let tempList = response.data.data;
-      if (tempList.length==0){
+      if (tempList.length == 0) {
         showToast({
           message: '<div style="font-size: 20px;margin: 20px;">' +
               '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-fail" style="color:#13DEA5;"></span></div>' +
@@ -169,8 +169,20 @@ const onSubmit = () => {
           duration: 1500,
           'close-on-click-overlay': true
         })
-      }else{
-        router.push("/payment");
+      } else {
+        axios.post("mall/cart/delete").then((response) => {
+          if (response.data.state == 20000) {
+            let paramId = "tbProductSpecId";
+            let paramAmount = "amount";
+            let query = "";
+            for (let i = 0; i < tempList.length; i++) {
+              query+=(paramId+(i+1)+"="+tempList[i].tbProductSpecId+"&"+paramAmount+(i+1)+"="+tempList[i].amount+"&");
+            }
+            router.push(
+                "/payment?"+query.slice(0, -1)
+            )
+          }
+        })
       }
     }
   })

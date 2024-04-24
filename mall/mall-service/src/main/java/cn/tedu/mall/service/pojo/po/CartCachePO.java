@@ -39,5 +39,5 @@ public class CartCachePO implements Serializable {
 
     Integer amount;
 
-    BigDecimal productAmountTotal;
+    BigDecimal totalPrice;
 }

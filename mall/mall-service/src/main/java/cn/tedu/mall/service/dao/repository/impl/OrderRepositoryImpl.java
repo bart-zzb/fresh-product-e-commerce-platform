@@ -2,6 +2,8 @@ package cn.tedu.mall.service.dao.repository.impl;
 
 import cn.tedu.mall.service.dao.mapper.OrderMapper;
 import cn.tedu.mall.service.dao.repository.IOrderRepository;
+import cn.tedu.mall.service.pojo.dto.OrderItemsAddDTO;
+import cn.tedu.mall.service.pojo.po.OrderItemsPO;
 import cn.tedu.mall.service.pojo.po.OrderPO;
 import cn.tedu.mall.service.pojo.vo.OrderVO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -33,5 +35,21 @@ public class OrderRepositoryImpl implements IOrderRepository {
     @Override
     public List<OrderVO> getOrderByUserId(Long userId) {
         return orderMapper.selectOrderByUserId(userId);
+    }
+
+    @Override
+    public void updateOrderByOrderItemsPOS(List<OrderItemsPO> orderItemsPOS) {
+
+    }
+
+    @Override
+    public Long addBlankOrderByUserId(Long userId) {
+        OrderPO orderPO = new OrderPO();
+        orderPO.setStatus(0);
+        orderPO.setTbUserId(userId);
+        orderPO.setTbAddressId(0L);
+        orderPO.setPayChannel(0);
+        orderMapper.insert(orderPO);
+        return orderPO.getId();
     }
 }

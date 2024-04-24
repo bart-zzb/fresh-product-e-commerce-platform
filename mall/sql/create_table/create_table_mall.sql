@@ -189,7 +189,8 @@ CREATE TABLE tb_order_items
     tb_category_name        VARCHAR(50)             NOT NULL COMMENT '商品分类名称',
     tb_brand_id             BIGINT UNSIGNED         NOT NULL COMMENT '品牌id',
     tb_brand_name           VARCHAR(50)             NOT NULL COMMENT '品牌名称',
-    ift_integration         INT(10) UNSIGNED        NOT NULL COMMENT '赠送积分'
+    ift_integration         INT(10) UNSIGNED        NOT NULL COMMENT '赠送积分',
+    total_price             DECIMAL(10,2)           NOT NULL COMMENT '商品项目总价'
 )DEFAULT CHARSET = utf8mb4 COMMENT = '订单项目表';
 
 -- 创建购物车表 tb_shopping_cart
@@ -208,7 +209,7 @@ CREATE TABLE tb_shopping_cart
     img_url                 VARCHAR(50)             NOT NULL COMMENT '(SKU)图片地址',
     price                   DECIMAL(10,2)           NOT NULL COMMENT '(SKU)价格',
     amount                  INT(10) UNSIGNED        NOT NULL COMMENT '(SKU)数量',
-    total_price             DECIMAL(10,2)           NOT NULL COMMENT '商品总价'
+    total_price             DECIMAL(10,2)           NOT NULL COMMENT '订单总价'
 )DEFAULT CHARSET = utf8mb4 COMMENT = '购物车表';
 
 -- 创建首页轮播图表 sys_index_carousel

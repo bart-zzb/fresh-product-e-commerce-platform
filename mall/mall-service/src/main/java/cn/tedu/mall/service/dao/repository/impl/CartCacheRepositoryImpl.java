@@ -146,7 +146,7 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
 
             for (CartCachePO cartCachePO : result) {
                 if (cartCachePO.getTbProductChecked() == ProductConstants.CHECKED.getValue()) {
-                    totalPrice = totalPrice.add(cartCachePO.getProductAmountTotal());
+                    totalPrice = totalPrice.add(cartCachePO.getTotalPrice());
                     totalAmount += cartCachePO.getAmount();
                 } else {
                     allChecked = false;
@@ -251,7 +251,7 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
                     //把商品数量转换为Integer并且设置到商品信息
                     cartCachePO.setAmount(Integer.valueOf(String.valueOf(productAmount)));
                     //更新总价
-                    cartCachePO.setProductAmountTotal(CalUtils.calTotal(cartCachePO.getPrice(), cartCachePO.getAmount()));
+                    cartCachePO.setTotalPrice(CalUtils.calTotal(cartCachePO.getPrice(), cartCachePO.getAmount()));
                 }
 
                 if (productChecked != null) {

@@ -9,12 +9,12 @@ import java.math.BigDecimal;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CartCacheVO implements Serializable {
+public class OrderItemsVO implements Serializable {
+    Long id;
+
     Long tbProductId;
 
     String tbProductName;
-
-    Integer tbProductChecked;
 
     Long tbProductSpecId;
 

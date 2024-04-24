@@ -23,6 +23,7 @@ public class OrderPO implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     LocalDateTime modifiedTime;
 
+    @TableField(fill = FieldFill.INSERT)
     String orderNo;
 
     Integer status;
@@ -52,6 +53,7 @@ public class OrderPO implements Serializable {
 
     Integer payChannel;
 
+    @TableField(fill = FieldFill.INSERT)
     String outTradeNo;
 
     LocalDateTime payTime;

@@ -1,5 +1,6 @@
 package cn.tedu.mall.service.dao.repository;
 
+import cn.tedu.mall.service.pojo.po.OrderItemsPO;
 import cn.tedu.mall.service.pojo.po.OrderPO;
 import cn.tedu.mall.service.pojo.vo.OrderVO;
 
@@ -11,4 +12,8 @@ public interface IOrderRepository {
     int saveOrder(OrderPO orderPO);
 
     List<OrderVO> getOrderByUserId(Long userId);
+
+    void updateOrderByOrderItemsPOS(List<OrderItemsPO> orderItemsPOS);
+
+    Long addBlankOrderByUserId(Long userId);
 }

@@ -48,7 +48,7 @@ public class CartServiceImpl implements ICartService {
         cartCachePO.setTbProductChecked(1);
         cartCachePO.setCreateTime(LocalDateTime.now());
         cartCachePO.setModifiedTime(LocalDateTime.now());
-        cartCachePO.setProductAmountTotal(CalUtils.calTotal(cartCachePO.getPrice(), cartCachePO.getAmount()));
+        cartCachePO.setTotalPrice(CalUtils.calTotal(cartCachePO.getPrice(), cartCachePO.getAmount()));
 
         cartCacheRepository.addCart(userId, cartCachePO);
     }

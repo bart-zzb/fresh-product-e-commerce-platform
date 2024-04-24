@@ -4,8 +4,11 @@ import cn.tedu.mall.common.annotation.CurrentUser;
 import cn.tedu.mall.common.web.JsonResult;
 import cn.tedu.mall.service.pojo.authentication.CurrentPrincipal;
 import cn.tedu.mall.service.pojo.dto.OrderAddDTO;
+import cn.tedu.mall.service.pojo.dto.OrderItemsAddDTO;
 import cn.tedu.mall.service.pojo.dto.OrderUpdateDTO;
 import cn.tedu.mall.service.pojo.po.OrderPO;
+import cn.tedu.mall.service.pojo.vo.OrderDetailVO;
+import cn.tedu.mall.service.pojo.vo.OrderItemsVO;
 import cn.tedu.mall.service.pojo.vo.OrderVO;
 import cn.tedu.mall.service.service.IOrderService;
 import io.swagger.annotations.Api;
@@ -33,15 +36,15 @@ public class OrderController {
     /**
      * 增加订单
      *
-     * @param orderAddDTO 订单
+     * @param orderItemsAddDTOS 订单详情
      * @return JsonResult
      */
     @ApiOperation("增加订单")
     @PostMapping("/add")
-    public JsonResult addOrder(@CurrentUser CurrentPrincipal currentPrincipal, @Validated OrderAddDTO orderAddDTO) {
+    public JsonResult addOrder(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @Validated @RequestBody List<OrderItemsAddDTO> orderItemsAddDTOS) {
         log.debug("currentPrincipal"+ currentPrincipal);
-        orderService.addOrder(orderAddDTO);
-        return JsonResult.ok();
+        OrderDetailVO orderDetailVO = orderService.addOrder(currentPrincipal.getId(), orderItemsAddDTOS);
+        return JsonResult.ok(orderDetailVO);
     }
 
     /**
@@ -69,4 +72,5 @@ public class OrderController {
         List<OrderVO> orderPOList = orderService.getOrderByUserId(currentPrincipal.getId());
         return JsonResult.ok(orderPOList);
     }
+
 }

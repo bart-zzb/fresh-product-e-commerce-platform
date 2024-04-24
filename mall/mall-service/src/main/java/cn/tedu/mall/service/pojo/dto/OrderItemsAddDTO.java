@@ -13,10 +13,6 @@ import java.io.Serializable;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderItemsAddDTO implements Serializable {
-    @NotNull(message = "SPU id不能为空")
-    @ApiModelProperty(value = "SPU id",required = true,dataType = "Long")
-    Long tbProductId;
-
     @NotNull(message = "SKU id不能为空")
     @ApiModelProperty(value = "SKU id",required = true,dataType = "Long")
     Long tbProductSpecId;

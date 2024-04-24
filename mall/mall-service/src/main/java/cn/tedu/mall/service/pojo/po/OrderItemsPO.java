@@ -44,4 +44,6 @@ public class OrderItemsPO implements Serializable {
     String tbBrandName;
 
     Integer iftIntegration;
+
+    BigDecimal totalPrice;
 }
