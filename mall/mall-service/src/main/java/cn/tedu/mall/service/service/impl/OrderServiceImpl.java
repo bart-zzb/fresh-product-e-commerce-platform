@@ -41,20 +41,21 @@ public class OrderServiceImpl implements IOrderService {
         if(orderItemsAddDTOS.isEmpty()){
             throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, ServiceConstant.ORDER_ITEMS_NOT_EXIST);
         }
-
-        Long orderId = orderRepository.addBlankOrderByUserId(userId);
+        //生成空订单, 获取订单id, 生成OrderPO
+        OrderPO orderPO = orderRepository.addBlankOrderByUserId(userId);
 
         List<OrderItemsPO> orderItemsPOS = new ArrayList<>();
         List<OrderItemsVO> orderItemsVOS = new ArrayList<>();
+        //根据商品SKUid, 订单id, 商品SKU数量生成订单详情信息, 并封装成orderItemsVOS
         for (OrderItemsAddDTO orderItemsAddDTO : orderItemsAddDTOS) {
-            OrderItemsPO orderItemsPO = orderItemsRepository.addOrderItemsByProductSpecIdAndAmount(orderItemsAddDTO.getTbProductSpecId(), orderId, orderItemsAddDTO.getAmount());
+            OrderItemsPO orderItemsPO = orderItemsRepository.addOrderItemsByProductSpecIdAndAmount(orderItemsAddDTO.getTbProductSpecId(), orderPO.getId(), orderItemsAddDTO.getAmount());
             orderItemsPOS.add(orderItemsPO);
             orderItemsVOS.add(PojoConvert.convert(orderItemsPO, OrderItemsVO.class));
         }
 
-        orderRepository.updateOrderByOrderItemsPOS(orderItemsPOS);
-        OrderPO orderPO = orderRepository.getOrderByIdAndUserId(orderId, userId);
+        //orderPO转化成orderDetailVO
         OrderDetailVO orderDetailVO = PojoConvert.convert(orderPO, OrderDetailVO.class);
+        //将orderItemsVOS赋值到orderDetailVO中
         orderDetailVO.setOrderItemsVOS(orderItemsVOS);
         BigDecimal total = new BigDecimal(0);
         for (OrderItemsVO orderItemsVO : orderItemsVOS) {
@@ -77,5 +78,24 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public List<OrderVO> getOrderByUserId(Long userId) {
         return orderRepository.getOrderByUserId(userId);
+    }
+
+    @Override
+    public OrderDetailVO getOrderByUserIdAndOrderNo(Long userId, String orderNo) {
+        OrderPO orderPO = orderRepository.getOrderByUserIdAndOrderNo(userId, orderNo);
+        OrderDetailVO orderDetailVO = PojoConvert.convert(orderPO, OrderDetailVO.class);
+        if (orderPO!=null && orderPO.getId()!=null){
+            List<OrderItemsPO> orderItemsPOS = orderItemsRepository.getOrderItemsByOrderId(orderPO.getId());
+            List<OrderItemsVO> orderItemsVOS = PojoConvert.convertList(orderItemsPOS, OrderItemsVO.class);
+            if (orderDetailVO != null){
+                BigDecimal total = new BigDecimal(0);
+                orderDetailVO.setOrderItemsVOS(orderItemsVOS);
+                for (OrderItemsVO orderItemsVO : orderItemsVOS) {
+                    total = total.add(orderItemsVO.getTotalPrice());
+                }
+                orderDetailVO.setOrderAmountTotal(total);
+            }
+        }
+        return orderDetailVO;
     }
 }

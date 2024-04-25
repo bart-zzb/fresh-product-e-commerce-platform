@@ -3,17 +3,12 @@ package cn.tedu.mall.front.controller;
 import cn.tedu.mall.common.annotation.CurrentUser;
 import cn.tedu.mall.common.web.JsonResult;
 import cn.tedu.mall.service.pojo.authentication.CurrentPrincipal;
-import cn.tedu.mall.service.pojo.dto.OrderAddDTO;
 import cn.tedu.mall.service.pojo.dto.OrderItemsAddDTO;
 import cn.tedu.mall.service.pojo.dto.OrderUpdateDTO;
-import cn.tedu.mall.service.pojo.po.OrderPO;
 import cn.tedu.mall.service.pojo.vo.OrderDetailVO;
-import cn.tedu.mall.service.pojo.vo.OrderItemsVO;
 import cn.tedu.mall.service.pojo.vo.OrderVO;
 import cn.tedu.mall.service.service.IOrderService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +16,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Api(tags = "订单模块")
@@ -73,4 +67,16 @@ public class OrderController {
         return JsonResult.ok(orderPOList);
     }
 
+    /**
+     * 通过订单编号查询当前用户订单
+     * @param currentPrincipal 当前用户
+     * @param orderNo 订单编号
+     * @return JsonResult.ok(orderDetailVO);
+     */
+    @ApiOperation("通过订单编号查询当前用户订单")
+    @GetMapping("/select")
+    public JsonResult getOrderByOrderNo(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, String orderNo){
+        OrderDetailVO orderDetailVO = orderService.getOrderByUserIdAndOrderNo(currentPrincipal.getId(), orderNo);
+        return  JsonResult.ok(orderDetailVO);
+    }
 }

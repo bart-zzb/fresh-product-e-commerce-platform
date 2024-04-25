@@ -53,10 +53,10 @@ api.interceptors.response.use((res) => {
                 'close-on-click-overlay': true
             })
         }
-
-
-        router.push("/login");
-
+        localStorage.setItem('redirectPath',router.currentRoute.value.fullPath);
+        setTimeout(() => {
+            router.push("/login");
+        });
     }
 
     // if(res.data.state === 20000){

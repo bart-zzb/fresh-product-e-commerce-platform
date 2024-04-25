@@ -1,10 +1,12 @@
 package cn.tedu.mall.service.dao.repository.impl;
 
+import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.mapper.OrderMapper;
 import cn.tedu.mall.service.dao.repository.IOrderRepository;
 import cn.tedu.mall.service.pojo.dto.OrderItemsAddDTO;
 import cn.tedu.mall.service.pojo.po.OrderItemsPO;
 import cn.tedu.mall.service.pojo.po.OrderPO;
+import cn.tedu.mall.service.pojo.vo.OrderDetailVO;
 import cn.tedu.mall.service.pojo.vo.OrderVO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,18 +40,22 @@ public class OrderRepositoryImpl implements IOrderRepository {
     }
 
     @Override
-    public void updateOrderByOrderItemsPOS(List<OrderItemsPO> orderItemsPOS) {
-
-    }
-
-    @Override
-    public Long addBlankOrderByUserId(Long userId) {
+    public OrderPO addBlankOrderByUserId(Long userId) {
         OrderPO orderPO = new OrderPO();
         orderPO.setStatus(0);
         orderPO.setTbUserId(userId);
         orderPO.setTbAddressId(0L);
         orderPO.setPayChannel(0);
         orderMapper.insert(orderPO);
-        return orderPO.getId();
+        return orderPO;
+    }
+
+    @Override
+    public OrderPO getOrderByUserIdAndOrderNo(Long userId, String orderNo) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("tb_user_id", userId);
+        queryWrapper.eq("order_no", orderNo);
+        OrderPO orderPO = orderMapper.selectOne(queryWrapper);
+        return orderPO;
     }
 }

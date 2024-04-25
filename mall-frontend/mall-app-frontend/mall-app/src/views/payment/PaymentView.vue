@@ -162,83 +162,16 @@ import qs from "qs";
 import {useRoute} from "vue-router";
 
 const order = ref({
-  // productCount: 2, totalPrice: 75.8 * 3 + 89.8 * 2, productList: [
-  //   {
-  //     productName: "肥牛",
-  //     productImgUrl: "/imgs/product/product6.png",
-  //     productDescription: "500g/份",
-  //     productUnitPrice: 75.8,
-  //     productCount: 3,
-  //     productTotalPrice: 75.8 * 3
-  //   },
-  //   {
-  //     productName: "吊龙",
-  //     productImgUrl: "/imgs/product/product8.png",
-  //     productDescription: "500g/份",
-  //     productUnitPrice: 89.8,
-  //     productCount: 2,
-  //     productTotalPrice: 98.8 * 2
-  //   },
-  // ]
   productCount: 0, totalPrice: 0, productList: []
 })
 
-function splitObjectsBySuffix(obj) {
-  const result = [];
-
-  // 遍历对象的所有键
-  for (let key in obj) {
-    // 提取键中的后缀数字
-    const suffix = key.match(/\d+$/);
-    if (suffix) {
-      const index = parseInt(suffix[0]); // 后缀数字
-      const prefix = key.replace(/\d+$/, ''); // 去掉后缀数字后的前缀部分
-      // 查找是否已存在对应后缀的对象
-      let found = result.find(item => item.index === index);
-      // 如果不存在，则创建一个新对象并添加到结果数组中
-      if (!found) {
-        found = { index: index };
-        result.push(found);
-      }
-      // 将当前键值对添加到对应的对象中
-      found[prefix] = obj[key];
-    }
-  }
-
-  return result;
-}
-
 onMounted(() => {
-  const queryParams = router.currentRoute.value.query;
-  let orderItemsAddDTOS = splitObjectsBySuffix(queryParams);
-  console.log(orderItemsAddDTOS);
-  axios  ({
-    method: "post",
-    headers: {
-      'Content-Type':'application/json',
-    },
-    dataType:"json",
-    data: JSON.stringify(orderItemsAddDTOS),
-    url: "mall/order/add"
-  }).then((response)=>{
-    if(response.data.state==20000){
-      order.value.productList = response.data.data.orderItemsVOS;
-      order.value.totalPrice = response.data.data.orderAmountTotal;
-      order.value.productCount = order.value.productList.length;
-
-    }
-  });
-  // axios.get("mall/cart/get/allChecked").then((response) => {
-  //   if (response.data.state == 20000) {
-  //     order.value.productList = response.data.data;
-  //     axios.get("mall/cart/total").then((response) => {
-  //       if (response.data.state == 20000) {
-  //         order.value.totalPrice = response.data.data.totalPrice;
-  //         order.value.productCount = response.data.data.totalAmount;
-  //       }
-  //     })
-  //   }
-  // })
+  let orderNo = new URLSearchParams(location.search).get('orderNo');
+  axios.get("mall/order/select?orderNo=" + orderNo).then((response) => {
+    order.value.productList = response.data.data.orderItemsVOS;
+    order.value.totalPrice = response.data.data.orderAmountTotal;
+    order.value.productCount = order.value.productList.length;
+  })
 })
 
 const onBack = () => {
@@ -252,15 +185,17 @@ const balance = ref(153.65);
 const submit = () => {
   let productSpecDeleteDTOS = [];
   for (let i = 0; i < order.value.productList.length; i++) {
-    productSpecDeleteDTOS.push({tbProductSpecId: order.value.productList[i].tbProductSpecId,
-      amount: order.value.productList[i].amount})
+    productSpecDeleteDTOS.push({
+      tbProductSpecId: order.value.productList[i].tbProductSpecId,
+      amount: order.value.productList[i].amount
+    })
   }
-  axios  ({
+  axios({
     method: "post",
     headers: {
-      'Content-Type':'application/json',
+      'Content-Type': 'application/json',
     },
-    dataType:"json",
+    dataType: "json",
     data: JSON.stringify(productSpecDeleteDTOS),
     url: "mall/product_specs/modify"
   }).then((response) => {

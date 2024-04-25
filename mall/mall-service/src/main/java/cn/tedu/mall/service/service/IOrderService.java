@@ -16,4 +16,6 @@ public interface IOrderService {
     void updateOrder(OrderUpdateDTO orderUpdateDTO);
 
     List<OrderVO> getOrderByUserId(Long userId);
+
+    OrderDetailVO getOrderByUserIdAndOrderNo(Long id, String orderNo);
 }

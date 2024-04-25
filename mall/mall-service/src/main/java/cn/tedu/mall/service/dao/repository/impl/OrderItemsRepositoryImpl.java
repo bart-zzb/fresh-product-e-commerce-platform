@@ -1,17 +1,17 @@
 package cn.tedu.mall.service.dao.repository.impl;
 
 import cn.tedu.mall.common.util.CalUtils;
-import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.mapper.*;
 import cn.tedu.mall.service.dao.repository.IOrderItemsRepository;
 import cn.tedu.mall.service.pojo.po.*;
-import cn.tedu.mall.service.pojo.vo.OrderItemsVO;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 
 @Slf4j
@@ -58,5 +58,12 @@ public class OrderItemsRepositoryImpl implements IOrderItemsRepository {
 
         orderItemsMapper.insert(orderItemsPO);
         return orderItemsPO;
+    }
+
+    @Override
+    public List<OrderItemsPO> getOrderItemsByOrderId(Long orderId) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("tb_order_id", orderId);
+        return orderItemsMapper.selectList(queryWrapper);
     }
 }

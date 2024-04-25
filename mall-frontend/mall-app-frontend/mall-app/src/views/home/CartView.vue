@@ -158,8 +158,10 @@ const del = () => {
 const onSubmit = () => {
   axios.get("mall/cart/get/allChecked").then((response) => {
     if (response.data.state == 20000) {
-      let tempList = response.data.data;
-      if (tempList.length == 0) {
+      //获取选中商品购物车
+      let currentCartList = response.data.data;
+      // 查看是否选中任何商品
+      if (currentCartList.length == 0) {
         showToast({
           message: '<div style="font-size: 20px;margin: 20px;">' +
               '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-fail" style="color:#13DEA5;"></span></div>' +
@@ -170,17 +172,33 @@ const onSubmit = () => {
           'close-on-click-overlay': true
         })
       } else {
+        //删除选中购物车商品
         axios.post("mall/cart/delete").then((response) => {
           if (response.data.state == 20000) {
-            let paramId = "tbProductSpecId";
-            let paramAmount = "amount";
-            let query = "";
-            for (let i = 0; i < tempList.length; i++) {
-              query+=(paramId+(i+1)+"="+tempList[i].tbProductSpecId+"&"+paramAmount+(i+1)+"="+tempList[i].amount+"&");
+            //封装orderItemsAddDTOS
+            let orderItemsAddDTOS = [];
+            for (let i = 0; i < currentCartList.length; i++) {
+              orderItemsAddDTOS.push({
+                tbProductSpecId: currentCartList[i].tbProductSpecId,
+                amount: currentCartList[i].amount
+              })
             }
-            router.push(
-                "/payment?"+query.slice(0, -1)
-            )
+            //发送请求
+            axios({
+              method: "post",
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              dataType: "json",
+              data: JSON.stringify(orderItemsAddDTOS),
+              url: "mall/order/add"
+            }).then((response) => {
+              if (response.data.state == 20000) {
+                //获取订单编号
+                let orderNo = response.data.data.orderNo;
+                router.push("/payment?orderNo=" + orderNo)
+              }
+            });
           }
         })
       }

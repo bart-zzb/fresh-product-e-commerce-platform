@@ -159,7 +159,7 @@
           </table>
         </div>
         <div style="margin: 15px 20px 0px 20px;">
-          <van-button color="#D54431" style="width: 100%;height: 35px;font-size: 18px;border-radius: 50px;" @click="buy()">立即购买
+          <van-button color="#D54431" style="width: 100%;height: 35px;font-size: 18px;border-radius: 50px;" @click="addOrder(content.id, num)">立即购买
           </van-button>
         </div>
       </van-popup>
@@ -273,9 +273,24 @@ const addCart = (id, num) => {
   })
 }
 
-const buy=(id, num)=>{
-  let add = {tbProductSpecId:id, amount:num};
-  let data = qs.stringify(add);
+const addOrder = (id, num) => {
+  let orderItemsAddDTOS = [{tbProductSpecId: id, amount: num}];
+//发送请求
+  axios({
+    method: "post",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    dataType: "json",
+    data: JSON.stringify(orderItemsAddDTOS),
+    url: "mall/order/add"
+  }).then((response) => {
+    if (response.data.state == 20000) {
+      //获取订单编号
+      let orderNo = response.data.data.orderNo;
+      router.push("/payment?orderNo=" + orderNo)
+    }
+  });
 }
 
 </script>

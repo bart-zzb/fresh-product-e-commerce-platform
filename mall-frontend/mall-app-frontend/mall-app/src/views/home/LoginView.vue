@@ -38,6 +38,8 @@
 import {onMounted, ref} from "vue";
 import axios from '@/utils/request'
 import qs from "qs";
+import router from "@/router";
+import {showToast} from "vant";
 
 const onClickLeft = ()=>{
 
@@ -56,7 +58,23 @@ onMounted(()=>{
 const submit =()=>{
   let data = qs.stringify(user.value)
   axios.post("/admin/user/loginByUsernameAndPassword",data).then((response)=>{
-    localStorage.setItem("token",response.data.data);
+    if(response.data.state==20000){
+      localStorage.setItem("token",response.data.data);
+      let redirectPath = localStorage.getItem('redirectPath');
+      showToast({
+        message: '<div style="font-size: 20px;margin: 20px;">' +
+            '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-success" style="color:#13DEA5;"></span></div>' +
+            '<div style="text-align: center;">登录成功</div></div>',
+        type: 'html',
+        overlay: true,
+        duration: 800,
+        'close-on-click-overlay': true
+      })
+      if(redirectPath){
+        localStorage.removeItem('redirectPath');
+        router.push(redirectPath);
+      }
+    }
   })
 }
 
