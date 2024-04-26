@@ -52,7 +52,6 @@ public class OrderServiceImpl implements IOrderService {
             orderItemsPOS.add(orderItemsPO);
             orderItemsVOS.add(PojoConvert.convert(orderItemsPO, OrderItemsVO.class));
         }
-
         //orderPO转化成orderDetailVO
         OrderDetailVO orderDetailVO = PojoConvert.convert(orderPO, OrderDetailVO.class);
         //将orderItemsVOS赋值到orderDetailVO中
@@ -61,6 +60,9 @@ public class OrderServiceImpl implements IOrderService {
         for (OrderItemsVO orderItemsVO : orderItemsVOS) {
             total = total.add(orderItemsVO.getTotalPrice());
         }
+        orderPO.setOrderAmountTotal(total);
+        //保存当前orderPO
+        orderRepository.saveOrder(orderPO);
         orderDetailVO.setOrderAmountTotal(total);
         return orderDetailVO;
     }

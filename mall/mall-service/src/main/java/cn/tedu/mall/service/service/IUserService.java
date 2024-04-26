@@ -1,10 +1,12 @@
 package cn.tedu.mall.service.service;
 
-import cn.tedu.mall.service.pojo.authentication.CurrentPrincipal;
+import cn.tedu.mall.service.pojo.bo.UserBO;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(rollbackFor = Exception.class)
 public interface IUserService {
 
-    CurrentPrincipal getCurrentPrincipalByUsernameAndPassword(String username, String password);
+    UserBO getUserByUsername(String username);
+
+    void saveUserByUsernameAndPassword(String username, String password);
 }

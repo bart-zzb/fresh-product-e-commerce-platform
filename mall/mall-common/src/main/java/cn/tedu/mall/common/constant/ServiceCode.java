@@ -70,6 +70,8 @@ public enum ServiceCode {
      * 错误：JWT不存在
      */
     ERR_JWT_NOT_EXIST(60400),
+
+    ERR_USERNAME_ALREADY_EXIST(60500),
     /**
      * 错误：上传的文件为空（没有选择有效的文件）
      */
@@ -88,6 +90,7 @@ public enum ServiceCode {
     ERROR_UNKNOWN(99999),
 
     ERROR_STOCK_NO_ENOUGH(30000);
+
     /**
      * 枚举对象的值
      */

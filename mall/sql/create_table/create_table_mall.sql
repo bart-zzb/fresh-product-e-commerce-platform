@@ -18,10 +18,11 @@ CREATE TABLE tb_user
     province        VARCHAR(50)             DEFAULT '' COMMENT '区(冗余)',
     address_detail  VARCHAR(50)             DEFAULT '' COMMENT '详细地址(冗余)',
     username        VARCHAR(50)             NOT NULL COMMENT '用户名',
-    password        VARCHAR(50)             NOT NULL COMMENT '登录密码',
+    password        VARCHAR(200)             NOT NULL COMMENT '登录密码',
     contact_phone   VARCHAR(50)             DEFAULT '' COMMENT '用户手机号',
     user_point      INT(10) UNSIGNED        DEFAULT 0 COMMENT '用户积分',
-    user_balance    DECIMAL(10,2) UNSIGNED  DEFAULT 0.00 COMMENT '用户余额'
+    user_balance    DECIMAL(10,2) UNSIGNED  DEFAULT 0.00 COMMENT '用户余额',
+    coupon_count    INT(10) UNSIGNED        DEFAULT 0 COMMENT '优惠券数量'
 )DEFAULT CHARSET = utf8mb4 COMMENT ='用户表';
 
 -- 创建商品分类列表 tb_category

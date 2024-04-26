@@ -1,26 +1,16 @@
-package cn.tedu.mall.service.pojo.po;
+package cn.tedu.mall.service.pojo.vo;
 
-import com.baomidou.mybatisplus.annotation.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Data
-@TableName("e_mall.tb_user")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserPO implements Serializable {
-    @TableId(type = IdType.AUTO)
+public class UserVO implements Serializable {
     Long id;
-
-    @TableField(fill = FieldFill.INSERT)
-    LocalDateTime createTime;
-
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    LocalDateTime modifiedTime;
 
     Integer userType;
 
@@ -38,8 +28,6 @@ public class UserPO implements Serializable {
 
     String username;
 
-    String password;
-
     String contactPhone;
 
     Integer userPoint;
@@ -47,4 +35,6 @@ public class UserPO implements Serializable {
     BigDecimal userBalance;
 
     Integer couponCount;
+
+    String token;
 }

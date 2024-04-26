@@ -5,10 +5,10 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ProductConstants {
-    CHECKED(1, "商品选中"),
+public enum UserConstants {
+    INDIVIDUAL(1, "个人"),
 
-    UNCHECKED(0 , "商品未选中");
+    ENTERPRISE(2 , "企业");
 
     private final Integer value;
 

@@ -8,9 +8,9 @@
           <img src="imgs/logo/logo.png" height="60px;" style="margin-top:20px;">
         </van-col>
         <van-col span="18" style="margin-top:25px;text-align: left;">
-          <span style="color:#fff;font-size: 18px;">你好,{{user.nickname}} {{user.memberType}}</span>
-          <van-icon name="setting-o" style="float: right;right: 30px;color:#fff;" size="30px"/>
-          <p style="color:#F4ADA7;margin-top:6px;font-size: 16px;text-align: left;">ID: {{user.id}} {{user.phone}}</p>
+          <span style="color:#fff;font-size: 18px;">你好,{{user.username}} {{user.memberType}}</span>
+          <van-icon name="setting-o" style="float: right;right: 30px;color:#fff;" size="30px" @click="toLogin()"/>
+          <p style="color:#F4ADA7;margin-top:6px;font-size: 16px;text-align: left;">ID: {{user.id}} {{user.contactPhone}}</p>
         </van-col>
       </van-row>
 
@@ -19,13 +19,13 @@
         <van-grid-item>
           <div>
             <p style="color:#AAAAAA;">我的余额</p>
-            <p >{{user.balance}}</p>
+            <p >{{user.userBalance}}</p>
           </div>
         </van-grid-item>
         <van-grid-item>
           <div>
             <p style="color:#AAAAAA;">我的优惠券</p>
-            <p>{{user.couponsCount}}</p>
+            <p>{{user.couponCount}}</p>
           </div>
         </van-grid-item>
       </van-grid>
@@ -121,11 +121,30 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import router from "@/router";
 
-const user = ref(
-    {nickname:"xiaoy", memberType:"超级会员",id:"20451",phone:"绑定手机",balance:"153.65",couponsCount:"2"}
+const user = ref({
+    }
+    // {nickname:"xiaoy", memberType:"超级会员",id:"20451",phone:"绑定手机",balance:"153.65",couponsCount:"2"}
 )
+
+onMounted(()=>{
+  let userInfo = localStorage.getItem("userInfo");
+  if(userInfo!=null){
+    user.value = JSON.parse(userInfo);
+    if(user.value.userType = 1){
+      user.value.memberType="普通会员"
+    }else if(user.value.userType = 2){
+      user.value.memberType="企业会员"
+    }
+  }
+})
+
+const toLogin =()=>{
+  router.push('/login')
+}
+
 </script>
 
 <style scoped>

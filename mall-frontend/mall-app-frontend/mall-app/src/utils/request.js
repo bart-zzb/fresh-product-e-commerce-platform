@@ -57,7 +57,41 @@ api.interceptors.response.use((res) => {
         setTimeout(() => {
             router.push("/login");
         });
+    }else if(res.data.state == 60300){
+        showToast({
+            message: '<div style="font-size: 20px;margin: 20px;">' +
+                '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-fail" style="color:#13DEA5;"></span></div>' +
+                '<div style="text-align: center;">用户名或密码错误</div></div>',
+            type: 'html',
+            overlay: true,
+            duration: 1000,
+            maskClass:' background-color: rgba(1, 1, 1, 0.5);',
+            'close-on-click-overlay': true
+        })
+    }else if(res.data.state == 60500){
+        showToast({
+            message: '<div style="font-size: 20px;margin: 20px;">' +
+                '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-fail" style="color:#13DEA5;"></span></div>' +
+                '<div style="text-align: center;">用户名已存在</div></div>',
+            type: 'html',
+            overlay: true,
+            duration: 1000,
+            maskClass:' background-color: rgba(1, 1, 1, 0.5);',
+            'close-on-click-overlay': true
+        })
+    }else if(res.data.state== 40000){
+        showToast({
+            message: '<div style="font-size: 20px;margin: 20px;">' +
+                '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-fail" style="color:#13DEA5;"></span></div>' +
+                '<div style="text-align: center;">'+res.data.message+'</div></div>',
+            type: 'html',
+            overlay: true,
+            duration: 1000,
+            maskClass:' background-color: rgba(1, 1, 1, 0.5);',
+            'close-on-click-overlay': true
+        })
     }
+
 
     // if(res.data.state === 20000){
     //     showToast(res.data.message);

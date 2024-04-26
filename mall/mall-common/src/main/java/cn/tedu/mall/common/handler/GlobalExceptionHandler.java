@@ -28,27 +28,28 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
-    public JsonResult handleTokenExpiredException(TokenExpiredException e){
+    public JsonResult handleTokenExpiredException(TokenExpiredException e) {
         log.debug("全局异常处理器开始处理TokenExpiredException");
-        return JsonResult.fail(ServiceCode.ERR_JWT_EXPIRED,"已过期,请重新登录");
+        return JsonResult.fail(ServiceCode.ERR_JWT_EXPIRED, "已过期,请重新登录");
     }
 
     @ExceptionHandler
-    public JsonResult handleTokenExpiredException(JWTVerificationException e){
+    public JsonResult handleTokenExpiredException(JWTVerificationException e) {
         log.debug("全局异常处理器开始处理JWTVerificationException");
-        return JsonResult.fail(ServiceCode.ERR_JWT_NOT_EXIST,"未登录,请重新登录");
+        return JsonResult.fail(ServiceCode.ERR_JWT_NOT_EXIST, "未登录,请重新登录");
     }
 
     @ExceptionHandler
     public JsonResult handleServiceException(ServiceException e) {
         log.debug("全局异常处理器开始处理ServiceException");
+        log.debug(e.getServiceCode().getValue() + ":" + e.getMessage());
         return JsonResult.fail(e.getServiceCode(), e.getMessage());
     }
 
     @ExceptionHandler
-    public JsonResult handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e){
+    public JsonResult handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
         log.debug("全局异常处理器开始处理MethodArgumentTypeMismatchException");
-        return JsonResult.fail(ServiceCode.ERROR_BAD_REQUEST, "参数转换失败，请确保参数符合类型:"+ e.getMessage());
+        return JsonResult.fail(ServiceCode.ERROR_BAD_REQUEST, "参数转换失败，请确保参数符合类型:" + e.getMessage());
     }
 
     @ExceptionHandler

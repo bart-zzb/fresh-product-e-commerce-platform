@@ -1,7 +1,9 @@
 package cn.tedu.mall.service.dao.repository;
 
-import cn.tedu.mall.service.pojo.authentication.CurrentPrincipal;
+import cn.tedu.mall.service.pojo.bo.UserBO;
 
 public interface IUserRepository {
-    CurrentPrincipal getCurrentPrincipalByUsernameAndPassword(String username, String password);
+    UserBO getCurrentPrincipalByUsername(String username);
+
+    void saveUserByUsernameAndPassword(String username, String password);
 }

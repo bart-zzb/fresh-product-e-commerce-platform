@@ -5,11 +5,15 @@ import cn.tedu.mall.common.constant.ServiceConstant;
 import cn.tedu.mall.common.ex.ServiceException;
 import cn.tedu.mall.common.util.JwtUtils;
 import cn.tedu.mall.common.util.PasswordEncoderUtils;
+import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.common.web.JsonResult;
-import cn.tedu.mall.service.pojo.authentication.CurrentPrincipal;
 import cn.tedu.mall.service.pojo.dto.UserLoginByPsdDTO;
+import cn.tedu.mall.service.pojo.dto.UserRegByUserPwdDTO;
+import cn.tedu.mall.service.pojo.bo.UserBO;
+import cn.tedu.mall.service.pojo.vo.UserVO;
 import cn.tedu.mall.service.service.IUserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -17,8 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,36 +33,53 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+    @ApiOperation("根据用户名和密码登录")
     @PostMapping("/loginByUsernameAndPassword")
-    public JsonResult loginByUserNameAndPassword(UserLoginByPsdDTO userLoginByPsdDTO,
-                                                 HttpServletRequest request, HttpServletResponse response) {
+    public JsonResult loginByUserNameAndPassword(@Validated UserLoginByPsdDTO userLoginByPsdDTO) {
         log.debug(userLoginByPsdDTO.getUsername() + userLoginByPsdDTO.getPassword());
 
-        // 根据用户名去到数据库拿密码 TODO
-        CurrentPrincipal currentPrincipal = userService.getCurrentPrincipalByUsernameAndPassword(userLoginByPsdDTO.getUsername(), userLoginByPsdDTO.getPassword());
-        if(currentPrincipal==null){
+        UserBO userBO = userService.getUserByUsername(userLoginByPsdDTO.getUsername());
+        if(userBO ==null){
             throw new ServiceException(ServiceCode.ERR_USERNAME_PASSWORD, ServiceConstant.ERROR_USERNAME_PASSWORD);
         }
-        // sigPwd模拟从数据库拿出来的密码，改密码在注册时加密放入，数据库存储的是密文例：$2a$10$B4WcenV2GOOpIPVG/sQSWuZ04llGaDdQSOvzXfJtpMYOKZHpJNLx.
 
-        // 结构解释了解即可：$2a$：这部分是算法的版本标识。 10$：这是成本（或难度）参数，表示加密的计算复杂度。
-        // B4WcenV2GOOpIPVG/sQSWu：这是盐值。在您的例子中，盐值是B4WcenV2GOOpIPVG/sQSWu。
-        // Z04llGaDdQSOvzXfJtpMYOKZHpJNLx.：这是实际的散列值，即原始密码加上盐值经过BCrypt算法处理后的结果。
-        String sigPwd = PasswordEncoderUtils.enc(userLoginByPsdDTO.getPassword());
-        // "123456" 是前端传回来的密码
-        boolean matches = PasswordEncoderUtils.decrypt("123456", sigPwd);
+        return userVOSetToken(userLoginByPsdDTO.getUsername(), userLoginByPsdDTO.getPassword(), userBO);
+    }
 
+    @ApiOperation("注册并登录")
+    @PostMapping("/regAndLogin")
+    public JsonResult regAndLogin(@Validated UserRegByUserPwdDTO userRegByUserPwdDTO){
+        log.debug("注册用户入参{}", userRegByUserPwdDTO);
+        UserBO userBO = userService.getUserByUsername(userRegByUserPwdDTO.getUsername());
+        if(userBO !=null){
+            throw new ServiceException(ServiceCode.ERR_USERNAME_ALREADY_EXIST, ServiceConstant.ERROR_USERNAME_ALREADY_EXIST);
+        }
+        //数据库存储加盐加密后的密码
+        userService.saveUserByUsernameAndPassword(userRegByUserPwdDTO.getUsername(), PasswordEncoderUtils.enc(userRegByUserPwdDTO.getPassword()));
+
+        return userVOSetToken(userRegByUserPwdDTO.getUsername(), userRegByUserPwdDTO.getPassword(), userBO);
+    }
+
+    /**
+     *
+     * @param username 前端的username
+     * @param password 前端的password
+     */
+    private JsonResult userVOSetToken(String username, String password, UserBO userBO){
+        boolean matches = PasswordEncoderUtils.decrypt(password, userBO.getPassword());
+        UserVO userVO = PojoConvert.convert(userBO, UserVO.class);
         if (matches) {
             // 准备jwt的数据
             Map<String, Object> map = new HashMap<>();
-            map.put("id", currentPrincipal.getId());
-            map.put("username", currentPrincipal.getUsername());
-
+            map.put("id", userBO.getId());
+            map.put("username", userBO.getUsername());
             // 生产token并返回
-            return JsonResult.ok(JwtUtils.getToken(map));
+            userVO.setToken(JwtUtils.getToken(map));
         }
-
-        return JsonResult.fail(ServiceCode.ERR_USERNAME_PASSWORD, "用户名或密码错误");
-
+        if (userVO.getToken()==null){
+            return JsonResult.fail(ServiceCode.ERR_USERNAME_PASSWORD, ServiceConstant.ERROR_USERNAME_PASSWORD);
+        }else{
+            return JsonResult.ok(userVO);
+        }
     }
 }
