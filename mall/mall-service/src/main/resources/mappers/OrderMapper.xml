@@ -2,19 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.tedu.mall.service.dao.mapper.OrderMapper">
-    <select id="selectOrderByUserId" resultType="cn.tedu.mall.service.pojo.vo.OrderVO">
+    <select id="selectOrderByUserId" resultType="cn.tedu.mall.service.pojo.po.OrderPO">
         SELECT id,
+               create_time,
+               modified_time,
                order_no,
                status,
+               product_map,
+               product_amount_total,
                order_amount_total,
+               freight,
+               integration,
+               integration_amount,
                tb_user_id,
                tb_address_id,
                consignee,
                consignee_phone,
                consignee_address,
+               pay_channel,
                out_trade_no,
+               pay_time,
+               delivery_time,
+               receive_delivery_time,
+               complete_time,
+               cancel_time,
                tb_user_notes
         FROM e_mall.tb_order
-        WHERE e_mall.tb_order.tb_user_id = #{userId}
+        WHERE tb_user_id = #{userId}
+        ORDER BY create_time DESC;
     </select>
 </mapper>
