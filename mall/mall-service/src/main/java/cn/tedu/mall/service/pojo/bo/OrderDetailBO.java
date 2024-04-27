@@ -1,15 +1,17 @@
-package cn.tedu.mall.service.pojo.vo;
+package cn.tedu.mall.service.pojo.bo;
 
+import cn.tedu.mall.service.pojo.vo.OrderItemsVO;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderVO implements Serializable {
+public class OrderDetailBO implements Serializable {
     Long id;
 
     String orderNo;
@@ -31,4 +33,8 @@ public class OrderVO implements Serializable {
     String outTradeNo;
 
     String tbUserNotes;
+
+    List<OrderItemsVO> orderItemsVOS;
+
+    String orderStatus;
 }

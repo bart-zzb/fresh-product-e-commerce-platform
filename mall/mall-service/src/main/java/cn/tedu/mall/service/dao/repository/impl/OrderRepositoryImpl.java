@@ -3,11 +3,8 @@ package cn.tedu.mall.service.dao.repository.impl;
 import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.mapper.OrderMapper;
 import cn.tedu.mall.service.dao.repository.IOrderRepository;
-import cn.tedu.mall.service.pojo.dto.OrderItemsAddDTO;
-import cn.tedu.mall.service.pojo.po.OrderItemsPO;
+import cn.tedu.mall.service.pojo.bo.OrderDetailBO;
 import cn.tedu.mall.service.pojo.po.OrderPO;
-import cn.tedu.mall.service.pojo.vo.OrderDetailVO;
-import cn.tedu.mall.service.pojo.vo.OrderVO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -35,8 +32,9 @@ public class OrderRepositoryImpl implements IOrderRepository {
     }
 
     @Override
-    public List<OrderVO> getOrderByUserId(Long userId) {
-        return orderMapper.selectOrderByUserId(userId);
+    public List<OrderDetailBO> getOrderByUserId(Long userId) {
+        List<OrderPO> orderPOS = orderMapper.selectOrderByUserId(userId);
+        return PojoConvert.convertList(orderPOS, OrderDetailBO.class);
     }
 
     @Override
@@ -51,11 +49,11 @@ public class OrderRepositoryImpl implements IOrderRepository {
     }
 
     @Override
-    public OrderPO getOrderByUserIdAndOrderNo(Long userId, String orderNo) {
+    public OrderDetailBO getOrderByUserIdAndOrderNo(Long userId, String orderNo) {
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("tb_user_id", userId);
         queryWrapper.eq("order_no", orderNo);
         OrderPO orderPO = orderMapper.selectOne(queryWrapper);
-        return orderPO;
+        return PojoConvert.convert(orderPO, OrderDetailBO.class);
     }
 }

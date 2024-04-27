@@ -1,12 +1,13 @@
 package cn.tedu.mall.front.controller;
 
 import cn.tedu.mall.common.annotation.CurrentUser;
+import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.common.web.JsonResult;
 import cn.tedu.mall.service.pojo.authentication.CurrentPrincipal;
+import cn.tedu.mall.service.pojo.bo.OrderDetailBO;
 import cn.tedu.mall.service.pojo.dto.OrderItemsAddDTO;
 import cn.tedu.mall.service.pojo.dto.OrderUpdateDTO;
 import cn.tedu.mall.service.pojo.vo.OrderDetailVO;
-import cn.tedu.mall.service.pojo.vo.OrderVO;
 import cn.tedu.mall.service.service.IOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -63,8 +64,9 @@ public class OrderController {
     @GetMapping("/select/all")
     public JsonResult getOrderByUserId(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal) {
         log.debug("currentPrincipal"+currentPrincipal);
-        List<OrderVO> orderPOList = orderService.getOrderByUserId(currentPrincipal.getId());
-        return JsonResult.ok(orderPOList);
+        List<OrderDetailBO> orderDetailBOS = orderService.getOrderByUserId(currentPrincipal.getId());
+        List<OrderDetailVO> orderDetailVOS = PojoConvert.convertList(orderDetailBOS, OrderDetailVO.class);
+        return JsonResult.ok(orderDetailVOS);
     }
 
     /**
@@ -76,7 +78,8 @@ public class OrderController {
     @ApiOperation("通过订单编号查询当前用户订单")
     @GetMapping("/select")
     public JsonResult getOrderByOrderNo(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, String orderNo){
-        OrderDetailVO orderDetailVO = orderService.getOrderByUserIdAndOrderNo(currentPrincipal.getId(), orderNo);
+        OrderDetailBO orderDetailBO = orderService.getOrderByUserIdAndOrderNo(currentPrincipal.getId(), orderNo);
+        OrderDetailVO orderDetailVO = PojoConvert.convert(orderDetailBO, OrderDetailVO.class);
         return  JsonResult.ok(orderDetailVO);
     }
 }

@@ -245,9 +245,9 @@ INSERT INTO tb_order(id,
                      consignee_address,
                      pay_channel,
                      out_trade_no)
-VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'e58fcc37-f139-475a-8715-324c90a15a83', 0, 68.90, 13.90, 13,
+VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'e58fcc37-f139-475a-8715-324c90a15a83', 2, 68.90, 13.90, 13,
         0.00, 2, 1, 'xiaoy', '13456789121', '广东省广州天河区体育中心一号', 1, ''),
-       (2, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'a6c2f3d3-38ec-4ef1-a43f-318bd4c295ee', 0, 41.80, 41.80, 41,
+       (2, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'a6c2f3d3-38ec-4ef1-a43f-318bd4c295ee', 3, 41.80, 41.80, 41,
         0.00, 2, 1, 'xiaoy', '13456789121', '广东省佛山禅城区百花广场11楼', 2, '');
 
 -- 插入tb_order_items数据
@@ -259,7 +259,7 @@ INSERT INTO tb_order_items(id,
                            tb_product_id,
                            tb_product_name,
                            tb_product_spec_id,
-                           spec_name,
+                           specs_name,
                            img_url,
                            price,
                            amount,

@@ -182,7 +182,7 @@ CREATE TABLE tb_order_items
     tb_product_id           BIGINT UNSIGNED         NOT NULL COMMENT '商品表(SPU)id',
     tb_product_name         VARCHAR(50)             NOT NULL COMMENT '商品名称(SPU)',
     tb_product_spec_id      BIGINT UNSIGNED         NOT NULL COMMENT '商品规格表(SKU)id',
-    spec_name               VARCHAR(50)             NOT NULL COMMENT '(SKU)规格名称',
+    specs_name               VARCHAR(50)             NOT NULL COMMENT '(SKU)规格名称',
     img_url                 VARCHAR(50)             NOT NULL COMMENT '(SKU)图片地址',
     price                   DECIMAL(10,2)           NOT NULL COMMENT '(SKU)价格',
     amount                  INT(10) UNSIGNED        NOT NULL COMMENT '(SKU)数量',

@@ -1,20 +1,19 @@
 package cn.tedu.mall.service.service.impl;
 
+import cn.tedu.mall.common.constant.OrderConstants;
 import cn.tedu.mall.common.constant.ServiceCode;
 import cn.tedu.mall.common.constant.ServiceConstant;
 import cn.tedu.mall.common.ex.ServiceException;
-import cn.tedu.mall.common.util.CalUtils;
 import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.repository.IOrderItemsRepository;
 import cn.tedu.mall.service.dao.repository.IOrderRepository;
-import cn.tedu.mall.service.dao.repository.IProductSpecsRepository;
+import cn.tedu.mall.service.pojo.bo.OrderDetailBO;
 import cn.tedu.mall.service.pojo.dto.OrderItemsAddDTO;
 import cn.tedu.mall.service.pojo.dto.OrderUpdateDTO;
 import cn.tedu.mall.service.pojo.po.OrderItemsPO;
 import cn.tedu.mall.service.pojo.po.OrderPO;
 import cn.tedu.mall.service.pojo.vo.OrderDetailVO;
 import cn.tedu.mall.service.pojo.vo.OrderItemsVO;
-import cn.tedu.mall.service.pojo.vo.OrderVO;
 import cn.tedu.mall.service.service.IOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +60,8 @@ public class OrderServiceImpl implements IOrderService {
             total = total.add(orderItemsVO.getTotalPrice());
         }
         orderPO.setOrderAmountTotal(total);
+        //默认设置用户已支付订单
+        orderPO.setStatus(OrderConstants.PAID.getValue());
         //保存当前orderPO
         orderRepository.saveOrder(orderPO);
         orderDetailVO.setOrderAmountTotal(total);
@@ -78,26 +79,38 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public List<OrderVO> getOrderByUserId(Long userId) {
-        return orderRepository.getOrderByUserId(userId);
+    public List<OrderDetailBO> getOrderByUserId(Long userId) {
+        List<OrderDetailBO> orderDetailBOS = orderRepository.getOrderByUserId(userId);
+        for (OrderDetailBO orderDetailBO : orderDetailBOS) {
+            setDetailForOrderDetailBO(orderDetailBO);
+        }
+        return orderDetailBOS;
     }
 
     @Override
-    public OrderDetailVO getOrderByUserIdAndOrderNo(Long userId, String orderNo) {
-        OrderPO orderPO = orderRepository.getOrderByUserIdAndOrderNo(userId, orderNo);
-        OrderDetailVO orderDetailVO = PojoConvert.convert(orderPO, OrderDetailVO.class);
-        if (orderPO!=null && orderPO.getId()!=null){
-            List<OrderItemsPO> orderItemsPOS = orderItemsRepository.getOrderItemsByOrderId(orderPO.getId());
+    public OrderDetailBO getOrderByUserIdAndOrderNo(Long userId, String orderNo) {
+        OrderDetailBO orderDetailBO = orderRepository.getOrderByUserIdAndOrderNo(userId, orderNo);
+        setDetailForOrderDetailBO(orderDetailBO);
+        return orderDetailBO;
+    }
+
+    private void setDetailForOrderDetailBO(OrderDetailBO orderDetailBO){
+        if (orderDetailBO!=null && orderDetailBO.getId()!=null){
+            List<OrderItemsPO> orderItemsPOS = orderItemsRepository.getOrderItemsByOrderId(orderDetailBO.getId());
             List<OrderItemsVO> orderItemsVOS = PojoConvert.convertList(orderItemsPOS, OrderItemsVO.class);
-            if (orderDetailVO != null){
+            if (orderDetailBO != null){
                 BigDecimal total = new BigDecimal(0);
-                orderDetailVO.setOrderItemsVOS(orderItemsVOS);
+                orderDetailBO.setOrderItemsVOS(orderItemsVOS);
                 for (OrderItemsVO orderItemsVO : orderItemsVOS) {
                     total = total.add(orderItemsVO.getTotalPrice());
                 }
-                orderDetailVO.setOrderAmountTotal(total);
+                orderDetailBO.setOrderAmountTotal(total);
+                for (OrderConstants value : OrderConstants.values()) {
+                    if(value.getValue().equals(orderDetailBO.getStatus())){
+                        orderDetailBO.setOrderStatus(value.getDescription());
+                    }
+                }
             }
         }
-        return orderDetailVO;
     }
 }

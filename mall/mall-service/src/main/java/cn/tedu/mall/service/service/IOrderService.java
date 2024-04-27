@@ -1,10 +1,9 @@
 package cn.tedu.mall.service.service;
 
+import cn.tedu.mall.service.pojo.bo.OrderDetailBO;
 import cn.tedu.mall.service.pojo.dto.OrderItemsAddDTO;
 import cn.tedu.mall.service.pojo.dto.OrderUpdateDTO;
 import cn.tedu.mall.service.pojo.vo.OrderDetailVO;
-import cn.tedu.mall.service.pojo.vo.OrderItemsVO;
-import cn.tedu.mall.service.pojo.vo.OrderVO;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -15,7 +14,7 @@ public interface IOrderService {
 
     void updateOrder(OrderUpdateDTO orderUpdateDTO);
 
-    List<OrderVO> getOrderByUserId(Long userId);
+    List<OrderDetailBO> getOrderByUserId(Long userId);
 
-    OrderDetailVO getOrderByUserIdAndOrderNo(Long id, String orderNo);
+    OrderDetailBO getOrderByUserIdAndOrderNo(Long id, String orderNo);
 }

@@ -1,16 +1,17 @@
-/*.van-popup.van-toast{*/
-/*    background: var(--van-toast-background) !important;*/
-/*    box-sizing: content-box !important;*/
-/*    transition:all var(--van-duration-fast) !important;*/
-/*    width: var(--van-toast-default-width) !important;*/
-/*    max-width: var(--van-toast-max-width) !important;*/
-/*}*/
-
-/*.van-popup.van-toast .van-toast__icon{*/
-/*    font-size: var(--van-toast-icon-size) !important;*/
-/*}*/
-
 /*解决popup和toast背景颜色冲突文字*/
-.van-toast--text {
-    background: rgba(0, 0, 0, 0.7) !important;
+.van-popup.van-toast{
+    background: var(--van-toast-background) !important;
+    box-sizing: content-box !important;
+    transition:all var(--van-duration-fast) !important;
+    /*width: var(--van-toast-default-width) !important;*/
+    /*max-width: var(--van-toast-max-width) !important;*/
 }
+
+.van-popup.van-toast .van-toast__icon{
+    font-size: var(--van-toast-icon-size) !important;
+}
+
+
+/*.van-toast--text {*/
+/*    background: rgba(0, 0, 0, 0.7) !important;*/
+/*}*/

@@ -27,7 +27,7 @@ public class OrderItemsPO implements Serializable {
 
     Long tbProductSpecId;
 
-    String specName;
+    String specsName;
 
     String imgUrl;
 

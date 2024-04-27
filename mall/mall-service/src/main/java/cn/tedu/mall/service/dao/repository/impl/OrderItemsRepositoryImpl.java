@@ -44,7 +44,7 @@ public class OrderItemsRepositoryImpl implements IOrderItemsRepository {
         orderItemsPO.setTbProductId(productSpecsPO.getTbProductId());
         orderItemsPO.setTbProductName(productPO.getProductName());
         orderItemsPO.setTbProductSpecId(tbProductSpecId);
-        orderItemsPO.setSpecName(productSpecsPO.getSpecsName());
+        orderItemsPO.setSpecsName(productSpecsPO.getSpecsName());
         orderItemsPO.setImgUrl(productSpecsPO.getImgUrl());
         orderItemsPO.setPrice(productSpecsPO.getCurrentPrice());
         orderItemsPO.setAmount(amount);

@@ -34,5 +34,7 @@ public class OrderDetailVO implements Serializable {
     String tbUserNotes;
 
     List<OrderItemsVO> orderItemsVOS;
+
+    String orderStatus;
 }
 

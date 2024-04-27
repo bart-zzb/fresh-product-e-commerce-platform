@@ -1,7 +1,7 @@
 package cn.tedu.mall.service.dao.repository;
 
+import cn.tedu.mall.service.pojo.bo.OrderDetailBO;
 import cn.tedu.mall.service.pojo.po.OrderPO;
-import cn.tedu.mall.service.pojo.vo.OrderVO;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ public interface IOrderRepository {
 
     int saveOrder(OrderPO orderPO);
 
-    List<OrderVO> getOrderByUserId(Long userId);
+    List<OrderDetailBO> getOrderByUserId(Long userId);
 
     OrderPO addBlankOrderByUserId(Long userId);
 
-    OrderPO getOrderByUserIdAndOrderNo(Long userId, String orderNo);
+    OrderDetailBO getOrderByUserIdAndOrderNo(Long userId, String orderNo);
 }
