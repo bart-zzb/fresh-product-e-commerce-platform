@@ -109,8 +109,12 @@ const loadDetails = (showAllChecked) => {
     if (response.data.state == 20000) {
       totalPrice.value = response.data.data.totalPrice * 100;
       selectCount.value = response.data.data.totalAmount;
-      if (showAllChecked) {
+      if (showAllChecked==true) {
         allChecked.value = response.data.data.allChecked;
+        //添加条件判断是否把全选设置成false
+        if(cartProducts.value.length==0&&selectCount.value ==0){
+          allChecked.value = false;
+        }
       }
     }
   })

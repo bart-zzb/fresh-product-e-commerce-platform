@@ -96,7 +96,7 @@
         </van-col>
       </van-row>
       <!-- 选择购物车弹出框-->
-      <van-popup v-model:show="showCart" position="bottom" style="height: 40%;">
+      <van-popup v-model:show="showCart" position="bottom" style="height: 40%;" >
         <van-row style=" margin-left: 15px;">
           <van-col :span="6">
             <img :src="BASE_URL + content.imgUrl" style="width:80px;margin-top: 10px;"></van-col>
@@ -198,12 +198,6 @@ import qs from "qs";
 
 const content = ref({imgUrl: ''});
 const discountsTime = ref(30 * 60 * 60 * 1000);
-// const content = ref({
-//   title: '五花肉 300g/份', imgUrl: '/imgs/detail/detail1.jpg',
-//   newPrice: 13.9, oldPrice: 18.2, goodsId: '0169',
-//   count: 24, salesVolume: 1812, discountsTime: 30 * 60 * 60 * 1000,
-//   detailImgUrl: "/imgs/detail/detail1-1.jpg"
-// });
 
 const num = ref(1);
 const subtract = () => {
@@ -315,5 +309,4 @@ const addOrder = (id, num) => {
   text-align: center;
   background-color: darkseagreen;
 }
-
 </style>

@@ -37,9 +37,9 @@ api.interceptors.response.use((res) => {
             type: 'html',
             overlay: true,
             duration: 1000,
-                maskClass:'custom-mask',
             'close-on-click-overlay': true
             })
+
 
         }else{
             showToast({
@@ -49,7 +49,6 @@ api.interceptors.response.use((res) => {
                 type: 'html',
                 overlay: true,
                 duration: 1000,
-                maskClass:' background-color: rgba(1, 1, 1, 0.5);',
                 'close-on-click-overlay': true
             })
         }
@@ -65,7 +64,6 @@ api.interceptors.response.use((res) => {
             type: 'html',
             overlay: true,
             duration: 1000,
-            maskClass:' background-color: rgba(1, 1, 1, 0.5);',
             'close-on-click-overlay': true
         })
     }else if(res.data.state == 60500){
@@ -76,7 +74,6 @@ api.interceptors.response.use((res) => {
             type: 'html',
             overlay: true,
             duration: 1000,
-            maskClass:' background-color: rgba(1, 1, 1, 0.5);',
             'close-on-click-overlay': true
         })
     }else if(res.data.state== 40000){
@@ -87,7 +84,6 @@ api.interceptors.response.use((res) => {
             type: 'html',
             overlay: true,
             duration: 1000,
-            maskClass:' background-color: rgba(1, 1, 1, 0.5);',
             'close-on-click-overlay': true
         })
     }
