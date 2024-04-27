@@ -27,7 +27,9 @@
       </van-row>
     </div>
   </div>
-
+  <div style="padding-bottom: 80px;padding-top: 150px;z-index: -1;" v-show="emptyShow">
+    <van-empty description="亲，当前购物车没有任何商品" />
+  </div>
 
   <!--<van-checkbox-group v-model="checked">-->
   <div style="padding-bottom: 80px;padding-top: 150px;z-index: -1;">
@@ -86,10 +88,18 @@ const selectCount = ref(0);
 //是否选择全部商品
 const allChecked = ref(false);
 
+const emptyShow = ref(false);
+
 const loadContents = () => {
   axios.get("mall/cart/get").then((response) => {
     if (response.data.state == 20000) {
       cartProducts.value = response.data.data;
+      //判断是否展示空购物车页面
+      if(cartProducts.value.length==0){
+        emptyShow.value=true;
+      }else{
+        emptyShow.value=false
+      }
     }
   })
 };

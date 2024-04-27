@@ -45,7 +45,7 @@ import router from "@/router";
 import {showToast} from "vant";
 
 const onClickLeft = () => {
-
+  router.push("/personal");
 }
 
 const user = ref({

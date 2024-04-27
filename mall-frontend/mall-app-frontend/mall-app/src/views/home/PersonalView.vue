@@ -9,7 +9,7 @@
         </van-col>
         <van-col span="18" style="margin-top:25px;text-align: left;">
           <span style="color:#fff;font-size: 18px;">你好,{{user.username}} {{user.memberType}}</span>
-          <van-icon name="setting-o" style="float: right;right: 30px;color:#fff;" size="30px" @click="toLogin()"/>
+          <van-icon name="setting-o" style="float: right;right: 30px;color:#fff;" size="30px" @click="toLoginOrInfo()"/>
           <p style="color:#F4ADA7;margin-top:6px;font-size: 16px;text-align: left;">ID: {{user.id}} {{user.contactPhone}}</p>
         </van-col>
       </van-row>
@@ -141,8 +141,15 @@ onMounted(()=>{
   }
 })
 
-const toLogin =()=>{
-  router.push('/login')
+const toLoginOrInfo =()=>{
+  let userInfo = localStorage.getItem("userInfo");
+  let token = localStorage.getItem("token");
+  if(userInfo!=null && token!=null){
+    router.push('/info');
+  }else{
+    localStorage.setItem('redirectPath',router.currentRoute.value.fullPath);
+    router.push('/login');
+  }
 }
 
 </script>

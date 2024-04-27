@@ -56,10 +56,10 @@ const user = ref({
   password: ""
 })
 
-// onMounted(() => {
-//   user.value.username = "xiaoy";
-//   user.value.password = "123456";
-// })
+onMounted(() => {
+  user.value.username = "xiaoy";
+  user.value.password = "123456";
+})
 
 const submit = () => {
   let data = qs.stringify(user.value)

@@ -13,16 +13,35 @@
       style="background:linear-gradient(90deg, #fff,#D54431);height: 140px;margin-top:100px;padding:10px;border-bottom-left-radius: 15px;border-bottom-right-radius: 15px;">
     <van-tabs v-model:active="active" style="margin-top:10px;">
       <van-tab title="快递配送">
-        <van-cell title="设置地址"
-                  style="text-align: left;
-                    background-color: #fff;
+        <!--        <van-cell title="设置地址"-->
+        <!--                  style="text-align: left;-->
+        <!--                    background-color: #fff;-->
+        <!--                    border-bottom-left-radius: 15px;-->
+        <!--                    border-bottom-right-radius: 15px;-->
+        <!--                    &#45;&#45;van-cell-line-height:55px;-->
+        <!--                    &#45;&#45;van-cell-font-size:18px;-->
+        <!--                    &#45;&#45;van-cell-horizontal-padding:30px;-->
+        <!--                    &#45;&#45;van-cell-icon-size:20px;"-->
+        <!--                  is-link/>-->
+        <van-field
+            style="height: 75px;padding-top: 25px;padding-left:55px;text-align: left;
                     border-bottom-left-radius: 15px;
-                    border-bottom-right-radius: 15px;
-                    --van-cell-line-height:55px;
-                    --van-cell-font-size:18px;
-                    --van-cell-horizontal-padding:30px;
-                    --van-cell-icon-size:20px;"
-                  is-link/>
+                   border-bottom-right-radius: 15px"
+            v-model="fieldValue"
+            is-link
+            readonly
+            label="设置地址"
+            placeholder="选择具体收货地址"
+            @click="showPicker = true"
+        />
+        <van-popup v-model:show="showPicker" round position="bottom">
+          <van-picker
+              :columns="columns"
+              @cancel="showPicker = false"
+              @confirm="onConfirm"
+          />
+        </van-popup>
+
       </van-tab>
       <van-tab title="自提">
         <van-cell title="暂时不支持自提"
@@ -172,49 +191,81 @@ onMounted(() => {
     order.value.totalPrice = response.data.data.orderAmountTotal;
     order.value.productCount = order.value.productList.length;
   })
+
+  //获取用户地址表
+  axios.get("admin/userAddress/get/all").then((response) => {
+    if (response.data.state == 20000) {
+      columns.value = response.data.data;
+    }
+  })
+
+  let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  balance.value = userInfo.userBalance;
 })
 
 const onBack = () => {
   router.push("/cart");
 }
 
-const payChecked = ref();
+const payChecked = ref("wechatpay");
 
-const balance = ref(153.65);
+const balance = ref();
 
 const submit = () => {
-  let productSpecDeleteDTOS = [];
-  for (let i = 0; i < order.value.productList.length; i++) {
-    productSpecDeleteDTOS.push({
-      tbProductSpecId: order.value.productList[i].tbProductSpecId,
-      amount: order.value.productList[i].amount
+  if (fieldValue.value == '') {
+    showToast({
+      message: '<div style="font-size: 20px;margin: 20px;">' +
+          '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-fail" style="color:#13DEA5;"></span></div>' +
+          '<div style="text-align: center;">未选择收货地址</div></div>',
+      type: 'html',
+      overlay: true,
+      duration: 1500,
+      'close-on-click-overlay': true
+    })
+  }else{
+    //更新库存，更新销量
+    let productSpecDeleteDTOS = [];
+    for (let i = 0; i < order.value.productList.length; i++) {
+      productSpecDeleteDTOS.push({
+        tbProductSpecId: order.value.productList[i].tbProductSpecId,
+        amount: order.value.productList[i].amount
+      })
+    }
+    axios({
+      method: "post",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      dataType: "json",
+      data: JSON.stringify(productSpecDeleteDTOS),
+      url: "mall/product_specs/modify"
+    }).then((response) => {
+      if (response.data.state == 20000) {
+        showToast({
+          message: '<div style="font-size: 20px;margin: 20px;">' +
+              '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-success" style="color:#13DEA5;"></span></div>' +
+              '<div style="text-align: center;">支付成功</div></div>',
+          type: 'html',
+          overlay: true,
+          duration: 1500,
+          'close-on-click-overlay': true
+        })
+        setTimeout(() => {
+          router.push('/personal');
+        }, 1000);
+      }
     })
   }
-  axios({
-    method: "post",
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    dataType: "json",
-    data: JSON.stringify(productSpecDeleteDTOS),
-    url: "mall/product_specs/modify"
-  }).then((response) => {
-    if (response.data.state == 20000) {
-      showToast({
-        message: '<div style="font-size: 20px;margin: 20px;">' +
-            '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-success" style="color:#13DEA5;"></span></div>' +
-            '<div style="text-align: center;">支付成功</div></div>',
-        type: 'html',
-        overlay: true,
-        duration: 1500,
-        'close-on-click-overlay': true
-      })
-      setTimeout(() => {
-        router.push('/personal');
-      }, 1000);
-    }
-  })
 }
+
+const columns = ref([]);
+const fieldValue = ref(null);
+const showPicker = ref(false);
+
+const onConfirm = ({selectedOptions}) => {
+  showPicker.value = false;
+  fieldValue.value = selectedOptions[0].text;
+};
 
 </script>
 
