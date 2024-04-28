@@ -143,15 +143,20 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
                     result.add(cartCachePO);
                 }
             });
-
-            for (CartCachePO cartCachePO : result) {
-                if (cartCachePO.getTbProductChecked() == ProductConstants.CHECKED.getValue()) {
-                    totalPrice = totalPrice.add(cartCachePO.getTotalPrice());
-                    totalAmount += cartCachePO.getAmount();
-                } else {
-                    allChecked = false;
+            if (!CollectionUtils.isEmpty(result)) {
+                for (CartCachePO cartCachePO : result) {
+                    if (cartCachePO.getTbProductChecked() == ProductConstants.CHECKED.getValue()) {
+                        totalPrice = totalPrice.add(cartCachePO.getTotalPrice());
+                        totalAmount += cartCachePO.getAmount();
+                    } else {
+                        allChecked = false;
+                    }
                 }
+            }else{
+                allChecked = false;
             }
+        }else{
+            allChecked = false;
         }
 
         CartTotalVO cartTotalVO = new CartTotalVO();

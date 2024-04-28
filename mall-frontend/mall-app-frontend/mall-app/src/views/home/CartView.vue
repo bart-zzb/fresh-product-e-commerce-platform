@@ -112,9 +112,9 @@ const loadDetails = (showAllChecked) => {
       if (showAllChecked==true) {
         allChecked.value = response.data.data.allChecked;
         //添加条件判断是否把全选设置成false
-        if(cartProducts.value.length==0&&selectCount.value ==0){
-          allChecked.value = false;
-        }
+        // if(cartProducts.value.length==0&&selectCount.value ==0){
+        //   allChecked.value = false;
+        // }
       }
     }
   })

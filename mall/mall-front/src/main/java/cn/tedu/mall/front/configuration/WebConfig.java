@@ -1,6 +1,6 @@
 package cn.tedu.mall.front.configuration;
 
-import cn.tedu.mall.front.interceptor.JwtInterceptor;
+import cn.tedu.mall.common.interceptor.JwtInterceptor;
 import cn.tedu.mall.front.resolver.LoginUserHandlerMethodArgumentResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

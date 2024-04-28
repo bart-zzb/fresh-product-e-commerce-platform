@@ -37,7 +37,7 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public OrderDetailVO addOrder(Long userId, List<OrderItemsAddDTO> orderItemsAddDTOS) {
         log.debug("商品详情入参{}", orderItemsAddDTOS);
-        if(orderItemsAddDTOS.isEmpty()){
+        if (orderItemsAddDTOS.isEmpty()) {
             throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, ServiceConstant.ORDER_ITEMS_NOT_EXIST);
         }
         //生成空订单, 获取订单id, 生成OrderPO
@@ -71,7 +71,7 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public void updateOrder(OrderUpdateDTO orderUpdateDTO) {
         OrderPO orderPO = orderRepository.getOrderByIdAndUserId(orderUpdateDTO.getId(), orderUpdateDTO.getTbUserId());
-        if(orderPO==null){
+        if (orderPO == null) {
             throw new ServiceException(ServiceCode.ERROR_NOT_FOUND, ServiceConstant.ORDER_NOT_EXIST);
         }
         orderPO.setStatus(orderUpdateDTO.getStatus());
@@ -94,21 +94,19 @@ public class OrderServiceImpl implements IOrderService {
         return orderDetailBO;
     }
 
-    private void setDetailForOrderDetailBO(OrderDetailBO orderDetailBO){
-        if (orderDetailBO!=null && orderDetailBO.getId()!=null){
+    private void setDetailForOrderDetailBO(OrderDetailBO orderDetailBO) {
+        if (orderDetailBO != null && orderDetailBO.getId() != null) {
             List<OrderItemsPO> orderItemsPOS = orderItemsRepository.getOrderItemsByOrderId(orderDetailBO.getId());
             List<OrderItemsVO> orderItemsVOS = PojoConvert.convertList(orderItemsPOS, OrderItemsVO.class);
-            if (orderDetailBO != null){
-                BigDecimal total = new BigDecimal(0);
-                orderDetailBO.setOrderItemsVOS(orderItemsVOS);
-                for (OrderItemsVO orderItemsVO : orderItemsVOS) {
-                    total = total.add(orderItemsVO.getTotalPrice());
-                }
-                orderDetailBO.setOrderAmountTotal(total);
-                for (OrderConstants value : OrderConstants.values()) {
-                    if(value.getValue().equals(orderDetailBO.getStatus())){
-                        orderDetailBO.setOrderStatus(value.getDescription());
-                    }
+            BigDecimal total = new BigDecimal(0);
+            orderDetailBO.setOrderItemsVOS(orderItemsVOS);
+            for (OrderItemsVO orderItemsVO : orderItemsVOS) {
+                total = total.add(orderItemsVO.getTotalPrice());
+            }
+            orderDetailBO.setOrderAmountTotal(total);
+            for (OrderConstants value : OrderConstants.values()) {
+                if (value.getValue().equals(orderDetailBO.getStatus())) {
+                    orderDetailBO.setOrderStatus(value.getDescription());
                 }
             }
         }

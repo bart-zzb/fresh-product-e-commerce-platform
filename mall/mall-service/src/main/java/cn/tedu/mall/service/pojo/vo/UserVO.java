@@ -1,5 +1,6 @@
 package cn.tedu.mall.service.pojo.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -32,6 +33,7 @@ public class UserVO implements Serializable {
 
     Integer userPoint;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     BigDecimal userBalance;
 
     Integer couponCount;

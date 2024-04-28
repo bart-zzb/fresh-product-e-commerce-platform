@@ -9,9 +9,19 @@
   </div>
   <div style="margin-top:65px;padding:10px;">
     <div style="margin-left: 20px;">共{{orderList.length}}条订单</div>
+    <van-empty description="亲，当前购物车没有任何商品" v-show="emptyShow"/>
       <van-collapse v-model="activeNames" v-for="(order,index) in orderList" >
-        <van-collapse-item :title="'订单尾号:'+order.orderNo.substring(23,36) + '     '+'¥'+ order.orderAmountTotal" :name="index" :value="order.orderStatus" style="margin-top: 10px;--van-collapse-item-content-background: #f5f5f5;">
-          ¥{{order.orderAmountTotal}}
+        <van-collapse-item :title="'订单尾号:'+order.orderNo.substring(23,36) + '     '+'总金额: ¥'+ order.orderAmountTotal" :name="index+1" :value="order.orderStatus" style="margin-top: 10px;--van-collapse-item-content-background: #f5f5f5;">
+          <van-swipe-cell v-for="(item,index) in order.orderItemsVOS">
+            <van-card
+                :num="item.amount"
+                :price="item.price"
+                :desc="item.tbProductName"
+                :title="item.specsName"
+                class="goods-card"
+                :thumb="BASE_URL + item.imgUrl"
+            />
+          </van-swipe-cell>
         </van-collapse-item>
       </van-collapse>
 
@@ -19,12 +29,12 @@
 <!--      <van-cell :title="'订单号:'+order.orderNo" :value="'¥'+ order.orderAmountTotal" :label="order.orderStatus" style="&#45;&#45;van-cell-background:#f5f5f5;" />-->
 <!--    </van-cell-group>-->
   </div>
-  <div style="margin: auto">  <van-pagination style="position: fixed;bottom:80px;width: 100%;"
-                                              v-model="currentPage"
-                                              :total-items="125"
-                                              :show-page-size="6"
-                                              force-ellipses
-  /></div>
+<!--  <div style="margin: auto">  <van-pagination style="position: fixed;bottom:80px;width: 100%;"-->
+<!--                                              v-model="currentPage"-->
+<!--                                              :total-items="125"-->
+<!--                                              :show-page-size="6"-->
+<!--                                              force-ellipses-->
+<!--  /></div>-->
 
 </template>
 
@@ -34,8 +44,9 @@ import {onMounted, ref} from "vue";
 import axios from "@/utils/request";
 
 const orderList = ref([])
-const activeNames = ref(['1']);
-const currentPage = ref();
+const activeNames = ref([1]);
+const emptyShow = ref(true);
+// const currentPage = ref();
 const onBack =()=>{
   let redirectPath = localStorage.getItem('redirectPath');
   //跳转上一页
@@ -49,8 +60,9 @@ onMounted(()=>{
   axios.get("mall/order/select/all").then((response)=>{
     if(response.data.state == 20000){
       orderList.value = response.data.data;
-      console.log(orderList.value);
-
+      if(orderList.value.length!=0){
+        emptyShow.value = false;
+      }
     }
   })
 })

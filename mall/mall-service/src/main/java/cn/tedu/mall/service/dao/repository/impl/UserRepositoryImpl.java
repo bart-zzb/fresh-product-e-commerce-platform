@@ -19,7 +19,10 @@ public class UserRepositoryImpl implements IUserRepository {
     @Override
     public UserBO getCurrentPrincipalByUsername(String username) {
         UserPO userPO = userMapper.selectByUsername(username);
-        return PojoConvert.convert(userPO, UserBO.class);
+        if (userPO!=null){
+            return PojoConvert.convert(userPO, UserBO.class);
+        }
+        return null;
     }
 
     @Override

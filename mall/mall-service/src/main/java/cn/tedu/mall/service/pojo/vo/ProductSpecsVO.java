@@ -1,5 +1,6 @@
 package cn.tedu.mall.service.pojo.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -21,8 +22,10 @@ public class ProductSpecsVO implements Serializable {
 
     String imgUrl;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     BigDecimal currentPrice;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     BigDecimal originalPrice;
 
     Integer amount;

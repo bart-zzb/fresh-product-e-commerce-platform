@@ -1,6 +1,8 @@
 package cn.tedu.mall.front.controller;
 
 import cn.tedu.mall.common.annotation.CurrentUser;
+import cn.tedu.mall.common.constant.ServiceCode;
+import cn.tedu.mall.common.constant.ServiceConstant;
 import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.common.web.JsonResult;
 import cn.tedu.mall.service.pojo.authentication.CurrentPrincipal;
@@ -78,6 +80,9 @@ public class OrderController {
     @ApiOperation("通过订单编号查询当前用户订单")
     @GetMapping("/select")
     public JsonResult getOrderByOrderNo(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, String orderNo){
+        if(orderNo.equals("null")){
+            return JsonResult.fail(ServiceCode.ERROR_BAD_REQUEST, ServiceConstant.ORDER_NOT_EXIST);
+        }
         OrderDetailBO orderDetailBO = orderService.getOrderByUserIdAndOrderNo(currentPrincipal.getId(), orderNo);
         OrderDetailVO orderDetailVO = PojoConvert.convert(orderDetailBO, OrderDetailVO.class);
         return  JsonResult.ok(orderDetailVO);

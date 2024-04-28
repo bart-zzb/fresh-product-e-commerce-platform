@@ -176,7 +176,7 @@
 import {onMounted, ref} from "vue";
 import router from "@/router";
 import axios from "@/utils/request";
-import {showToast} from "vant";
+import {showConfirmDialog, showToast} from "vant";
 import qs from "qs";
 import {useRoute} from "vue-router";
 
@@ -187,9 +187,11 @@ const order = ref({
 onMounted(() => {
   let orderNo = new URLSearchParams(location.search).get('orderNo');
   axios.get("mall/order/select?orderNo=" + orderNo).then((response) => {
-    order.value.productList = response.data.data.orderItemsVOS;
-    order.value.totalPrice = response.data.data.orderAmountTotal;
-    order.value.productCount = order.value.productList.length;
+    if(response.data.state==20000){
+      order.value.productList = response.data.data.orderItemsVOS;
+      order.value.totalPrice = response.data.data.orderAmountTotal;
+      order.value.productCount = order.value.productList.length;
+    }
   })
 
   //获取用户地址表
@@ -204,7 +206,17 @@ onMounted(() => {
 })
 
 const onBack = () => {
-  router.push("/cart");
+  showConfirmDialog({
+    title: '提示',
+    message:
+        '您确认退出订单支付页面吗？',
+  })
+      .then(() => {
+        router.push("/cart");
+      })
+      .catch(() => {
+        // on cancel
+      });
 }
 
 const payChecked = ref("wechatpay");

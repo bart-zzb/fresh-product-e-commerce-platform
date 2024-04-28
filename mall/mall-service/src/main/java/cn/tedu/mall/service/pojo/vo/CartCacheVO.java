@@ -1,5 +1,6 @@
 package cn.tedu.mall.service.pojo.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -22,9 +23,11 @@ public class CartCacheVO implements Serializable {
 
     String imgUrl;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     BigDecimal price;
 
     Integer amount;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     BigDecimal totalPrice;
 }

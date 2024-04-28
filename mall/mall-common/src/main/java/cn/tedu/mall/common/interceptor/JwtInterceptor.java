@@ -1,4 +1,4 @@
-package cn.tedu.mall.front.interceptor;
+package cn.tedu.mall.common.interceptor;
 
 
 import cn.tedu.mall.common.constant.JwtConstants;

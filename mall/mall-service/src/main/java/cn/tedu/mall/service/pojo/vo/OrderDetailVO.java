@@ -1,5 +1,6 @@
 package cn.tedu.mall.service.pojo.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -17,6 +18,7 @@ public class OrderDetailVO implements Serializable {
 
     Integer status;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     BigDecimal orderAmountTotal;
 
     Long tbUserId;

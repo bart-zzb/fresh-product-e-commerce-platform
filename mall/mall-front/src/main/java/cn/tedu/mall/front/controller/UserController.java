@@ -56,8 +56,8 @@ public class UserController {
         }
         //数据库存储加盐加密后的密码
         userService.saveUserByUsernameAndPassword(userRegByUserPwdDTO.getUsername(), PasswordEncoderUtils.enc(userRegByUserPwdDTO.getPassword()));
-
-        return userVOSetToken(userRegByUserPwdDTO.getUsername(), userRegByUserPwdDTO.getPassword(), userBO);
+        UserBO currentUserBO = userService.getUserByUsername(userRegByUserPwdDTO.getUsername());
+        return userVOSetToken(userRegByUserPwdDTO.getUsername(), userRegByUserPwdDTO.getPassword(), currentUserBO);
     }
 
     /**
