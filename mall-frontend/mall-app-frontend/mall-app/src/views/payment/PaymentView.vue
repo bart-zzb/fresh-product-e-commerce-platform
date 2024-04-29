@@ -1,7 +1,7 @@
 <template>
   <!--顶部栏-->
-  <div style="background-color:#D54431;height: 100px;position: fixed;top:0;width: 100%;z-index: 1">
-    <van-nav-bar class="nav" style="margin:55px auto;background-color:#D54431;"
+  <div style="background-color:#D54431;height: 60px;position: fixed;top:0;width: 100%;z-index: 1">
+    <van-nav-bar class="nav" style="padding-top: 10px;background-color:#D54431;"
                  title="提交订单"
                  left-text="返回"
                  left-arrow
@@ -10,7 +10,7 @@
 
   <!--配送地址-->
   <div
-      style="background:linear-gradient(90deg, #fff,#D54431);height: 140px;margin-top:100px;padding:10px;border-bottom-left-radius: 15px;border-bottom-right-radius: 15px;">
+      style="background:linear-gradient(90deg, #fff,#D54431);height: 140px;margin-top:60px;padding:10px;border-bottom-left-radius: 15px;border-bottom-right-radius: 15px;">
     <van-tabs v-model:active="active" style="margin-top:10px;">
       <van-tab title="快递配送">
         <!--        <van-cell title="设置地址"-->
@@ -27,20 +27,20 @@
             style="height: 75px;padding-top: 25px;padding-left:55px;text-align: left;
                     border-bottom-left-radius: 15px;
                    border-bottom-right-radius: 15px"
-            v-model="fieldValue"
+            v-model="addressValue"
             is-link
             readonly
             label="设置地址"
             placeholder="选择具体收货地址"
-            @click="showPicker = true"
+            @click="toAddress"
         />
-        <van-popup v-model:show="showPicker" round position="bottom">
-          <van-picker
-              :columns="columns"
-              @cancel="showPicker = false"
-              @confirm="onConfirm"
-          />
-        </van-popup>
+        <!--        <van-popup v-model:show="showPicker" round position="bottom">-->
+        <!--          <van-picker-->
+        <!--              :columns="columns"-->
+        <!--              @cancel="showPicker = false"-->
+        <!--              @confirm="onConfirmAddress"-->
+        <!--          />-->
+        <!--        </van-popup>-->
 
       </van-tab>
       <van-tab title="自提">
@@ -176,9 +176,12 @@
 import {onMounted, ref} from "vue";
 import router from "@/router";
 import axios from "@/utils/request";
-import {showConfirmDialog, showToast} from "vant";
-import qs from "qs";
-import {useRoute} from "vue-router";
+import {showConfirmDialog, showFailToast, showSuccessToast} from "vant";
+
+const active = ref();
+const columns = ref([]);
+const addressValue = ref(null);
+const message = ref();
 
 const order = ref({
   productCount: 0, totalPrice: 0, productList: []
@@ -187,7 +190,7 @@ const order = ref({
 onMounted(() => {
   let orderNo = new URLSearchParams(location.search).get('orderNo');
   axios.get("mall/order/select?orderNo=" + orderNo).then((response) => {
-    if(response.data.state==20000){
+    if (response.data.state == 20000) {
       order.value.productList = response.data.data.orderItemsVOS;
       order.value.totalPrice = response.data.data.orderAmountTotal;
       order.value.productCount = order.value.productList.length;
@@ -198,6 +201,7 @@ onMounted(() => {
   axios.get("admin/userAddress/get/all").then((response) => {
     if (response.data.state == 20000) {
       columns.value = response.data.data;
+      addressValue.value = columns.value[0].text;
     }
   })
 
@@ -223,18 +227,11 @@ const payChecked = ref("wechatpay");
 
 const balance = ref();
 
+//提交订单按钮
 const submit = () => {
-  if (fieldValue.value == '') {
-    showToast({
-      message: '<div style="font-size: 20px;margin: 20px;">' +
-          '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-fail" style="color:#13DEA5;"></span></div>' +
-          '<div style="text-align: center;">未选择收货地址</div></div>',
-      type: 'html',
-      overlay: true,
-      duration: 1500,
-      'close-on-click-overlay': true
-    })
-  }else{
+  if (addressValue.value == '') {
+    showFailToast('未选择收货地址');
+  } else {
     //更新库存，更新销量
     let productSpecDeleteDTOS = [];
     for (let i = 0; i < order.value.productList.length; i++) {
@@ -253,15 +250,7 @@ const submit = () => {
       url: "mall/product_specs/modify"
     }).then((response) => {
       if (response.data.state == 20000) {
-        showToast({
-          message: '<div style="font-size: 20px;margin: 20px;">' +
-              '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-success" style="color:#13DEA5;"></span></div>' +
-              '<div style="text-align: center;">支付成功</div></div>',
-          type: 'html',
-          overlay: true,
-          duration: 1500,
-          'close-on-click-overlay': true
-        })
+        showSuccessToast('支付成功');
         setTimeout(() => {
           router.push('/personal');
         }, 1000);
@@ -270,14 +259,19 @@ const submit = () => {
   }
 }
 
-const columns = ref([]);
-const fieldValue = ref(null);
-const showPicker = ref(false);
+const toAddress = () => {
+  let redirectPath = localStorage.setItem('redirectPath', router.currentRoute.value.fullPath);
+  router.push("/address");
+}
 
-const onConfirm = ({selectedOptions}) => {
-  showPicker.value = false;
-  fieldValue.value = selectedOptions[0].text;
-};
+// const columns = ref([]);
+// const addressValue = ref(null);
+// const showPicker = ref(false);
+//
+// const onConfirmAddress = ({selectedOptions}) => {
+//   showPicker.value = false;
+//   addressValue.value = selectedOptions[0].text;
+// };
 
 </script>
 

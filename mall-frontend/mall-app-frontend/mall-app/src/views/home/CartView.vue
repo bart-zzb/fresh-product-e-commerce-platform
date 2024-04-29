@@ -75,7 +75,7 @@
 import {onMounted, ref} from "vue";
 import router from "@/router";
 import axios from "@/utils/request";
-import {showToast} from "vant";
+import {showFailToast} from "vant";
 
 const show = ref(false);
 
@@ -176,15 +176,7 @@ const onSubmit = () => {
       let currentCartList = response.data.data;
       // 查看是否选中任何商品
       if (currentCartList.length == 0) {
-        showToast({
-          message: '<div style="font-size: 20px;margin: 20px;">' +
-              '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-fail" style="color:#13DEA5;"></span></div>' +
-              '<div style="text-align: center;">未选择任何商品</div></div>',
-          type: 'html',
-          overlay: true,
-          duration: 1500,
-          'close-on-click-overlay': true
-        })
+        showFailToast('未选择任何商品');
       } else {
         //删除选中购物车商品
         axios.post("mall/cart/delete").then((response) => {

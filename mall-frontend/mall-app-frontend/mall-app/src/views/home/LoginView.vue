@@ -45,7 +45,7 @@ import {onMounted, ref} from "vue";
 import axios from '@/utils/request'
 import qs from "qs";
 import router from "@/router";
-import {showToast} from "vant";
+import {showSuccessToast} from "vant";
 
 const onClickLeft = () => {
   router.push("/personal")
@@ -68,15 +68,7 @@ const submit = () => {
       localStorage.setItem("token", response.data.data.token);
       localStorage.setItem("userInfo",JSON.stringify(response.data.data));
       let redirectPath = localStorage.getItem('redirectPath');
-      showToast({
-        message: '<div style="font-size: 20px;margin: 20px;">' +
-            '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-success" style="color:#13DEA5;"></span></div>' +
-            '<div style="text-align: center;">登录成功</div></div>',
-        type: 'html',
-        overlay: true,
-        duration: 800,
-        'close-on-click-overlay': true
-      })
+      showSuccessToast('登录成功');
       //跳转上一页
       if (redirectPath) {
         localStorage.removeItem('redirectPath');

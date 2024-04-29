@@ -29,7 +29,7 @@
 <script setup>
 import {onMounted, ref} from "vue";
 import router from "@/router";
-import {showToast} from "vant";
+import {showSuccessToast} from "vant";
 
 const userInfo = ref({});
 onMounted(() => {
@@ -46,16 +46,13 @@ const onClickLeft = () => {
 const logout = () =>{
   localStorage.removeItem("userInfo");
   localStorage.removeItem("token");
-  showToast({
-    message: '<div style="font-size: 20px;margin: 20px;">' +
-        '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-success" style="color:#13DEA5;"></span></div>' +
-        '<div style="text-align: center;">成功登出</div></div>',
-    type: 'html',
-    overlay: true,
-    duration: 800,
-    'close-on-click-overlay': true
-  })
+  showSuccessToast('成功登出');
   router.push("/personal");
+}
+
+const toAddress = () =>{
+  let redirectPath = localStorage.setItem('redirectPath', router.currentRoute.value.fullPath);
+  router.push("/address")
 }
 </script>
 

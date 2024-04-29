@@ -2,7 +2,7 @@
 import axios from 'axios'
 // 这是我放基准地址的文件
 import env from './env'
-import {showToast} from "vant";
+import {showFailToast} from "vant";
 import router from "@/router";
 
 // 创建一个axios 实例
@@ -30,71 +30,23 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use((res) => {
     if(res.data.state == 60000 || res.data.state == 60100 || res.data.state == 60400){
         if(res.data.state === 60100 || res.data.state == 60400){
-            showToast({
-            message: '<div style="font-size: 20px;margin: 20px;">' +
-                '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-fail" style="color:#13DEA5;"></span></div>' +
-                '<div style="text-align: center;">未登录,请先登录</div></div>',
-            type: 'html',
-            overlay: true,
-            duration: 1000,
-            'close-on-click-overlay': true
-            })
-
-
+            showFailToast('未登录,请先登录');
         }else{
-            showToast({
-                message: '<div style="font-size: 20px;margin: 20px;">' +
-                    '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-fail" style="color:#13DEA5;"></span></div>' +
-                    '<div style="text-align: center;">已过期,请重新登录</div></div>',
-                type: 'html',
-                overlay: true,
-                duration: 1000,
-                'close-on-click-overlay': true
-            })
+            showFailToast('已过期,请重新登录')
         }
         localStorage.setItem('redirectPath',router.currentRoute.value.fullPath);
         setTimeout(() => {
             router.push("/login");
         });
     }else if(res.data.state == 60300){
-        showToast({
-            message: '<div style="font-size: 20px;margin: 20px;">' +
-                '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-fail" style="color:#13DEA5;"></span></div>' +
-                '<div style="text-align: center;">用户名或密码错误</div></div>',
-            type: 'html',
-            overlay: true,
-            duration: 1000,
-            'close-on-click-overlay': true
-        })
+        showFailToast('用户名或密码错误')
+
     }else if(res.data.state == 60500){
-        showToast({
-            message: '<div style="font-size: 20px;margin: 20px;">' +
-                '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-fail" style="color:#13DEA5;"></span></div>' +
-                '<div style="text-align: center;">用户名已存在</div></div>',
-            type: 'html',
-            overlay: true,
-            duration: 1000,
-            'close-on-click-overlay': true
-        })
+        showFailToast('用户名已存在')
+
     }else if(res.data.state== 40000){
-        showToast({
-            message: '<div style="font-size: 20px;margin: 20px;">' +
-                '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-fail" style="color:#13DEA5;"></span></div>' +
-                '<div style="text-align: center;">'+res.data.message+'</div></div>',
-            type: 'html',
-            overlay: true,
-            duration: 1000,
-            'close-on-click-overlay': true
-        })
+        showFailToast(res.data.message);
     }
-
-
-    // if(res.data.state === 20000){
-    //     showToast(res.data.message);
-    //     setTimeout(()=>{
-    //         router.push("/live")
-    //     },1000);
-    // }
 
     return res
 }, error => {

@@ -1,7 +1,9 @@
 <template>
-  <div style="position: fixed;top:0;">
-    <h2>产品分类</h2>
+  <div style="height: 120px;position: fixed;top:0;width: 100%;z-index: 1;background-color: #fff;">
+    <h2 >产品分类</h2>
     <van-search v-model="searchValue" placeholder="请输入搜索关键词"/>
+  </div>
+  <div style="padding-top: 120px;">
     <van-tabs v-model:active="active">
       <van-tab v-for="cat in categoryList" :title="cat.text">
         <van-tree-select v-model:main-active-index="activeList[active].subActiveIndex[activeIndex]" height="auto"
@@ -154,7 +156,7 @@
 import {onMounted, ref} from "vue";
 import axios from "@/utils/request";
 import qs from "qs";
-import {showToast} from "vant";
+import {showSuccessToast} from "vant";
 
 const active = ref(0);
 const activeIndex = ref(0);
@@ -211,19 +213,11 @@ const loadActiveList = () => {
 }
 
 const addCart = (item) => {
-  let add = {tbProductSpecId:item.id, amount:1};
+  let add = {tbProductSpecId: item.id, amount: 1};
   let data = qs.stringify(add);
-  axios.post("/mall/cart/add", data).then((response)=>{
-    if (response.data.state == 20000){
-      showToast({
-        message: '<div style="font-size: 20px;margin: 20px;">' +
-            '<div style="margin: 10px auto;text-align: center;"><span class="van-icon van-icon-passed" style="color:#13DEA5;"></span></div>' +
-            '<div style="text-align: center;">加入购物车成功</div></div>',
-        type: 'html',
-        overlay: true,
-        duration: 1500,
-        'close-on-click-overlay': true
-      })
+  axios.post("/mall/cart/add", data).then((response) => {
+    if (response.data.state == 20000) {
+      showSuccessToast('加入购物车成功');
     }
   })
 }

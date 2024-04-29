@@ -1,6 +1,6 @@
 <template>
   <!--顶部栏-->
-  <div style="position: fixed; top:0px;width: 100%;">
+  <div style="position: fixed; top:0px;width: 100%;z-index: 1;">
     <van-nav-bar class="nav" style="--van-nav-bar-title-font-size:22px;--van-nav-bar-height:55px;height: 60px;padding-top: 10px;background-color:#D54431;"
                  title="我的订单"
                  left-text="返回"

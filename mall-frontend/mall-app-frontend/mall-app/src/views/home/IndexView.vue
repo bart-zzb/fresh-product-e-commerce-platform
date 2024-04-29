@@ -6,7 +6,7 @@
         <div style="line-height: 50px;font-weight: bold;font-size: 22px;color: #1989FA;margin-left: 8px;">同城生鲜</div>
       </van-col>
       <van-col span="18">
-        <van-search v-model="value" placeholder="请输入搜索关键词"/>
+        <van-search v-model="searchValue" placeholder="请输入搜索关键词"/>
       </van-col>
     </van-row>
   </div>
@@ -218,6 +218,7 @@
 import {onMounted, ref} from "vue";
 import axios from "@/utils/request";
 
+const searchValue = ref();
 const carouselList = ref([]);
 const labelList = ref([]);
 const bannerList = ref([]);

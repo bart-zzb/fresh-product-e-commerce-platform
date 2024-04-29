@@ -3,7 +3,9 @@
     background: var(--van-toast-background) !important;
     box-sizing: content-box !important;
     transition:all var(--van-duration-fast) !important;
-    /*width: var(--van-toast-default-width) !important;*/
+    width: 50% !important;
+    font-size: 22px !important;
+    /*line-height: 80px !important;*/
     /*max-width: var(--van-toast-max-width) !important;*/
 }
 
