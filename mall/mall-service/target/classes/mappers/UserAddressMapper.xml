@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.mall.service.dao.mapper.UserAddressMapper">
+    <update id="updateUserAddressByUserIdAndId">
+        UPDATE e_mall.tb_address
+        SET is_default = 1
+        WHERE tb_user_id = #{userId}
+          AND id = #{id}
+    </update>
+
+    <update id="updateUserAddress2NotDefault">
+        UPDATE e_mall.tb_address
+        SET is_default = 0
+        WHERE tb_user_id = #{userId}
+          AND is_default = 1;
+    </update>
+
+    <select id="selectDefaultAddressByUserId" resultType="cn.tedu.mall.service.pojo.po.UserAddressPO">
+        SELECT id,
+               create_time,
+               modified_time,
+               contact_phone,
+               account,
+               district,
+               city,
+               province,
+               address_detail,
+               tb_user_id,
+               address_name,
+               is_default,
+               receiver
+        FROM e_mall.tb_address
+        WHERE tb_user_id = #{userId}
+          AND is_default = 1;
+    </select>
+
+    <select id="getAddressById" resultType="cn.tedu.mall.service.pojo.po.UserAddressPO">
+        SELECT id,
+               create_time,
+               modified_time,
+               contact_phone,
+               account,
+               district,
+               city,
+               province,
+               address_detail,
+               tb_user_id,
+               address_name,
+               is_default,
+               receiver
+        FROM e_mall.tb_address
+        WHERE id = #{id};
+    </select>
+
+    <update id="updateAddress" parameterType="cn.tedu.mall.service.pojo.po.UserAddressPO">
+        UPDATE e_mall.tb_address
+        <set>
+            <if test="modifiedTime!=null">modified_time=#{modifiedTime},</if>
+            <if test="contactPhone!=null">contact_phone=#{contactPhone},</if>
+            <if test="account!=null">account=#{account},</if>
+            <if test="district!=null">district=#{district},</if>
+            <if test="city!=null">city=#{city},</if>
+            <if test="province!=null">province=#{province},</if>
+            <if test="addressDetail!=null">address_detail=#{addressDetail},</if>
+            <if test="contactPhone!=null">contact_phone=#{contactPhone}</if>
+        </set>
+            WHERE id = #{id}
+    </update>
+</mapper>

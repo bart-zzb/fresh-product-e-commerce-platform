@@ -36,4 +36,8 @@ public class UserAddressPO implements Serializable {
     Long tbUserId;
 
     String addressName;
+
+    Integer isDefault;
+
+    String receiver;
 }

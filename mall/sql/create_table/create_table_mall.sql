@@ -122,12 +122,14 @@ CREATE TABLE tb_address
     modified_time   DATETIME                NOT NULL COMMENT '修改时间',
     contact_phone   VARCHAR(50)             NOT NULL COMMENT '用户手机号(冗余)',
     account         VARCHAR(50)             DEFAULT '' COMMENT '用户账号(冗余)',
-    district        VARCHAR(50)             DEFAULT '' COMMENT '省(冗余)',
+    province        VARCHAR(50)             DEFAULT '' COMMENT '省(冗余)',
     city            VARCHAR(50)             DEFAULT '' COMMENT '市(冗余)',
-    province        VARCHAR(50)             DEFAULT '' COMMENT '区(冗余)',
+    district        VARCHAR(50)             DEFAULT '' COMMENT '区(冗余)',
     address_detail  VARCHAR(50)             DEFAULT '' COMMENT '详细地址(冗余)',
     tb_user_id      BIGINT UNSIGNED         NOT NULL COMMENT '用户表id',
-    address_name    VARCHAR(50)             NOT NULL COMMENT '地址名称'
+    address_name    VARCHAR(50)             NOT NULL COMMENT '地址名称',
+    is_default      TINYINT(3) UNSIGNED     DEFAULT 0 COMMENT '是否默认地址',
+    receiver        VARCHAR(50)             DEFAULT '' COMMENT '收货人'
 )DEFAULT CHARSET = utf8mb4 COMMENT = '收货地址表';
 
 -- 创建订单表 tb_order

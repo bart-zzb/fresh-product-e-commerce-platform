@@ -24,7 +24,7 @@
         <!--                    &#45;&#45;van-cell-icon-size:20px;"-->
         <!--                  is-link/>-->
         <van-field
-            style="height: 75px;padding-top: 25px;padding-left:55px;text-align: left;
+            style="height: 75px;padding-top: 25px;text-align: left;
                     border-bottom-left-radius: 15px;
                    border-bottom-right-radius: 15px"
             v-model="addressValue"
@@ -197,11 +197,13 @@ onMounted(() => {
     }
   })
 
-  //获取用户地址表
-  axios.get("admin/userAddress/get/all").then((response) => {
+  //获取当前用户默认地址表
+  axios.get("admin/userAddress/get/defaultAddress").then((response) => {
     if (response.data.state == 20000) {
-      columns.value = response.data.data;
-      addressValue.value = columns.value[0].text;
+      if(response.data.data!=null){
+        addressValue.value = response.data.data.addressDetail;
+        console.log(addressValue.value);
+      }
     }
   })
 

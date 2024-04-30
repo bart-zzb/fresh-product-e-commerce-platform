@@ -27,5 +27,7 @@ public class UserAddressVO implements Serializable {
 
     String addressName;
 
-    String text;
+    Integer isDefault;
+
+    String receiver;
 }

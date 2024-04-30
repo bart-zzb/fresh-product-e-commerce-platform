@@ -39,7 +39,7 @@
 
 <script setup>
 import {onMounted, ref} from "vue";
-import axios from '@/utils/request'
+import axios from '@/utils/request';
 import qs from "qs";
 import router from "@/router";
 import {showSuccessToast} from "vant";

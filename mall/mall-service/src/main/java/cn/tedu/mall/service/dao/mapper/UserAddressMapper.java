@@ -6,4 +6,13 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface UserAddressMapper extends BaseMapper<UserAddressPO> {
+    int updateUserAddressByUserIdAndId(Long userId, Long id);
+
+    int updateUserAddress2NotDefault(Long userId);
+
+    UserAddressPO selectDefaultAddressByUserId(Long userId);
+
+    UserAddressPO getAddressById(Long id);
+
+    int updateAddress(UserAddressPO userAddressPO);
 }

@@ -24,7 +24,8 @@ const routes = [
     component:()=>import('../views/home/DetailView')
   },
   {path:'/payment', component:()=>import('../views/payment/PaymentView')},
-  {path:'/address', component:()=>import('../views/Address/AddressView')}
+  {path:'/address', component:()=>import('../views/Address/AddressView')},
+  {path:'/addressAdd', component:()=>import('../views/Address/AddressAddView')}
 ]
 
 const router = createRouter({

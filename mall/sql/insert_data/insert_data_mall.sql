@@ -278,12 +278,12 @@ VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 1, 2, '纯手工鲜肉�
 
 -- 插入tb_order_items数据
 TRUNCATE tb_address;
-INSERT INTO tb_address(id, create_time, modified_time, contact_phone, account, district, city, province, address_detail,
-                       tb_user_id, address_name)
-VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', '13456789121', '0001', '广东省', '广州', '天河区', '体育中心一号', 2,
-        'xiaoy'),
-       (2, '2024-03-27 15:00:00', '2024-03-27 15:00:00', '13456789121', '0001', '广东省', '佛山', '禅城区', '百花广场11楼', 2,
-        'xiaoy');
+INSERT INTO tb_address(id, create_time, modified_time, contact_phone, account, province, city, district, address_detail,
+                       tb_user_id, address_name, is_default, receiver)
+VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', '13456789121', '0001', '广东省', '广州市', '天河区', '广东省广州市天河区体育中心一号', 2,
+        '体育中心一号', 1, 'xiaoy'),
+       (2, '2024-03-27 15:00:00', '2024-03-27 15:00:00', '13456789121', '0001', '广东省', '佛山市', '禅城区', '广东省佛山市禅城区百花广场11楼', 2,
+        '百花广场11楼', 0, 'xiaoy');
 
 -- 插入sys_index_carousel
 TRUNCATE sys_index_carousel;

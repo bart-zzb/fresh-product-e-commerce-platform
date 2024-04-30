@@ -19,4 +19,36 @@ public class UserAddressServiceImpl implements IUserAddressService {
     public List<UserAddressBO> getUserAddressByUserId(Long userId) {
         return userAddressRepository.getUserAddressByUserId(userId);
     }
+
+    @Override
+    public void changeUserAddressIsDefaultById(Long userId, Long id) {
+        //修改已默认地址为未默认状态
+        userAddressRepository.updateUserAddress2NotDefault(userId);
+        userAddressRepository.updateUserAddressIsDefaultById(userId, id);
+    }
+
+    @Override
+    public UserAddressBO getDefaultAddressByUserId(Long id) {
+        return userAddressRepository.getDefaultAddressByUserId(id);
+    }
+
+    @Override
+    public UserAddressBO getAddressById(Long userId, Long id) {
+        return userAddressRepository.getAddressById(userId, id);
+    }
+
+    @Override
+    public int updateAddress(UserAddressBO userAddressBO) {
+        return userAddressRepository.updateAddress(userAddressBO);
+    }
+
+    @Override
+    public int addAddress(UserAddressBO userAddressBO) {
+        return userAddressRepository.insertAddress(userAddressBO);
+    }
+
+    @Override
+    public int deleteAddressById(Long id) {
+        return userAddressRepository.deleteAddressById(id);
+    }
 }
