@@ -13,34 +13,23 @@
       style="background:linear-gradient(90deg, #fff,#D54431);height: 140px;margin-top:60px;padding:10px;border-bottom-left-radius: 15px;border-bottom-right-radius: 15px;">
     <van-tabs v-model:active="active" style="margin-top:10px;">
       <van-tab title="快递配送">
-        <!--        <van-cell title="设置地址"-->
-        <!--                  style="text-align: left;-->
-        <!--                    background-color: #fff;-->
-        <!--                    border-bottom-left-radius: 15px;-->
-        <!--                    border-bottom-right-radius: 15px;-->
-        <!--                    &#45;&#45;van-cell-line-height:55px;-->
-        <!--                    &#45;&#45;van-cell-font-size:18px;-->
-        <!--                    &#45;&#45;van-cell-horizontal-padding:30px;-->
-        <!--                    &#45;&#45;van-cell-icon-size:20px;"-->
-        <!--                  is-link/>-->
-        <van-field
-            style="height: 75px;padding-top: 25px;text-align: left;
-                    border-bottom-left-radius: 15px;
-                   border-bottom-right-radius: 15px"
-            v-model="addressValue"
-            is-link
-            readonly
-            label="设置地址"
-            placeholder="选择具体收货地址"
-            @click="toAddress"
-        />
-        <!--        <van-popup v-model:show="showPicker" round position="bottom">-->
-        <!--          <van-picker-->
-        <!--              :columns="columns"-->
-        <!--              @cancel="showPicker = false"-->
-        <!--              @confirm="onConfirmAddress"-->
-        <!--          />-->
-        <!--        </van-popup>-->
+        <div style="height: 50px;background-color:#ffffff;padding-top: 25px;text-align: left; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px">
+          <van-row gutter="0" style="width: 100%;" @click="toAddress">
+            <van-col span="20"><input type="text" placeholder="选择具体收货地址" :value="addressValue" style="border:none;outline: none;width: 100%;font-size: 16px;"></input></van-col>
+            <van-col span="4" style="padding-top:2px;"><van-icon name="arrow"/></van-col>
+          </van-row>
+        </div>
+<!--        <van-field-->
+<!--            style="height: 75px;padding-top: 25px;text-align: left;-->
+<!--                    border-bottom-left-radius: 15px;-->
+<!--                   border-bottom-right-radius: 15px"-->
+<!--            v-model="addressValue"-->
+<!--            is-link-->
+<!--            readonly-->
+<!--            label="设置地址"-->
+<!--            placeholder="选择具体收货地址"-->
+<!--            @click="toAddress"-->
+<!--        />-->
 
       </van-tab>
       <van-tab title="自提">
@@ -50,9 +39,9 @@
                     border-bottom-left-radius: 15px;
                     border-bottom-right-radius: 15px;
                     --van-cell-line-height:55px;
-                    --van-cell-font-size:18px;
+                    --van-cell-font-size:16px;
                     --van-cell-horizontal-padding:30px;
-                    --van-cell-icon-size:20px;"
+                    --van-cell-icon-size:16px;"
         />
       </van-tab>
     </van-tabs>
@@ -202,7 +191,6 @@ onMounted(() => {
     if (response.data.state == 20000) {
       if(response.data.data!=null){
         addressValue.value = response.data.data.addressDetail;
-        console.log(addressValue.value);
       }
     }
   })
@@ -265,15 +253,6 @@ const toAddress = () => {
   let redirectPath = localStorage.setItem('redirectPath', router.currentRoute.value.fullPath);
   router.push("/address");
 }
-
-// const columns = ref([]);
-// const addressValue = ref(null);
-// const showPicker = ref(false);
-//
-// const onConfirmAddress = ({selectedOptions}) => {
-//   showPicker.value = false;
-//   addressValue.value = selectedOptions[0].text;
-// };
 
 </script>
 

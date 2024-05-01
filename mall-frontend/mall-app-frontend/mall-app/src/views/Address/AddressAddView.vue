@@ -41,7 +41,6 @@ const searchResult = ref([]);
 
 //保存编辑地址
 const onSave = (currentAddressEditInfo) => {
-  console.log(currentAddressEditInfo)
   //封装userAddressDTO
   let data = {
     id: currentAddressEditInfo.id,

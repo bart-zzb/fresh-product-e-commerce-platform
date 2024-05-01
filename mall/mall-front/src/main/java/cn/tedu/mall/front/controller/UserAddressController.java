@@ -73,7 +73,7 @@ public class UserAddressController {
     @PostMapping("/update")
     public JsonResult updateAddress(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @Validated UserAddressDTO userAddressDTO){
         UserAddressBO userAddressBO = PojoConvert.convert(userAddressDTO, UserAddressBO.class);
-        userAddressBO.setAddressDetail(userAddressBO.getProvince()+userAddressBO.getCity()+userAddressBO.getDistrict());
+        userAddressBO.setAddressDetail(userAddressBO.getProvince()+userAddressBO.getCity()+userAddressBO.getDistrict()+userAddressBO.getAddressName());
         userAddressBO.setAccount("xxxx");
         userAddressBO.setTbUserId(currentPrincipal.getId());
         userAddressService.updateAddress(userAddressBO);
@@ -84,7 +84,7 @@ public class UserAddressController {
     @PostMapping("/add")
     public JsonResult addAddress(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @Validated UserAddressDTO userAddressDTO){
         UserAddressBO userAddressBO = PojoConvert.convert(userAddressDTO, UserAddressBO.class);
-        userAddressBO.setAddressDetail(userAddressBO.getProvince()+userAddressBO.getCity()+userAddressBO.getDistrict());
+        userAddressBO.setAddressDetail(userAddressBO.getProvince()+userAddressBO.getCity()+userAddressBO.getDistrict()+userAddressBO.getAddressName());
         userAddressBO.setAccount("xxxx");
         userAddressBO.setTbUserId(currentPrincipal.getId());
         userAddressService.addAddress(userAddressBO);
@@ -97,4 +97,5 @@ public class UserAddressController {
         userAddressService.deleteAddressById(id);
         return JsonResult.ok();
     }
+
 }
