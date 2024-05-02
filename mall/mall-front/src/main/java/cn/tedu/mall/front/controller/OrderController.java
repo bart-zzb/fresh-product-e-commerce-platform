@@ -40,20 +40,25 @@ public class OrderController {
     @PostMapping("/add")
     public JsonResult addOrder(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @Validated @RequestBody List<OrderItemsAddDTO> orderItemsAddDTOS) {
         log.debug("currentPrincipal"+ currentPrincipal);
-        OrderDetailVO orderDetailVO = orderService.addOrder(currentPrincipal.getId(), orderItemsAddDTOS);
+        OrderDetailBO orderDetailBO = orderService.addOrder(currentPrincipal.getId(), orderItemsAddDTOS);
+        OrderDetailVO orderDetailVO = PojoConvert.convert(orderDetailBO, OrderDetailVO.class);
         return JsonResult.ok(orderDetailVO);
     }
 
     /**
-     * 更新订单状态
+     * 更新订单
      *
-     * @param orderUpdateDTO 更新订单状态
+     * @param orderUpdateDTO 更新订单
      * @return JsonResult
      */
-    @ApiOperation("更新订单状态")
+    @ApiOperation("更新订单")
     @PostMapping("/update")
-    public JsonResult updateOrder(@Validated OrderUpdateDTO orderUpdateDTO) {
-        orderService.updateOrder(orderUpdateDTO);
+    public JsonResult updateOrder(@CurrentUser CurrentPrincipal currentPrincipal, @Validated OrderUpdateDTO orderUpdateDTO) {
+        if(orderUpdateDTO!=null){
+            OrderDetailBO orderDetailBO = PojoConvert.convert(orderUpdateDTO, OrderDetailBO.class);
+            orderDetailBO.setTbUserId(currentPrincipal.getId());
+            orderService.updateOrder(orderDetailBO);
+        }
         return JsonResult.ok();
     }
 
@@ -67,6 +72,17 @@ public class OrderController {
     public JsonResult getOrderByUserId(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal) {
         log.debug("currentPrincipal"+currentPrincipal);
         List<OrderDetailBO> orderDetailBOS = orderService.getOrderByUserId(currentPrincipal.getId());
+        List<OrderDetailVO> orderDetailVOS = PojoConvert.convertList(orderDetailBOS, OrderDetailVO.class);
+        return JsonResult.ok(orderDetailVOS);
+    }
+
+    /**
+     *
+     */
+    @ApiOperation("查询当前用户所有相对应的状态的订单")
+    @GetMapping("/select/order_status")
+    public JsonResult getOrdersByStatus(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @RequestParam Integer status){
+        List<OrderDetailBO> orderDetailBOS = orderService.getOrdersByStatus(currentPrincipal.getId(), status);
         List<OrderDetailVO> orderDetailVOS = PojoConvert.convertList(orderDetailBOS, OrderDetailVO.class);
         return JsonResult.ok(orderDetailVOS);
     }

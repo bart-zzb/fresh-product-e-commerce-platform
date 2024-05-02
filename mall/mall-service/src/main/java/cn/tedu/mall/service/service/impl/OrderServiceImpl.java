@@ -9,10 +9,8 @@ import cn.tedu.mall.service.dao.repository.IOrderItemsRepository;
 import cn.tedu.mall.service.dao.repository.IOrderRepository;
 import cn.tedu.mall.service.pojo.bo.OrderDetailBO;
 import cn.tedu.mall.service.pojo.dto.OrderItemsAddDTO;
-import cn.tedu.mall.service.pojo.dto.OrderUpdateDTO;
 import cn.tedu.mall.service.pojo.po.OrderItemsPO;
 import cn.tedu.mall.service.pojo.po.OrderPO;
-import cn.tedu.mall.service.pojo.vo.OrderDetailVO;
 import cn.tedu.mall.service.pojo.vo.OrderItemsVO;
 import cn.tedu.mall.service.service.IOrderService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +19,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +34,7 @@ public class OrderServiceImpl implements IOrderService {
     private IOrderItemsRepository orderItemsRepository;
 
     @Override
-    public OrderDetailVO addOrder(Long userId, List<OrderItemsAddDTO> orderItemsAddDTOS) {
+    public OrderDetailBO addOrder(Long userId, List<OrderItemsAddDTO> orderItemsAddDTOS) {
         log.debug("商品详情入参{}", orderItemsAddDTOS);
         if (orderItemsAddDTOS.isEmpty()) {
             throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, ServiceConstant.ORDER_ITEMS_NOT_EXIST);
@@ -51,31 +50,44 @@ public class OrderServiceImpl implements IOrderService {
             orderItemsPOS.add(orderItemsPO);
             orderItemsVOS.add(PojoConvert.convert(orderItemsPO, OrderItemsVO.class));
         }
-        //orderPO转化成orderDetailVO
-        OrderDetailVO orderDetailVO = PojoConvert.convert(orderPO, OrderDetailVO.class);
-        //将orderItemsVOS赋值到orderDetailVO中
-        orderDetailVO.setOrderItemsVOS(orderItemsVOS);
+
         BigDecimal total = new BigDecimal(0);
         for (OrderItemsVO orderItemsVO : orderItemsVOS) {
             total = total.add(orderItemsVO.getTotalPrice());
         }
         orderPO.setOrderAmountTotal(total);
-        //默认设置用户已支付订单
-        orderPO.setStatus(OrderConstants.PAID.getValue());
         //保存当前orderPO
         orderRepository.saveOrder(orderPO);
-        orderDetailVO.setOrderAmountTotal(total);
-        return orderDetailVO;
+        //orderPO转化成orderDetailVO
+        OrderDetailBO orderDetailBO = PojoConvert.convert(orderPO, OrderDetailBO.class);
+        //将orderItemsVOS赋值到orderDetailVO中
+        orderDetailBO.setOrderItemsVOS(orderItemsVOS);
+        orderDetailBO.setOrderAmountTotal(total);
+        return orderDetailBO;
     }
 
     @Override
-    public void updateOrder(OrderUpdateDTO orderUpdateDTO) {
-        OrderPO orderPO = orderRepository.getOrderByIdAndUserId(orderUpdateDTO.getId(), orderUpdateDTO.getTbUserId());
-        if (orderPO == null) {
+    public int updateOrder(OrderDetailBO orderDetailBO) {
+        OrderDetailBO existOrderDetailBO = orderRepository.getOrderByUserIdAndOrderNo(orderDetailBO.getTbUserId(), orderDetailBO.getOrderNo());
+        if (existOrderDetailBO == null && existOrderDetailBO.getId() != null) {
             throw new ServiceException(ServiceCode.ERROR_NOT_FOUND, ServiceConstant.ORDER_NOT_EXIST);
         }
-        orderPO.setStatus(orderUpdateDTO.getStatus());
-        orderRepository.saveOrder(orderPO);
+        OrderPO orderPO = PojoConvert.convert(orderDetailBO, OrderPO.class);
+        orderPO.setId(existOrderDetailBO.getId());
+        updateStatusTime(existOrderDetailBO, orderPO);
+        return orderRepository.saveOrder(orderPO);
+    }
+
+    private void updateStatusTime(OrderDetailBO existOrderDetailBO, OrderPO orderPO) {
+        if (orderPO.getStatus().equals(OrderConstants.PAID.getValue()) && !orderPO.getStatus().equals(existOrderDetailBO.getStatus())) {
+            orderPO.setPayTime(LocalDateTime.now());
+        } else if (orderPO.getStatus().equals(OrderConstants.DELIVERED.getValue()) && !orderPO.getStatus().equals(existOrderDetailBO.getStatus())) {
+            orderPO.setDeliveryTime(LocalDateTime.now());
+        } else if (orderPO.getStatus().equals(OrderConstants.TO_BE_RECEIVED.getValue()) && !orderPO.getStatus().equals(existOrderDetailBO.getStatus())) {
+            orderPO.setReceiveDeliveryTime(LocalDateTime.now());
+        } else if (orderPO.getStatus().equals(OrderConstants.USER_SHUTDOWN.getValue()) && !orderPO.getStatus().equals(existOrderDetailBO.getStatus())) {
+            orderPO.setCancelTime(LocalDateTime.now());
+        }
     }
 
     @Override
@@ -92,6 +104,15 @@ public class OrderServiceImpl implements IOrderService {
         OrderDetailBO orderDetailBO = orderRepository.getOrderByUserIdAndOrderNo(userId, orderNo);
         setDetailForOrderDetailBO(orderDetailBO);
         return orderDetailBO;
+    }
+
+    @Override
+    public List<OrderDetailBO> getOrdersByStatus(Long userId, Integer status) {
+        List<OrderDetailBO> orderDetailBOS = orderRepository.getOrdersByStatus(userId, status);
+        for (OrderDetailBO orderDetailBO : orderDetailBOS) {
+            setDetailForOrderDetailBO(orderDetailBO);
+        }
+        return orderDetailBOS;
     }
 
     private void setDetailForOrderDetailBO(OrderDetailBO orderDetailBO) {
@@ -111,4 +132,5 @@ public class OrderServiceImpl implements IOrderService {
             }
         }
     }
+
 }

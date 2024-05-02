@@ -15,7 +15,7 @@
       <van-tab title="快递配送">
         <div style="height: 50px;background-color:#ffffff;padding-top: 25px;text-align: left; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px">
           <van-row gutter="0" style="width: 100%;" @click="toAddress">
-            <van-col span="20"><input type="text" placeholder="选择具体收货地址" :value="addressValue" style="border:none;outline: none;width: 100%;font-size: 16px;"></input></van-col>
+            <van-col span="20"><input type="text" placeholder="选择具体收货地址" :value="addressValue.addressDetail" style="border:none;outline: none;width: 100%;font-size: 16px;"></input></van-col>
             <van-col span="4" style="padding-top:2px;"><van-icon name="arrow"/></van-col>
           </van-row>
         </div>
@@ -166,10 +166,11 @@ import {onMounted, ref} from "vue";
 import router from "@/router";
 import axios from "@/utils/request";
 import {showConfirmDialog, showFailToast, showSuccessToast} from "vant";
+import qs from "qs";
 
 const active = ref();
 const columns = ref([]);
-const addressValue = ref(null);
+const addressValue = ref({});
 const message = ref();
 
 const order = ref({
@@ -190,7 +191,8 @@ onMounted(() => {
   axios.get("admin/userAddress/get/defaultAddress").then((response) => {
     if (response.data.state == 20000) {
       if(response.data.data!=null){
-        addressValue.value = response.data.data.addressDetail;
+        addressValue.value = response.data.data;
+        console.log(addressValue.value)
       }
     }
   })
@@ -222,28 +224,43 @@ const submit = () => {
   if (addressValue.value == '') {
     showFailToast('未选择收货地址');
   } else {
-    //更新库存，更新销量
-    let productSpecDeleteDTOS = [];
-    for (let i = 0; i < order.value.productList.length; i++) {
-      productSpecDeleteDTOS.push({
-        tbProductSpecId: order.value.productList[i].tbProductSpecId,
-        amount: order.value.productList[i].amount
-      })
-    }
-    axios({
-      method: "post",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      dataType: "json",
-      data: JSON.stringify(productSpecDeleteDTOS),
-      url: "mall/product_specs/modify"
-    }).then((response) => {
-      if (response.data.state == 20000) {
-        showSuccessToast('支付成功');
-        setTimeout(() => {
-          router.push('/personal');
-        }, 1000);
+    //更新订单状态
+    let orderNo = new URLSearchParams(location.search).get('orderNo');
+    let orderUpdateDTO = {
+      orderNo:orderNo,
+      status:1,
+      consignee:addressValue.value.receiver,
+      consigneePhone:addressValue.value.contactPhone,
+      consigneeAddress:addressValue.value.addressDetail,
+      payChannel:1
+    };
+    let data = qs.stringify(orderUpdateDTO);
+    axios.post("mall/order/update", data).then((response)=>{
+      if (response.data.state==20000){
+        //更新库存，更新销量
+        let productSpecDeleteDTOS = [];
+        for (let i = 0; i < order.value.productList.length; i++) {
+          productSpecDeleteDTOS.push({
+            tbProductSpecId: order.value.productList[i].tbProductSpecId,
+            amount: order.value.productList[i].amount
+          })
+        }
+        axios({
+          method: "post",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          dataType: "json",
+          data: JSON.stringify(productSpecDeleteDTOS),
+          url: "mall/product_specs/modify"
+        }).then((response) => {
+          if (response.data.state == 20000) {
+            showSuccessToast('支付成功');
+            setTimeout(() => {
+              router.push('/personal');
+            }, 1000);
+          }
+        })
       }
     })
   }

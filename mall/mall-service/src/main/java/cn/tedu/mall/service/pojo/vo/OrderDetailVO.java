@@ -7,12 +7,16 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderDetailVO implements Serializable {
     Long id;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    LocalDateTime modifiedTime;
 
     String orderNo;
 
@@ -38,5 +42,7 @@ public class OrderDetailVO implements Serializable {
     List<OrderItemsVO> orderItemsVOS;
 
     String orderStatus;
+
+    Integer payChannel;
 }
 

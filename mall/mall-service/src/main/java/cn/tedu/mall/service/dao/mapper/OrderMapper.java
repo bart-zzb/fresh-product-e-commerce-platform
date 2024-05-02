@@ -10,4 +10,6 @@ import java.util.List;
 @Mapper
 public interface OrderMapper extends BaseMapper<OrderPO> {
     List<OrderPO> selectOrderByUserId(Long userId);
+
+    List<OrderPO> selectOrdersByStatus(Long userId, Integer status);
 }

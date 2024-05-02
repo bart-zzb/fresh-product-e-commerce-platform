@@ -7,12 +7,15 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderDetailBO implements Serializable {
     Long id;
+
+    LocalDateTime modifiedTime;
 
     String orderNo;
 
@@ -37,4 +40,6 @@ public class OrderDetailBO implements Serializable {
     List<OrderItemsVO> orderItemsVOS;
 
     String orderStatus;
+
+    Integer payChannel;
 }

@@ -15,4 +15,6 @@ public interface IOrderRepository {
     OrderPO addBlankOrderByUserId(Long userId);
 
     OrderDetailBO getOrderByUserIdAndOrderNo(Long userId, String orderNo);
+
+    List<OrderDetailBO> getOrdersByStatus(Long userId, Integer status);
 }

@@ -6,21 +6,28 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.validator.constraints.Range;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderUpdateDTO implements Serializable {
-    @NotNull(message = "id不能为空")
-    @ApiModelProperty(value = "id",required = true,dataType = "Long")
-    Long id;
-
-    @NotNull(message = "用户id不能为空")
     @ApiModelProperty(value = "用户id",required = true,dataType = "Long")
     Long tbUserId;
 
-    @NotNull(message = "订单状态不能为空")
-    @Range(min = 0, max = 6, message = "订单状态只能是0-6之间")
+    @NotBlank(message = "订单编号不能为空")
+    @ApiModelProperty(value = "订单编号",required = true,dataType = "String")
+    String orderNo;
+
+    @Range(min = 0, max = 6, message = "订单状态只能为0-6")
     @ApiModelProperty(value = "订单状态",required = true,dataType = "Integer")
     Integer status;
+
+    String consignee;
+
+    String consigneePhone;
+
+    String consigneeAddress;
+
+    Integer payChannel;
 }

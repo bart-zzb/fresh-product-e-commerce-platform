@@ -60,7 +60,9 @@ public class OrderPO implements Serializable {
 
     LocalDateTime deliveryTime;
 
-    LocalDateTime completeTime;
+    LocalDateTime receiveDeliveryTime;
+
+    LocalDateTime commentTime;
 
     LocalDateTime cancelTime;
 

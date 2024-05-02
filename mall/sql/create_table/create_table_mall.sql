@@ -168,7 +168,7 @@ CREATE TABLE tb_order
     pay_time                DATETIME               DEFAULT '1000-01-01 00:00:00' COMMENT '付款时间',
     delivery_time           DATETIME               DEFAULT '1000-01-01 00:00:00' COMMENT '发货时间',
     receive_delivery_time   DATETIME               DEFAULT '1000-01-01 00:00:00' COMMENT '收货时间',
-    complete_time           DATETIME               DEFAULT '1000-01-01 00:00:00' COMMENT '完成时间',
+    comment_time           DATETIME                 DEFAULT '1000-01-01 00:00:00' COMMENT '评价时间',
     cancel_time             DATETIME               DEFAULT '1000-01-01 00:00:00' COMMENT '取消时间',
     tb_user_notes           VARCHAR(50)            DEFAULT '' COMMENT '用户备注'
 )DEFAULT CHARSET = utf8mb4 COMMENT = '订单表';

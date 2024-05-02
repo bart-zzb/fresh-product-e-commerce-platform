@@ -6,12 +6,14 @@ import cn.tedu.mall.service.dao.repository.IOrderRepository;
 import cn.tedu.mall.service.pojo.bo.OrderDetailBO;
 import cn.tedu.mall.service.pojo.po.OrderPO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Slf4j
 @Primary
 @Repository
 public class OrderRepositoryImpl implements IOrderRepository {
@@ -28,6 +30,7 @@ public class OrderRepositoryImpl implements IOrderRepository {
 
     @Override
     public int saveOrder(OrderPO orderPO) {
+        log.debug("orderPO" + orderPO);
         return orderMapper.updateById(orderPO);
     }
 
@@ -55,5 +58,11 @@ public class OrderRepositoryImpl implements IOrderRepository {
         queryWrapper.eq("order_no", orderNo);
         OrderPO orderPO = orderMapper.selectOne(queryWrapper);
         return PojoConvert.convert(orderPO, OrderDetailBO.class);
+    }
+
+    @Override
+    public List<OrderDetailBO> getOrdersByStatus(Long userId, Integer status) {
+        List<OrderPO> orderPOS = orderMapper.selectOrdersByStatus(userId, status);
+        return PojoConvert.convertList(orderPOS, OrderDetailBO.class);
     }
 }

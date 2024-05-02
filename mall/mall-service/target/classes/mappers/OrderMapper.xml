@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.tedu.mall.service.dao.mapper.OrderMapper">
-    <select id="selectOrderByUserId" resultType="cn.tedu.mall.service.pojo.po.OrderPO">
-        SELECT id,
+    <sql id="Base_Column_List">
+        id,
                create_time,
                modified_time,
                order_no,
@@ -24,11 +24,25 @@
                pay_time,
                delivery_time,
                receive_delivery_time,
-               complete_time,
+               comment_time,
                cancel_time,
                tb_user_notes
+    </sql>
+
+    <select id="selectOrderByUserId" resultType="cn.tedu.mall.service.pojo.po.OrderPO">
+        SELECT
+        <include refid="Base_Column_List"/>
         FROM e_mall.tb_order
         WHERE tb_user_id = #{userId}
+        ORDER BY create_time DESC;
+    </select>
+
+    <select id="selectOrdersByStatus" resultType="cn.tedu.mall.service.pojo.po.OrderPO">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM e_mall.tb_order
+        WHERE tb_user_id = #{userId}
+          AND status = #{status}
         ORDER BY create_time DESC;
     </select>
 </mapper>
