@@ -39,7 +39,7 @@
             <div style="margin: 10px 15px 8px;float: left;font-size: 18px;">我的订单</div>
           </van-col>
           <van-col span="12">
-            <div style="margin: 10px 15px 8px;float: right;font-size: 18px;" @click="toOrder">
+            <div style="margin: 10px 15px 8px;float: right;font-size: 18px;" @click="toOrder(0)">
               <span>全部订单</span>
               <van-icon name="arrow"/>
             </div>
@@ -49,19 +49,19 @@
         <hr>
         <!-订单功能-->
         <van-row>
-          <van-col span="6" @click="toOrder">
+          <van-col span="6" @click="toOrder(1)">
             <van-icon name="cash-back-record-o" size="35" color="#D54431"/>
             <p class="label">待付款</p>
           </van-col>
-          <van-col span="6" @click="toOrder">
+          <van-col span="6" @click="toOrder(2)">
             <van-icon name="todo-list-o" size="35" color="#D54431"/>
             <p class="label">待发货</p>
           </van-col>
-          <van-col span="6" @click="toOrder">
+          <van-col span="6" @click="toOrder(3)">
             <van-icon name="completed-o" size="35" color="#D54431"/>
             <p class="label">待收货</p>
           </van-col>
-          <van-col span="6" @click="toOrder">
+          <van-col span="6" @click="toOrder(4)">
             <van-icon name="comment-o" size="35" color="#D54431"/>
             <p class="label">待评价</p>
           </van-col>
@@ -155,9 +155,9 @@ const toLoginOrInfo = () => {
   }
 }
 
-const toOrder = () => {
+const toOrder = (index) => {
   localStorage.setItem('redirectPath', router.currentRoute.value.fullPath);
-  router.push("/order");
+  router.push("/order?order_tabs="+index);
 }
 
 const toAddress = () => {

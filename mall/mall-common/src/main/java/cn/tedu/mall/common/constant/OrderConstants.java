@@ -6,13 +6,13 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum OrderConstants {
-    UNPAID(0, "待支付"),
+    UNPAID(0, "待付款"),
 
-    PAID(1 , "已支付"),
+    PAID(1 , "待发货"),
 
-    DELIVERED(2 , "已发货"),
+    DELIVERED(2 , "待收货"),
 
-    TO_BE_RECEIVED(3, "待收货"),
+    TO_BE_RECEIVED(3, "待评价"),
 
     USER_SHUTDOWN(4,"用户关闭"),
 

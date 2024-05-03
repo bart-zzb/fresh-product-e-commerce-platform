@@ -62,11 +62,10 @@ const active = ref(0);
 const orderStatusList = ref([
   //activeNames表示当前默认展开哪个订单详情
   {status: '全部', orderList: [], emptyShow: true, activeNames: [1]},
-  {status: '已支付', orderList: [], emptyShow: true, activeNames: [1]},
-  {status: '已发货', orderList: [], emptyShow: true, activeNames: [1]},
+  {status: '待付款', orderList: [], emptyShow: true, activeNames: [1]},
+  {status: '待发货', orderList: [], emptyShow: true, activeNames: [1]},
   {status: '待收货', orderList: [], emptyShow: true, activeNames: [1]},
-  {status: '待评价', orderList: [], emptyShow: true, activeNames: [1]},
-  {status: '已完成', orderList: [], emptyShow: true, activeNames: [1]}]);
+  {status: '待评价', orderList: [], emptyShow: true, activeNames: [1]}]);
 
 const tabChange = () => {
   if (active.value == 0) {
@@ -97,7 +96,7 @@ const loadAllContent = () => {
 }
 
 const loadContent = (index) => {
-  axios.get("mall/order/select/order_status?status=" + index).then((response) => {
+  axios.get("mall/order/select/order_status?status=" + (index-1)).then((response) => {
     if (response.data.state == 20000) {
       orderStatusList.value[index].orderList = response.data.data;
       //判断是否展示空页面状态
@@ -109,6 +108,21 @@ const loadContent = (index) => {
 }
 
 onMounted(() => {
+  let orderTabs = router.currentRoute.value.query.order_tabs;
+  if(orderTabs){
+    if (orderTabs == 0){
+      active.value=0;
+    }else if(orderTabs ==1){
+      active.value=1;
+    }else if(orderTabs ==2){
+      active.value=2;
+    }else if(orderTabs ==3){
+      active.value=3;
+    }else if(orderTabs ==4){
+      active.value=4;
+    }
+  }
+
   //展示全部订单页面
   if (active.value == 0) {
     loadAllContent()
