@@ -1,5 +1,5 @@
 ---
-typora-root-url: assets
+
 ---
 
 # 同城生鲜APP
