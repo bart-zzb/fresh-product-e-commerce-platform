@@ -52,6 +52,7 @@ spring:
     port: 6379
     # password:
 
+# 静态资源路径
 file-path: d:/files/e_mall/imgs/
 
 mybatis-plus:

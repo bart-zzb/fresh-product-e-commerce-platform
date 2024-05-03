@@ -1,3 +1,7 @@
+---
+typora-root-url: assets
+---
+
 # 同城生鲜APP
 
 ## 1.项目描述
@@ -87,8 +91,7 @@
 ### 7.5 配值访问静态资源路径
 
 - 本项目的图片静态资源默认访问路径默认为： `d:/files/e_mall/imgs`
-
-- 本项目已经将所有需要的静态资源放在主目录下的 `mall-frontend/mall-app-frontend/mall-app/public/imgs`，启动项目时可以将所需的静态资源拷贝到上面的默认访问路径 `d:/files/e_mall/imgs`，或者在`mall/mall-front/src/main/resources/application.yml` 中的 `file-path`自定义访问路径
+- 本项目已经将所有需要的静态资源放在主目录下的 `mall-frontend/mall-app-frontend/mall-app/public/imgs`，启动项目时可以将所需的静态资源拷贝到上面的默认访问路径 `d:/files/e_mall/imgs`，或者在`mall/mall-front/src/main/resources/application.yml` 中的 `file-path`自定义访问路径![屏幕截图 2024-05-03 202711](/屏幕截图 2024-05-03 202711.png)
 
 ### 7.6 启动项目
 
