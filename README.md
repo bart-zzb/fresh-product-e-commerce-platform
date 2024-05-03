@@ -90,8 +90,6 @@
 
 - 本项目已经将所有需要的静态资源放在主目录下的 `mall-frontend/mall-app-frontend/mall-app/public/imgs`，启动项目时可以将所需的静态资源拷贝到上面的默认访问路径 `d:/files/e_mall/imgs`，或者在`mall/mall-front/src/main/resources/application.yml` 中的 `file-path`自定义访问路径
 
-![屏幕截图 2024-05-03 120427](C:\Users\bartz\Desktop\屏幕截图 2024-05-03 120427.png)
-
 ### 7.6 启动项目
 
 | 页面     | 主机      | 端口 |
