@@ -8,9 +8,6 @@ import java.util.List;
 
 /**
  * 分页数据类
- *
- * @author java@tedu.cn
- * @version 3.0
  */
 @Data
 @Accessors(chain = true)

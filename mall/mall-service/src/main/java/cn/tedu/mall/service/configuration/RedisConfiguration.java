@@ -8,6 +8,9 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.io.Serializable;
 
+/**
+ * Redis配置类
+ */
 @Configuration
 public class RedisConfiguration {
 

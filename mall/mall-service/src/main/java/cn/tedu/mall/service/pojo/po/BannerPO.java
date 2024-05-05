@@ -1,6 +1,5 @@
 package cn.tedu.mall.service.pojo.po;
 
-import cn.tedu.mall.service.pojo.vo.CarouselIndexVO;
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.AccessLevel;
 import lombok.Data;

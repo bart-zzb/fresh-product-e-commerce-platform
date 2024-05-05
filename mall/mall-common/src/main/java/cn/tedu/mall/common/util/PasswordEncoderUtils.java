@@ -3,6 +3,9 @@ package cn.tedu.mall.common.util;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+/**
+ * 密码解析工具类
+ */
 @Configuration
 public class PasswordEncoderUtils {
     private static final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();

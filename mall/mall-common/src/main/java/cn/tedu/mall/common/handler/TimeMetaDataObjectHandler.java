@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * mybatis-plus 用于新增或者插入数据时自动增添的字段值
+ */
 @Component
 public class TimeMetaDataObjectHandler implements MetaObjectHandler {
 
