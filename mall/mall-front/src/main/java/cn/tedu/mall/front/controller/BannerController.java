@@ -1,6 +1,8 @@
 package cn.tedu.mall.front.controller;
 
+import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.common.web.JsonResult;
+import cn.tedu.mall.service.pojo.bo.BannerIndexBO;
 import cn.tedu.mall.service.pojo.vo.BannerIndexVO;
 import cn.tedu.mall.service.service.IBannerService;
 import io.swagger.annotations.Api;
@@ -26,9 +28,9 @@ public class BannerController {
     @ApiOperation("查询横幅功能")
     @GetMapping("/index")
     public JsonResult listForIndex(){
-        List<BannerIndexVO> list = bannerService.listForIndex();
-        log.debug("list"+ list);
-        return JsonResult.ok(list);
+        List<BannerIndexBO> BannerIndexBOS = bannerService.listForIndex();
+        List<BannerIndexVO> bannerIndexVOS = PojoConvert.convertList(BannerIndexBOS, BannerIndexVO.class);
+        log.debug("查询横幅功能, 结果出参{}", bannerIndexVOS);
+        return JsonResult.ok(bannerIndexVOS);
     }
-    //TODO 增加, 修改, 删除横幅
 }

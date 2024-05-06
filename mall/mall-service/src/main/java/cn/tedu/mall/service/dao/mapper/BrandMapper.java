@@ -9,5 +9,5 @@ import java.util.List;
 
 @Mapper
 public interface BrandMapper extends BaseMapper<BrandPO> {
-    List<BrandVO> selectListForAll();
+    List<BrandPO> selectListForAll();
 }

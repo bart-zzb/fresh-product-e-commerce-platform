@@ -9,5 +9,5 @@ import java.util.List;
 
 @Mapper
 public interface CarouselMapper extends BaseMapper<CarouselPO> {
-    List<CarouselIndexVO> selectListForIndex();
+    List<CarouselPO> selectListForIndex();
 }

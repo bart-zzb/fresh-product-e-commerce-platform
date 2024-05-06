@@ -1,6 +1,7 @@
 package cn.tedu.mall.service.service.impl;
 
 import cn.tedu.mall.service.dao.repository.IBannerRepository;
+import cn.tedu.mall.service.pojo.bo.BannerIndexBO;
 import cn.tedu.mall.service.pojo.vo.BannerIndexVO;
 import cn.tedu.mall.service.service.IBannerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class BannerServiceImpl implements IBannerService {
     private IBannerRepository bannerRepository;
 
     @Override
-    public List<BannerIndexVO> listForIndex() {
+    public List<BannerIndexBO> listForIndex() {
         return bannerRepository.listForIndex();
     }
 }

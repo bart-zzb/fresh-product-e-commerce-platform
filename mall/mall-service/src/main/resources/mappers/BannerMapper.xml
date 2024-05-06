@@ -9,8 +9,8 @@
         <result column="name" property="name"/>
     </resultMap>
 
-    <select id="selectListForIndex" resultMap="BannerIndexVOMap">
-        SELECT id, img_url, name, sort
+    <select id="selectListForIndex" resultType="cn.tedu.mall.service.pojo.po.BannerPO">
+        SELECT id, create_time, modified_time, img_url, name, sort
         FROM e_mall.sys_index_banner
         ORDER BY sort
     </select>

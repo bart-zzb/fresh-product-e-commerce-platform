@@ -1,6 +1,8 @@
 package cn.tedu.mall.front.controller;
 
+import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.common.web.JsonResult;
+import cn.tedu.mall.service.pojo.bo.CarouselIndexBO;
 import cn.tedu.mall.service.pojo.vo.CarouselIndexVO;
 import cn.tedu.mall.service.service.ICarouselService;
 import io.swagger.annotations.Api;
@@ -26,8 +28,9 @@ public class CarouselController {
     @ApiOperation("查询轮播图功能")
     @GetMapping("/index")
     public JsonResult listForIndex(){
-        List<CarouselIndexVO> list = carouselService.listForIndex();
-        return JsonResult.ok(list);
+        List<CarouselIndexBO> carouselIndexBOS = carouselService.listForIndex();
+        List<CarouselIndexVO> carouselIndexVOS = PojoConvert.convertList(carouselIndexBOS, CarouselIndexVO.class);
+        log.debug("查询查询轮播图功能,控制层出参{}", carouselIndexVOS);
+        return JsonResult.ok(carouselIndexVOS);
     }
-    //TODO 增加, 修改, 删除轮播图
 }

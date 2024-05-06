@@ -1,16 +1,18 @@
 package cn.tedu.mall.service.dao.repository.impl;
 
+import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.mapper.BrandMapper;
 import cn.tedu.mall.service.dao.repository.IBrandRepository;
+import cn.tedu.mall.service.pojo.bo.BrandBO;
 import cn.tedu.mall.service.pojo.po.BrandPO;
-import cn.tedu.mall.service.pojo.vo.BrandVO;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Slf4j
 @Primary
 @Repository
 public class BrandRepositoryImpl implements IBrandRepository {
@@ -18,8 +20,11 @@ public class BrandRepositoryImpl implements IBrandRepository {
     private BrandMapper brandMapper;
 
     @Override
-    public List<BrandVO> listForAll() {
-        return brandMapper.selectListForAll();
+    public List<BrandBO> listForAll() {
+        List<BrandPO> brandPOS = brandMapper.selectListForAll();
+        List<BrandBO> brandBOS = PojoConvert.convertList(brandPOS, BrandBO.class);
+        log.debug("出参{}",brandBOS);
+        return brandBOS;
     }
 
     @Override
