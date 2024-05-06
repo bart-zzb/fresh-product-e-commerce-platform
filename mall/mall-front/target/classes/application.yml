@@ -51,9 +51,9 @@ spring:
     host: localhost
     port: 6379
     # password:
-file-path: d:/files/e_mall/imgs/
 
-#Base-url: http://localhost:8080/
+# 静态资源路径
+file-path: d:/files/e_mall/imgs/
 
 mybatis-plus:
   mapper-locations: classpath:/mappers/*.xml
