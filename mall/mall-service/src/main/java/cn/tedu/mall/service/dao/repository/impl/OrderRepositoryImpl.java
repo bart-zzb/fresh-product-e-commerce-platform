@@ -1,5 +1,6 @@
 package cn.tedu.mall.service.dao.repository.impl;
 
+import cn.tedu.mall.common.constant.OrderConstants;
 import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.mapper.OrderMapper;
 import cn.tedu.mall.service.dao.repository.IOrderRepository;
@@ -64,5 +65,14 @@ public class OrderRepositoryImpl implements IOrderRepository {
     public List<OrderDetailBO> getOrdersByStatus(Long userId, Integer status) {
         List<OrderPO> orderPOS = orderMapper.selectOrdersByStatus(userId, status);
         return PojoConvert.convertList(orderPOS, OrderDetailBO.class);
+    }
+
+    @Override
+    public OrderDetailBO getUnpaidOrderByOrderNo(String orderNo) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("order_no", orderNo);
+        queryWrapper.eq("status", OrderConstants.UNPAID.getValue());
+        OrderPO orderPO = orderMapper.selectOne(queryWrapper);
+        return PojoConvert.convert(orderPO, OrderDetailBO.class);
     }
 }

@@ -54,6 +54,8 @@ public class WebConfig implements WebMvcConfigurer {
         excludePathList.add("/mall/product/**");
         excludePathList.add("/mall/brand/**");
         excludePathList.add("/mall/product_specs/**");
+        excludePathList.add("/alipay/**");
+
         //配置图片库
         excludePathList.add("/carousel/**");
         excludePathList.add("/banner/**");

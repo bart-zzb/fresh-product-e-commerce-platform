@@ -72,6 +72,10 @@ public enum ServiceCode {
     ERR_JWT_NOT_EXIST(60400),
 
     ERR_USERNAME_ALREADY_EXIST(60500),
+
+    ERR_ORDER_ALREADY_PAID(70000),
+
+    ERR_ORDER_NOT_EXIST(70100),
     /**
      * 错误：上传的文件为空（没有选择有效的文件）
      */

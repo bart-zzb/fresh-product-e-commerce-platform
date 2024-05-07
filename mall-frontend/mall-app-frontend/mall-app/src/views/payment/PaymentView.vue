@@ -192,7 +192,6 @@ onMounted(() => {
     if (response.data.state == 20000) {
       if(response.data.data!=null){
         addressValue.value = response.data.data;
-        console.log(addressValue.value)
       }
     }
   })
@@ -224,8 +223,13 @@ const submit = () => {
   if (addressValue.value == '') {
     showFailToast('未选择收货地址');
   } else {
-    //更新订单状态
     let orderNo = new URLSearchParams(location.search).get('orderNo');
+    if(payChecked.value=='alipay'){
+      //支付宝沙箱支付
+      window.location = (BASE_URL+"alipay/pay?orderNo="+orderNo);
+    }
+
+    //更新订单状态
     let orderUpdateDTO = {
       orderNo:orderNo,
       status:1,

@@ -104,3 +104,4 @@
 - mall 后端测试页面: http://localhost:8080/doc.html#/home
 - mall 前端启动项：在`mall-frontend/mall-app-frontend/mall-app`运行`npm run serve`
 - mall 前端访问页面: http://localhost:9090
+- mall 前端推荐测试手机端版本：iPhone 12 Pro

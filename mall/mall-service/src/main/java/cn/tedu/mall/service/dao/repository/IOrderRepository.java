@@ -17,4 +17,6 @@ public interface IOrderRepository {
     OrderDetailBO getOrderByUserIdAndOrderNo(Long userId, String orderNo);
 
     List<OrderDetailBO> getOrdersByStatus(Long userId, Integer status);
+
+    OrderDetailBO getUnpaidOrderByOrderNo(String orderNo);
 }

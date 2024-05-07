@@ -115,6 +115,13 @@ public class OrderServiceImpl implements IOrderService {
         return orderDetailBOS;
     }
 
+    @Override
+    public OrderDetailBO getUnpaidOrderByOrderNo(String orderNo) {
+        OrderDetailBO orderDetailBO = orderRepository.getUnpaidOrderByOrderNo(orderNo);
+        setDetailForOrderDetailBO(orderDetailBO);
+        return orderDetailBO;
+    }
+
     private void setDetailForOrderDetailBO(OrderDetailBO orderDetailBO) {
         if (orderDetailBO != null && orderDetailBO.getId() != null) {
             List<OrderItemsPO> orderItemsPOS = orderItemsRepository.getOrderItemsByOrderId(orderDetailBO.getId());

@@ -29,4 +29,5 @@ public class ServiceConstant {
 
     public static final String ERROR_USERNAME_ALREADY_EXIST = "用户名已存在";
 
+    public static final String ORDER_ALREADY_PAID = "订单已支付";
 }

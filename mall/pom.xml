@@ -38,6 +38,7 @@
         <jjwt.version>3.4.0</jjwt.version>
         <spring.security.version>5.5.8</spring.security.version>
         <jackson.version>2.13.2</jackson.version>
+        <alipay.version>4.38.72.ALL</alipay.version>
     </properties>
 
     <dependencies>
@@ -144,6 +145,11 @@
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jsr310</artifactId>
                 <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alipay.sdk</groupId>
+                <artifactId>alipay-sdk-java</artifactId>
+                <version>${alipay.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
