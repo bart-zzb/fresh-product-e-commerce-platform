@@ -15,6 +15,7 @@
 - 提供简单的管理页面，管理员可以通过简单的方式来管理页面相关内容，实现随时的数据更新与维护
 - 使用简单JWT认证功能，识别用户，确保安全性  
 - 使用Redis缓存技术，方便购物车数据读写操作，实现访问购物车数据的高性能
+- 通过连接支付包沙箱网页支付接口功能，模拟实现支付宝支付功能和异步通知回调
 
 ## 3.需求分析
 
@@ -45,6 +46,7 @@
 - `jjwt`
 - `fastjson`
 - `jackson-datatype-jsr310`
+- `alipay-sdk-java`
 
 ## 7.本地启动项目
 
@@ -91,9 +93,19 @@
 ### 7.5 配值访问静态资源路径
 
 - 本项目的图片静态资源默认访问路径默认为： `d:/files/e_mall/imgs`
-- 本项目已经将所有需要的静态资源放在主目录下的 `mall-frontend/mall-app-frontend/mall-app/public/imgs`，启动项目时可以将所需的静态资源拷贝到上面的默认访问路径 `d:/files/e_mall/imgs`，或者在`mall/mall-front/src/main/resources/application.yml` 中的 `file-path`自定义访问路径![屏幕截图 2024-05-03 202711](/屏幕截图 2024-05-03 202711.png)
+- 本项目已经将所有需要的静态资源放在主目录下的 `mall-frontend/mall-app-frontend/mall-app/public/imgs`，启动项目时可以将所需的静态资源拷贝到上面的默认访问路径 `d:/files/e_mall/imgs`
+- 或者在`mall/mall-front/src/main/resources/application.yml` 中的 `file-path`属性自定义访问路径
 
-### 7.6 启动项目
+### 7.6 支付宝沙箱功能
+
+- 若要体验支付宝支付功能，请先登录注册支付宝沙箱账号 https://open.alipay.com/
+- 在`mall/mall-front/src/main/resources/application.yml`的配置文件的`alipay`属性中，根据自己的支付宝沙箱账号配置四个属性：
+  - appId：应用Id
+  - appPrivateKey：应用私钥
+  - alipayPublicKey：支付宝公钥
+  - notifyUrl：异步回调路径，设置为`后端项目路径+/alipay/notify`，测试时必须为公网地址
+
+### 7.7 启动项目
 
 | 页面     | 主机      | 端口 |
 | -------- | --------- | ---- |
@@ -105,3 +117,4 @@
 - mall 前端启动项：在`mall-frontend/mall-app-frontend/mall-app`运行`npm run serve`
 - mall 前端访问页面: http://localhost:9090
 - mall 前端推荐测试手机端版本：iPhone 12 Pro
+
