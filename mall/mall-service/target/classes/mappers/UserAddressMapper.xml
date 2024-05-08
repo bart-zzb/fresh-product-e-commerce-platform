@@ -67,6 +67,6 @@
             <if test="addressName!=null">address_name=#{addressName},</if>
             <if test="receiver!=null">receiver=#{receiver}</if>
         </set>
-            WHERE id = #{id}
+        WHERE id = #{id}
     </update>
 </mapper>
