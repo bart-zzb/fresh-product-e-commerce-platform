@@ -1,6 +1,7 @@
 package cn.tedu.mall.front.controller;
 
 import cn.tedu.mall.common.annotation.CurrentUser;
+import cn.tedu.mall.common.constant.OrderConstants;
 import cn.tedu.mall.common.constant.ServiceCode;
 import cn.tedu.mall.common.constant.ServiceConstant;
 import cn.tedu.mall.common.util.PojoConvert;
@@ -46,13 +47,31 @@ public class OrderController {
     }
 
     /**
-     * 更新订单
+     * 更新订单从未支付到支付状态
      *
      * @param orderUpdateDTO 更新订单
      * @return JsonResult
      */
-    @ApiOperation("更新订单")
-    @PostMapping("/update")
+    @ApiOperation("更新订单从未支付到支付状态")
+    @PostMapping("/update/pay")
+    public JsonResult updateOrder2Paid(@CurrentUser CurrentPrincipal currentPrincipal, @Validated OrderUpdateDTO orderUpdateDTO) {
+        if(orderUpdateDTO!=null){
+            OrderDetailBO orderDetailBO = PojoConvert.convert(orderUpdateDTO, OrderDetailBO.class);
+            orderDetailBO.setStatus(OrderConstants.PAID.getValue());
+            orderDetailBO.setTbUserId(currentPrincipal.getId());
+            orderService.updateOrder(orderDetailBO);
+        }
+        return JsonResult.ok();
+    }
+
+    /**
+     * 更新订单收货信息
+     *
+     * @param orderUpdateDTO 更新订单收货信息
+     * @return JsonResult
+     */
+    @ApiOperation("更新订单收货信息")
+    @PostMapping("/update/consignee_info")
     public JsonResult updateOrder(@CurrentUser CurrentPrincipal currentPrincipal, @Validated OrderUpdateDTO orderUpdateDTO) {
         if(orderUpdateDTO!=null){
             OrderDetailBO orderDetailBO = PojoConvert.convert(orderUpdateDTO, OrderDetailBO.class);
@@ -61,6 +80,7 @@ public class OrderController {
         }
         return JsonResult.ok();
     }
+
 
     /**
      * 查询用户所有订单

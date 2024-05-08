@@ -79,14 +79,16 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     private void updateStatusTime(OrderDetailBO existOrderDetailBO, OrderPO orderPO) {
-        if (orderPO.getStatus().equals(OrderConstants.PAID.getValue()) && !orderPO.getStatus().equals(existOrderDetailBO.getStatus())) {
-            orderPO.setPayTime(LocalDateTime.now());
-        } else if (orderPO.getStatus().equals(OrderConstants.DELIVERED.getValue()) && !orderPO.getStatus().equals(existOrderDetailBO.getStatus())) {
-            orderPO.setDeliveryTime(LocalDateTime.now());
-        } else if (orderPO.getStatus().equals(OrderConstants.TO_BE_RECEIVED.getValue()) && !orderPO.getStatus().equals(existOrderDetailBO.getStatus())) {
-            orderPO.setReceiveDeliveryTime(LocalDateTime.now());
-        } else if (orderPO.getStatus().equals(OrderConstants.USER_SHUTDOWN.getValue()) && !orderPO.getStatus().equals(existOrderDetailBO.getStatus())) {
-            orderPO.setCancelTime(LocalDateTime.now());
+        if(orderPO!=null&&orderPO.getStatus()!=null){
+            if (orderPO.getStatus().equals(OrderConstants.PAID.getValue()) && !orderPO.getStatus().equals(existOrderDetailBO.getStatus())) {
+                orderPO.setPayTime(LocalDateTime.now());
+            } else if (orderPO.getStatus().equals(OrderConstants.DELIVERED.getValue()) && !orderPO.getStatus().equals(existOrderDetailBO.getStatus())) {
+                orderPO.setDeliveryTime(LocalDateTime.now());
+            } else if (orderPO.getStatus().equals(OrderConstants.TO_BE_RECEIVED.getValue()) && !orderPO.getStatus().equals(existOrderDetailBO.getStatus())) {
+                orderPO.setReceiveDeliveryTime(LocalDateTime.now());
+            } else if (orderPO.getStatus().equals(OrderConstants.USER_SHUTDOWN.getValue()) && !orderPO.getStatus().equals(existOrderDetailBO.getStatus())) {
+                orderPO.setCancelTime(LocalDateTime.now());
+            }
         }
     }
 

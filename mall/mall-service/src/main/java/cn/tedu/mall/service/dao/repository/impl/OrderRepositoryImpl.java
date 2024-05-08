@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -32,7 +33,8 @@ public class OrderRepositoryImpl implements IOrderRepository {
     @Override
     public int saveOrder(OrderPO orderPO) {
         log.debug("orderPO" + orderPO);
-        return orderMapper.updateById(orderPO);
+        orderPO.setModifiedTime(LocalDateTime.now());
+        return orderMapper.updateByOrderPO(orderPO);
     }
 
     @Override

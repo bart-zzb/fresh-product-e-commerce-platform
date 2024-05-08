@@ -19,10 +19,6 @@ public class OrderUpdateDTO implements Serializable {
     @ApiModelProperty(value = "订单编号",required = true,dataType = "String")
     String orderNo;
 
-    @Range(min = 0, max = 6, message = "订单状态只能为0-6")
-    @ApiModelProperty(value = "订单状态",required = true,dataType = "Integer")
-    Integer status;
-
     String consignee;
 
     String consigneePhone;

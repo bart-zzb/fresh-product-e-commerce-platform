@@ -93,7 +93,9 @@ public enum ServiceCode {
      */
     ERROR_UNKNOWN(99999),
 
-    ERROR_STOCK_NO_ENOUGH(30000);
+    ERROR_STOCK_NO_ENOUGH(30000),
+
+    ERROR_PAY_FAILED(30100);
 
     /**
      * 枚举对象的值

@@ -224,47 +224,57 @@ const submit = () => {
     showFailToast('未选择收货地址');
   } else {
     let orderNo = new URLSearchParams(location.search).get('orderNo');
-    if(payChecked.value=='alipay'){
-      //支付宝沙箱支付
-      window.location = (BASE_URL+"alipay/pay?orderNo="+orderNo);
-    }
-
-    //更新订单状态
+    //更新订单地址
     let orderUpdateDTO = {
       orderNo:orderNo,
-      status:1,
       consignee:addressValue.value.receiver,
       consigneePhone:addressValue.value.contactPhone,
       consigneeAddress:addressValue.value.addressDetail,
-      payChannel:1
     };
     let data = qs.stringify(orderUpdateDTO);
-    axios.post("mall/order/update", data).then((response)=>{
+    axios.post("mall/order/update/consignee_info", data).then((response)=>{
       if (response.data.state==20000){
-        //更新库存，更新销量
-        let productSpecDeleteDTOS = [];
-        for (let i = 0; i < order.value.productList.length; i++) {
-          productSpecDeleteDTOS.push({
-            tbProductSpecId: order.value.productList[i].tbProductSpecId,
-            amount: order.value.productList[i].amount
-          })
-        }
-        axios({
-          method: "post",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          dataType: "json",
-          data: JSON.stringify(productSpecDeleteDTOS),
-          url: "mall/product_specs/modify"
-        }).then((response) => {
-          if (response.data.state == 20000) {
-            showSuccessToast('支付成功');
-            setTimeout(() => {
-              router.push('/personal');
-            }, 1000);
+        //如果选择支付宝支付, 会在接口层异步调用时把订单状态和更新库存,更新销量实现
+        if(payChecked.value=='alipay'){
+        //支付宝沙箱支付
+        window.open(BASE_URL+"alipay/pay?orderNo="+orderNo);
+        router.push('/personal');
+      }else{
+        //更新订单状态
+        let orderUpdateDTO = {
+          orderNo:orderNo,
+          payChannel:1
+        };
+        let data = qs.stringify(orderUpdateDTO);
+        axios.post("mall/order/update/pay", data).then((response)=>{
+          if (response.data.state==20000){
+            //更新库存，更新销量
+            let productSpecDeleteDTOS = [];
+            for (let i = 0; i < order.value.productList.length; i++) {
+              productSpecDeleteDTOS.push({
+                tbProductSpecId: order.value.productList[i].tbProductSpecId,
+                amount: order.value.productList[i].amount
+              })
+            }
+            axios({
+              method: "post",
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              dataType: "json",
+              data: JSON.stringify(productSpecDeleteDTOS),
+              url: "mall/product_specs/modify"
+            }).then((response) => {
+              if (response.data.state == 20000) {
+                showSuccessToast('支付成功');
+                setTimeout(() => {
+                  router.push('/personal');
+                }, 1000);
+              }
+            })
           }
         })
+      }
       }
     })
   }
