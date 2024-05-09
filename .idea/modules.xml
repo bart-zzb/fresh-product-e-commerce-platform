@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/fresh-product-e-commerce-platform.iml" filepath="$PROJECT_DIR$/.idea/fresh-product-e-commerce-platform.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mall/mall.iml" filepath="$PROJECT_DIR$/mall/mall.iml" />
       <module fileurl="file://$PROJECT_DIR$/mall/mall-common/mall-common.iml" filepath="$PROJECT_DIR$/mall/mall-common/mall-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/mall/mall-front/mall-front.iml" filepath="$PROJECT_DIR$/mall/mall-front/mall-front.iml" />
       <module fileurl="file://$PROJECT_DIR$/mall/mall-service/mall-service.iml" filepath="$PROJECT_DIR$/mall/mall-service/mall-service.iml" />

@@ -41,7 +41,7 @@ public class OrderController {
     @ApiOperation("增加订单")
     @PostMapping("/add")
     public JsonResult addOrder(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @Validated @RequestBody List<OrderItemsAddDTO> orderItemsAddDTOS) {
-        log.debug("currentPrincipal"+ currentPrincipal);
+        log.debug("currentPrincipal" + currentPrincipal);
         OrderDetailBO orderDetailBO = orderService.addOrder(currentPrincipal.getId(), orderItemsAddDTOS);
         OrderDetailVO orderDetailVO = PojoConvert.convert(orderDetailBO, OrderDetailVO.class);
         return JsonResult.ok(orderDetailVO);
@@ -56,7 +56,7 @@ public class OrderController {
     @ApiOperation("更新订单从未支付到支付状态")
     @PostMapping("/update/pay")
     public JsonResult updateOrder2Paid(@CurrentUser CurrentPrincipal currentPrincipal, @Validated OrderUpdatePaidDTO orderUpdatePaidDTO) {
-        if(orderUpdatePaidDTO !=null){
+        if (orderUpdatePaidDTO != null) {
             orderUpdatePaidDTO.setTbUserId(currentPrincipal.getId());
             orderService.updateOrder2Paid(orderUpdatePaidDTO);
         }
@@ -72,7 +72,7 @@ public class OrderController {
     @ApiOperation("更新订单收货信息")
     @PostMapping("/update/consignee_info")
     public JsonResult updateOrder(@CurrentUser CurrentPrincipal currentPrincipal, @Validated OrderUpdateConsigneeInfoDTO orderUpdateConsigneeInfoDTO) {
-        if(orderUpdateConsigneeInfoDTO !=null){
+        if (orderUpdateConsigneeInfoDTO != null) {
             orderUpdateConsigneeInfoDTO.setTbUserId(currentPrincipal.getId());
             orderService.updateOrder(orderUpdateConsigneeInfoDTO);
         }
@@ -82,24 +82,27 @@ public class OrderController {
 
     /**
      * 查询用户所有订单
+     *
      * @param currentPrincipal 查询用户所有订单
      * @return JsonResult(List < OrderPO >)
      */
     @ApiOperation("查询当前用户所有订单")
     @GetMapping("/select/all")
     public JsonResult getOrderByUserId(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal) {
-        log.debug("currentPrincipal"+currentPrincipal);
+        log.debug("currentPrincipal" + currentPrincipal);
         List<OrderDetailBO> orderDetailBOS = orderService.getOrderByUserId(currentPrincipal.getId());
         List<OrderDetailVO> orderDetailVOS = PojoConvert.convertList(orderDetailBOS, OrderDetailVO.class);
         return JsonResult.ok(orderDetailVOS);
     }
 
     /**
-     *
+     * @param currentPrincipal 当前用户
+     * @param status 状态
+     * @return JsonResult.ok(orderDetailVOS)
      */
     @ApiOperation("查询当前用户所有相对应的状态的订单")
     @GetMapping("/select/order_status")
-    public JsonResult getOrdersByStatus(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @RequestParam Integer status){
+    public JsonResult getOrdersByStatus(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @RequestParam Integer status) {
         List<OrderDetailBO> orderDetailBOS = orderService.getOrdersByStatus(currentPrincipal.getId(), status);
         List<OrderDetailVO> orderDetailVOS = PojoConvert.convertList(orderDetailBOS, OrderDetailVO.class);
         return JsonResult.ok(orderDetailVOS);
@@ -107,18 +110,19 @@ public class OrderController {
 
     /**
      * 通过订单编号查询当前用户订单
+     *
      * @param currentPrincipal 当前用户
-     * @param orderNo 订单编号
+     * @param orderNo          订单编号
      * @return JsonResult.ok(orderDetailVO);
      */
     @ApiOperation("通过订单编号查询当前用户订单")
     @GetMapping("/select")
-    public JsonResult getOrderByOrderNo(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, String orderNo){
-        if(orderNo.equals("null")){
+    public JsonResult getOrderByOrderNo(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, String orderNo) {
+        if (orderNo.equals("null")) {
             return JsonResult.fail(ServiceCode.ERROR_BAD_REQUEST, ServiceConstant.ORDER_NOT_EXIST);
         }
         OrderDetailBO orderDetailBO = orderService.getOrderByUserIdAndOrderNo(currentPrincipal.getId(), orderNo);
         OrderDetailVO orderDetailVO = PojoConvert.convert(orderDetailBO, OrderDetailVO.class);
-        return  JsonResult.ok(orderDetailVO);
+        return JsonResult.ok(orderDetailVO);
     }
 }

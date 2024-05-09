@@ -73,12 +73,12 @@ public class UserAddressController {
 
     @ApiOperation("更新当前用户的地址信息")
     @PostMapping("/update")
-    public JsonResult updateAddress(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @Validated UserAddressDTO userAddressDTO){
+    public JsonResult updateAddress(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @Validated UserAddressDTO userAddressDTO) {
         if (userAddressDTO == null) {
             return JsonResult.fail(ServiceCode.ERROR_ADDRESS_UPDATE_FAILED, ServiceConstant.ADDRESS_UPDATE_FAILED);
         }
         UserAddressBO userAddressBO = PojoConvert.convert(userAddressDTO, UserAddressBO.class);
-        userAddressBO.setAddressDetail(userAddressBO.getProvince()+userAddressBO.getCity()+userAddressBO.getDistrict()+userAddressBO.getAddressName());
+        userAddressBO.setAddressDetail(userAddressBO.getProvince() + userAddressBO.getCity() + userAddressBO.getDistrict() + userAddressBO.getAddressName());
         userAddressBO.setAccount("xxxx");
         userAddressBO.setTbUserId(currentPrincipal.getId());
         userAddressService.updateAddress(userAddressBO);
@@ -87,12 +87,12 @@ public class UserAddressController {
 
     @ApiOperation("新增当前用户的地址信息")
     @PostMapping("/add")
-    public JsonResult addAddress(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @Validated UserAddressDTO userAddressDTO){
+    public JsonResult addAddress(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @Validated UserAddressDTO userAddressDTO) {
         if (userAddressDTO == null) {
             return JsonResult.fail(ServiceCode.ERROR_ADDRESS_INSERT_FAILED, ServiceConstant.ADDRESS_INSERT_FAILED);
         }
         UserAddressBO userAddressBO = PojoConvert.convert(userAddressDTO, UserAddressBO.class);
-        userAddressBO.setAddressDetail(userAddressBO.getProvince()+userAddressBO.getCity()+userAddressBO.getDistrict()+userAddressBO.getAddressName());
+        userAddressBO.setAddressDetail(userAddressBO.getProvince() + userAddressBO.getCity() + userAddressBO.getDistrict() + userAddressBO.getAddressName());
         userAddressBO.setAccount("xxxx");
         userAddressBO.setTbUserId(currentPrincipal.getId());
         userAddressService.addAddress(userAddressBO);
@@ -101,7 +101,7 @@ public class UserAddressController {
 
     @ApiOperation("新增当前用户的地址信息")
     @PostMapping("/delete")
-    public JsonResult deleteAddress(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, Long id){
+    public JsonResult deleteAddress(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, Long id) {
         userAddressService.deleteAddressById(id);
         return JsonResult.ok();
     }

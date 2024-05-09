@@ -8,16 +8,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="mall-front" />
-        <module name="mall-service" />
         <module name="mall-common" />
+        <module name="mall-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="mall" target="1.8" />
-      <module name="mall-common" target="8" />
-      <module name="mall-front" target="8" />
       <module name="mall-passport" target="8" />
-      <module name="mall-service" target="8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
