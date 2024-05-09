@@ -2,8 +2,11 @@ package cn.tedu.mall.front.controller;
 
 
 import cn.tedu.mall.common.annotation.CurrentUser;
+import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.common.web.JsonResult;
 import cn.tedu.mall.service.pojo.authentication.CurrentPrincipal;
+import cn.tedu.mall.service.pojo.bo.CartCacheBO;
+import cn.tedu.mall.service.pojo.bo.CartTotalBO;
 import cn.tedu.mall.service.pojo.dto.CartAddDTO;
 import cn.tedu.mall.service.pojo.vo.CartCacheVO;
 import cn.tedu.mall.service.pojo.vo.CartTotalVO;
@@ -39,8 +42,9 @@ public class CartController {
     @ApiOperation("根据当前用户查询购物车")
     @GetMapping("/get")
     public JsonResult getCartByCurrentPrincipal(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal) {
-        List<CartCacheVO> list = cartService.getCartByUserId(currentPrincipal.getId());
-        return JsonResult.ok(list);
+        List<CartCacheBO> cartCacheBOS = cartService.getCartByUserId(currentPrincipal.getId());
+        List<CartCacheVO> cartCacheVOS = PojoConvert.convertList(cartCacheBOS, CartCacheVO.class);
+        return JsonResult.ok(cartCacheVOS);
     }
 
     /**
@@ -123,7 +127,8 @@ public class CartController {
     @GetMapping("/total")
     public JsonResult updateCartChecked(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal) {
         log.debug("查询当前用户购物车价格总和-入参 用户id:{}", currentPrincipal.getId());
-        CartTotalVO cartTotalVO = cartService.getTotal(currentPrincipal.getId());
+        CartTotalBO cartTotalBO = cartService.getTotal(currentPrincipal.getId());
+        CartTotalVO cartTotalVO = PojoConvert.convert(cartTotalBO, CartTotalVO.class);
         return JsonResult.ok(cartTotalVO);
     }
 
@@ -137,7 +142,8 @@ public class CartController {
     @GetMapping("/allChecked/{currentAllChecked}")
     public JsonResult getCartAllChecked(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @PathVariable boolean currentAllChecked) {
         log.debug("修改当前用户购物车所有商品的选中状态-入参 用户id:{} 当前选中状态{}", currentPrincipal.getId(), currentAllChecked);
-        CartTotalVO cartTotalVO = cartService.getTotalByAllCheckedChanged(currentPrincipal.getId(), currentAllChecked);
+        CartTotalBO cartTotalBO = cartService.getTotalByAllCheckedChanged(currentPrincipal.getId(), currentAllChecked);
+        CartTotalVO cartTotalVO = PojoConvert.convert(cartTotalBO, CartTotalVO.class);
         return JsonResult.ok(cartTotalVO);
     }
 
@@ -149,8 +155,9 @@ public class CartController {
     @ApiOperation("根据当前用户查询当前购物车已选中的所有商品")
     @GetMapping("/get/allChecked")
     public JsonResult getCheckedCartByCurrentPrincipal(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal) {
-        List<CartCacheVO> list = cartService.getCheckedCartByUserId(currentPrincipal.getId());
-        return JsonResult.ok(list);
+        List<CartCacheBO> cartCacheBOS = cartService.getCheckedCartByUserId(currentPrincipal.getId());
+        List<CartCacheVO> cartCacheVOS = PojoConvert.convertList(cartCacheBOS, CartCacheVO.class);
+        return JsonResult.ok(cartCacheVOS);
     }
 }
 

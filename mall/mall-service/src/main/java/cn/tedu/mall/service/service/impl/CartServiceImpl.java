@@ -4,10 +4,10 @@ import cn.tedu.mall.common.util.CalUtils;
 import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.repository.ICartCacheRepository;
 import cn.tedu.mall.service.dao.repository.IProductSpecsRepository;
+import cn.tedu.mall.service.pojo.bo.CartCacheBO;
+import cn.tedu.mall.service.pojo.bo.CartTotalBO;
 import cn.tedu.mall.service.pojo.dto.CartAddDTO;
 import cn.tedu.mall.service.pojo.po.CartCachePO;
-import cn.tedu.mall.service.pojo.vo.CartCacheVO;
-import cn.tedu.mall.service.pojo.vo.CartTotalVO;
 import cn.tedu.mall.service.pojo.vo.ProductSpecsVO;
 import cn.tedu.mall.service.service.ICartService;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ public class CartServiceImpl implements ICartService {
     private IProductSpecsRepository productSpecsRepository;
 
     @Override
-    public List<CartCacheVO> getCartByUserId(Long userId) {
+    public List<CartCacheBO> getCartByUserId(Long userId) {
         return cartCacheRepository.listByUser(userId);
     }
 
@@ -69,17 +69,17 @@ public class CartServiceImpl implements ICartService {
     }
 
     @Override
-    public CartTotalVO getTotal(Long userId) {
+    public CartTotalBO getTotal(Long userId) {
         return cartCacheRepository.getTotal(userId);
     }
 
     @Override
-    public CartTotalVO getTotalByAllCheckedChanged(Long userId, boolean currentAllChecked) {
+    public CartTotalBO getTotalByAllCheckedChanged(Long userId, boolean currentAllChecked) {
         return cartCacheRepository.getTotalByAllCheckedChanged(userId, currentAllChecked);
     }
 
     @Override
-    public List<CartCacheVO> getCheckedCartByUserId(Long userId) {
+    public List<CartCacheBO> getCheckedCartByUserId(Long userId) {
         return cartCacheRepository.listCheckedByUserId(userId);
     }
 

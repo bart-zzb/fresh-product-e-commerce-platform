@@ -9,7 +9,8 @@ import cn.tedu.mall.common.web.JsonResult;
 import cn.tedu.mall.service.pojo.authentication.CurrentPrincipal;
 import cn.tedu.mall.service.pojo.bo.OrderDetailBO;
 import cn.tedu.mall.service.pojo.dto.OrderItemsAddDTO;
-import cn.tedu.mall.service.pojo.dto.OrderUpdateDTO;
+import cn.tedu.mall.service.pojo.dto.OrderUpdateConsigneeInfoDTO;
+import cn.tedu.mall.service.pojo.dto.OrderUpdatePaidDTO;
 import cn.tedu.mall.service.pojo.vo.OrderDetailVO;
 import cn.tedu.mall.service.service.IOrderService;
 import io.swagger.annotations.Api;
@@ -49,17 +50,15 @@ public class OrderController {
     /**
      * 更新订单从未支付到支付状态
      *
-     * @param orderUpdateDTO 更新订单
+     * @param orderUpdatePaidDTO 更新订单从未支付到支付状态
      * @return JsonResult
      */
     @ApiOperation("更新订单从未支付到支付状态")
     @PostMapping("/update/pay")
-    public JsonResult updateOrder2Paid(@CurrentUser CurrentPrincipal currentPrincipal, @Validated OrderUpdateDTO orderUpdateDTO) {
-        if(orderUpdateDTO!=null){
-            OrderDetailBO orderDetailBO = PojoConvert.convert(orderUpdateDTO, OrderDetailBO.class);
-            orderDetailBO.setStatus(OrderConstants.PAID.getValue());
-            orderDetailBO.setTbUserId(currentPrincipal.getId());
-            orderService.updateOrder(orderDetailBO);
+    public JsonResult updateOrder2Paid(@CurrentUser CurrentPrincipal currentPrincipal, @Validated OrderUpdatePaidDTO orderUpdatePaidDTO) {
+        if(orderUpdatePaidDTO !=null){
+            orderUpdatePaidDTO.setTbUserId(currentPrincipal.getId());
+            orderService.updateOrder2Paid(orderUpdatePaidDTO);
         }
         return JsonResult.ok();
     }
@@ -67,16 +66,15 @@ public class OrderController {
     /**
      * 更新订单收货信息
      *
-     * @param orderUpdateDTO 更新订单收货信息
+     * @param orderUpdateConsigneeInfoDTO 更新订单收货信息
      * @return JsonResult
      */
     @ApiOperation("更新订单收货信息")
     @PostMapping("/update/consignee_info")
-    public JsonResult updateOrder(@CurrentUser CurrentPrincipal currentPrincipal, @Validated OrderUpdateDTO orderUpdateDTO) {
-        if(orderUpdateDTO!=null){
-            OrderDetailBO orderDetailBO = PojoConvert.convert(orderUpdateDTO, OrderDetailBO.class);
-            orderDetailBO.setTbUserId(currentPrincipal.getId());
-            orderService.updateOrder(orderDetailBO);
+    public JsonResult updateOrder(@CurrentUser CurrentPrincipal currentPrincipal, @Validated OrderUpdateConsigneeInfoDTO orderUpdateConsigneeInfoDTO) {
+        if(orderUpdateConsigneeInfoDTO !=null){
+            orderUpdateConsigneeInfoDTO.setTbUserId(currentPrincipal.getId());
+            orderService.updateOrder(orderUpdateConsigneeInfoDTO);
         }
         return JsonResult.ok();
     }

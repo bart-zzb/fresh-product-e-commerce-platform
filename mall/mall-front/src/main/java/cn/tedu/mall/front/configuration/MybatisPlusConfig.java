@@ -1,4 +1,4 @@
-package cn.tedu.mall.service.configuration;
+package cn.tedu.mall.front.configuration;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;

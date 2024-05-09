@@ -2,7 +2,8 @@ package cn.tedu.mall.service.service;
 
 import cn.tedu.mall.service.pojo.bo.OrderDetailBO;
 import cn.tedu.mall.service.pojo.dto.OrderItemsAddDTO;
-import cn.tedu.mall.service.pojo.dto.OrderUpdateDTO;
+import cn.tedu.mall.service.pojo.dto.OrderUpdateConsigneeInfoDTO;
+import cn.tedu.mall.service.pojo.dto.OrderUpdatePaidDTO;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 public interface IOrderService {
     OrderDetailBO addOrder(Long userId, List<OrderItemsAddDTO> orderItemsAddDTOS);
 
-    int updateOrder(OrderDetailBO orderDetailBO);
+    int updateOrder(OrderUpdateConsigneeInfoDTO orderUpdateConsigneeInfoDTO);
 
     List<OrderDetailBO> getOrderByUserId(Long userId);
 
@@ -20,4 +21,6 @@ public interface IOrderService {
     List<OrderDetailBO> getOrdersByStatus(Long userId, Integer status);
 
     OrderDetailBO getUnpaidOrderByOrderNo(String orderNo);
+
+    int updateOrder2Paid(OrderUpdatePaidDTO orderUpdatePaidDTO);
 }

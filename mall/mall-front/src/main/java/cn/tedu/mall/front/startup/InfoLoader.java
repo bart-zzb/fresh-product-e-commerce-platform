@@ -1,4 +1,4 @@
-package cn.tedu.mall.service.startup;
+package cn.tedu.mall.front.startup;
 
 import cn.tedu.mall.service.service.ICategoryService;
 import lombok.extern.slf4j.Slf4j;

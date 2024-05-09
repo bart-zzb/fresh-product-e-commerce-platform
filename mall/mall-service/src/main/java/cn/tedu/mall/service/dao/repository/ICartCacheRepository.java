@@ -1,5 +1,7 @@
 package cn.tedu.mall.service.dao.repository;
 
+import cn.tedu.mall.service.pojo.bo.CartCacheBO;
+import cn.tedu.mall.service.pojo.bo.CartTotalBO;
 import cn.tedu.mall.service.pojo.po.CartCachePO;
 import cn.tedu.mall.service.pojo.vo.CartCacheVO;
 import cn.tedu.mall.service.pojo.vo.CartTotalVO;
@@ -7,7 +9,7 @@ import cn.tedu.mall.service.pojo.vo.CartTotalVO;
 import java.util.List;
 
 public interface ICartCacheRepository {
-    List<CartCacheVO> listByUser(Long userId);
+    List<CartCacheBO> listByUser(Long userId);
 
     void addCart(Long userId, CartCachePO cartCachePO);
 
@@ -17,9 +19,9 @@ public interface ICartCacheRepository {
 
     void modifyChecked(Long userId, Long productSpecId, Integer productChecked);
 
-    CartTotalVO getTotal(Long userId);
+    CartTotalBO getTotal(Long userId);
 
-    CartTotalVO getTotalByAllCheckedChanged(Long userId, boolean currentAllChecked);
+    CartTotalBO getTotalByAllCheckedChanged(Long userId, boolean currentAllChecked);
 
-    List<CartCacheVO> listCheckedByUserId(Long userId);
+    List<CartCacheBO> listCheckedByUserId(Long userId);
 }

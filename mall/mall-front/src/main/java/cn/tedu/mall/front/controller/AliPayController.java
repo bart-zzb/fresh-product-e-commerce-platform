@@ -7,6 +7,7 @@ import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.common.web.JsonResult;
 import cn.tedu.mall.front.configuration.AliPayConfig;
 import cn.tedu.mall.service.pojo.bo.OrderDetailBO;
+import cn.tedu.mall.service.pojo.dto.OrderUpdatePaidDTO;
 import cn.tedu.mall.service.pojo.dto.ProductSpecDeleteDTO;
 import cn.tedu.mall.service.pojo.vo.OrderItemsVO;
 import cn.tedu.mall.service.service.IOrderService;
@@ -128,10 +129,11 @@ public class AliPayController {
                 String tradeNo = params.get("out_trade_no");
                 String gmtPayment = params.get("gmt_payment");
                 String alipayTradeNo = params.get("trade_no");
+                //没有将方法写入业务层, 未来通过记录日志, 人工处理事务不一致的问题
                 //更新订单状态为已支付, 设置支付信息
                 OrderDetailBO orderDetailBO = orderService.getUnpaidOrderByOrderNo(tradeNo);
-                orderDetailBO.setStatus(OrderConstants.PAID.getValue());
-                orderService.updateOrder(orderDetailBO);
+                OrderUpdatePaidDTO orderUpdatePaidDTO = PojoConvert.convert(orderDetailBO, OrderUpdatePaidDTO.class);
+                orderService.updateOrder2Paid(orderUpdatePaidDTO);
                 //更新库存, 更新销量
                 List<OrderItemsVO> orderItemsVOS = orderDetailBO.getOrderItemsVOS();
                 List<ProductSpecDeleteDTO> productSpecDeleteDTOS = PojoConvert.convertList(orderItemsVOS, ProductSpecDeleteDTO.class);

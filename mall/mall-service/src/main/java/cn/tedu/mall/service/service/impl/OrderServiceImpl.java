@@ -9,6 +9,8 @@ import cn.tedu.mall.service.dao.repository.IOrderItemsRepository;
 import cn.tedu.mall.service.dao.repository.IOrderRepository;
 import cn.tedu.mall.service.pojo.bo.OrderDetailBO;
 import cn.tedu.mall.service.pojo.dto.OrderItemsAddDTO;
+import cn.tedu.mall.service.pojo.dto.OrderUpdateConsigneeInfoDTO;
+import cn.tedu.mall.service.pojo.dto.OrderUpdatePaidDTO;
 import cn.tedu.mall.service.pojo.po.OrderItemsPO;
 import cn.tedu.mall.service.pojo.po.OrderPO;
 import cn.tedu.mall.service.pojo.vo.OrderItemsVO;
@@ -67,12 +69,25 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public int updateOrder(OrderDetailBO orderDetailBO) {
-        OrderDetailBO existOrderDetailBO = orderRepository.getOrderByUserIdAndOrderNo(orderDetailBO.getTbUserId(), orderDetailBO.getOrderNo());
+    public int updateOrder2Paid(OrderUpdatePaidDTO orderUpdatePaidDTO) {
+        OrderDetailBO existOrderDetailBO = orderRepository.getOrderByUserIdAndOrderNo(orderUpdatePaidDTO.getTbUserId(), orderUpdatePaidDTO.getOrderNo());
         if (existOrderDetailBO == null && existOrderDetailBO.getId() != null) {
             throw new ServiceException(ServiceCode.ERROR_NOT_FOUND, ServiceConstant.ORDER_NOT_EXIST);
         }
-        OrderPO orderPO = PojoConvert.convert(orderDetailBO, OrderPO.class);
+        OrderPO orderPO = PojoConvert.convert(orderUpdatePaidDTO, OrderPO.class);
+        orderPO.setId(existOrderDetailBO.getId());
+        orderPO.setStatus(OrderConstants.PAID.getValue());
+        updateStatusTime(existOrderDetailBO, orderPO);
+        return orderRepository.saveOrder(orderPO);
+    }
+
+    @Override
+    public int updateOrder(OrderUpdateConsigneeInfoDTO orderUpdateConsigneeInfoDTO) {
+        OrderDetailBO existOrderDetailBO = orderRepository.getOrderByUserIdAndOrderNo(orderUpdateConsigneeInfoDTO.getTbUserId(), orderUpdateConsigneeInfoDTO.getOrderNo());
+        if (existOrderDetailBO == null && existOrderDetailBO.getId() != null) {
+            throw new ServiceException(ServiceCode.ERROR_NOT_FOUND, ServiceConstant.ORDER_NOT_EXIST);
+        }
+        OrderPO orderPO = PojoConvert.convert(orderUpdateConsigneeInfoDTO, OrderPO.class);
         orderPO.setId(existOrderDetailBO.getId());
         updateStatusTime(existOrderDetailBO, orderPO);
         return orderRepository.saveOrder(orderPO);

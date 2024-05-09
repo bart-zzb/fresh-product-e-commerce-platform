@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderUpdateDTO implements Serializable {
+public class OrderUpdateConsigneeInfoDTO implements Serializable {
     @ApiModelProperty(value = "用户id",required = true,dataType = "Long")
     Long tbUserId;
 
@@ -24,6 +24,4 @@ public class OrderUpdateDTO implements Serializable {
     String consigneePhone;
 
     String consigneeAddress;
-
-    Integer payChannel;
 }

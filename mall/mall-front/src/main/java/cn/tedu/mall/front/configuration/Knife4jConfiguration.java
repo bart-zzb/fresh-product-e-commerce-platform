@@ -46,7 +46,7 @@ public class Knife4jConfiguration {
     /**
      * 联系人
      */
-    private static final String CONTACT_NAME = "Bart_zzb/北语";
+    private static final String CONTACT_NAME = "Bart_zzb";
     /**
      * 联系网址
      */

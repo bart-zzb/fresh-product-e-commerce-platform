@@ -5,9 +5,10 @@ import cn.tedu.mall.common.constant.RedisConstants;
 import cn.tedu.mall.common.util.CalUtils;
 import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.repository.ICartCacheRepository;
+import cn.tedu.mall.service.pojo.bo.CartCacheBO;
+import cn.tedu.mall.service.pojo.bo.CartTotalBO;
 import cn.tedu.mall.service.pojo.po.CartCachePO;
-import cn.tedu.mall.service.pojo.vo.CartCacheVO;
-import cn.tedu.mall.service.pojo.vo.CartTotalVO;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -46,7 +47,7 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
     }
 
     @Override
-    public List<CartCacheVO> listByUser(Long userId) {
+    public List<CartCacheBO> listByUser(Long userId) {
         return listCartByUserId(userId, null);
     }
 
@@ -118,7 +119,7 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
     }
 
     @Override
-    public CartTotalVO getTotal(Long userId) {
+    public CartTotalBO getTotal(Long userId) {
         HashOperations<String, String, Object> hashOperations = redisTemplate.opsForHash();
         //大key e_mall_tb_shopping_cart_用户id_data
         String cartKey = getCartKey(userId);
@@ -145,7 +146,7 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
             });
             if (!CollectionUtils.isEmpty(result)) {
                 for (CartCachePO cartCachePO : result) {
-                    if (cartCachePO.getTbProductChecked() == ProductConstants.CHECKED.getValue()) {
+                    if (cartCachePO.getTbProductChecked().equals(ProductConstants.CHECKED.getValue())) {
                         totalPrice = totalPrice.add(cartCachePO.getTotalPrice());
                         totalAmount += cartCachePO.getAmount();
                     } else {
@@ -159,33 +160,33 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
             allChecked = false;
         }
 
-        CartTotalVO cartTotalVO = new CartTotalVO();
-        cartTotalVO.setTotalPrice(totalPrice);
-        cartTotalVO.setTotalAmount(totalAmount);
-        cartTotalVO.setAllChecked(allChecked);
-        return cartTotalVO;
+        CartTotalBO cartTotalBO = new CartTotalBO();
+        cartTotalBO.setTotalPrice(totalPrice);
+        cartTotalBO.setTotalAmount(totalAmount);
+        cartTotalBO.setAllChecked(allChecked);
+        return cartTotalBO;
     }
 
     @Override
-    public CartTotalVO getTotalByAllCheckedChanged(Long userId, boolean currentAllChecked) {
-        List<CartCacheVO> cartCacheVOS = listByUser(userId);
+    public CartTotalBO getTotalByAllCheckedChanged(Long userId, boolean currentAllChecked) {
+        List<CartCacheBO> cartCacheBOS = listByUser(userId);
         Integer allChecked = ProductConstants.UNCHECKED.getValue();
         if (currentAllChecked) {
             allChecked = ProductConstants.CHECKED.getValue();
         }
         log.debug("选中状态修改为" + allChecked);
-        for (CartCacheVO cartCacheVO : cartCacheVOS) {
-            updateKeyValue(userId, cartCacheVO.getTbProductSpecId(), null, allChecked);
+        for (CartCacheBO cartCacheBO : cartCacheBOS) {
+            updateKeyValue(userId, cartCacheBO.getTbProductSpecId(), null, allChecked);
         }
         return getTotal(userId);
     }
 
     @Override
-    public List<CartCacheVO> listCheckedByUserId(Long userId) {
+    public List<CartCacheBO> listCheckedByUserId(Long userId) {
         return listCartByUserId(userId, ProductConstants.CHECKED.getValue());
     }
 
-    private List<CartCacheVO> listCartByUserId(Long userId, Integer checked) {
+    private List<CartCacheBO> listCartByUserId(Long userId, Integer checked) {
         HashOperations<String, String, Object> hashOperations = redisTemplate.opsForHash();
         //大key e_mall_tb_shopping_cart_用户id_data
         String cartKey = getCartKey(userId);
@@ -224,7 +225,7 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
             }
         });
 
-        return PojoConvert.convertList(result, CartCacheVO.class);
+        return PojoConvert.convertList(result, CartCacheBO.class);
     }
 
 

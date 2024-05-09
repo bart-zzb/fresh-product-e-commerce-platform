@@ -1,4 +1,4 @@
-package cn.tedu.mall.service.configuration;
+package cn.tedu.mall.front.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

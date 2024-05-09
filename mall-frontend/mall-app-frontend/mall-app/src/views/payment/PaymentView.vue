@@ -225,13 +225,13 @@ const submit = () => {
   } else {
     let orderNo = new URLSearchParams(location.search).get('orderNo');
     //更新订单地址
-    let orderUpdateDTO = {
+    let orderUpdateConsigneeInfoDTO = {
       orderNo:orderNo,
       consignee:addressValue.value.receiver,
       consigneePhone:addressValue.value.contactPhone,
       consigneeAddress:addressValue.value.addressDetail,
     };
-    let data = qs.stringify(orderUpdateDTO);
+    let data = qs.stringify(orderUpdateConsigneeInfoDTO);
     axios.post("mall/order/update/consignee_info", data).then((response)=>{
       if (response.data.state==20000){
         //如果选择支付宝支付, 会在接口层异步调用时把订单状态和更新库存,更新销量实现
@@ -241,11 +241,11 @@ const submit = () => {
         router.push('/personal');
       }else{
         //更新订单状态
-        let orderUpdateDTO = {
+        let orderUpdatePaidDTO = {
           orderNo:orderNo,
           payChannel:1
         };
-        let data = qs.stringify(orderUpdateDTO);
+        let data = qs.stringify(orderUpdatePaidDTO);
         axios.post("mall/order/update/pay", data).then((response)=>{
           if (response.data.state==20000){
             //更新库存，更新销量

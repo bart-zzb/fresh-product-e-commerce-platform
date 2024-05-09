@@ -1,15 +1,15 @@
 package cn.tedu.mall.service.service;
 
+import cn.tedu.mall.service.pojo.bo.CartCacheBO;
+import cn.tedu.mall.service.pojo.bo.CartTotalBO;
 import cn.tedu.mall.service.pojo.dto.CartAddDTO;
-import cn.tedu.mall.service.pojo.vo.CartCacheVO;
-import cn.tedu.mall.service.pojo.vo.CartTotalVO;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Transactional(rollbackFor = Exception.class)
 public interface ICartService {
-    List<CartCacheVO> getCartByUserId(Long userId);
+    List<CartCacheBO> getCartByUserId(Long userId);
 
     void addCart(Long userId, CartAddDTO cartAddDTO);
 
@@ -19,9 +19,9 @@ public interface ICartService {
 
     void modifyChecked(Long userId, Long productSpecId, Integer productChecked);
 
-    CartTotalVO getTotal(Long userId);
+    CartTotalBO getTotal(Long userId);
 
-    CartTotalVO getTotalByAllCheckedChanged(Long userId, boolean currentAllChecked);
+    CartTotalBO getTotalByAllCheckedChanged(Long userId, boolean currentAllChecked);
 
-    List<CartCacheVO> getCheckedCartByUserId(Long userid);
+    List<CartCacheBO> getCheckedCartByUserId(Long userid);
 }
