@@ -1,6 +1,8 @@
 package cn.tedu.mall.front.controller;
 
 import cn.tedu.mall.common.annotation.CurrentUser;
+import cn.tedu.mall.common.constant.ServiceCode;
+import cn.tedu.mall.common.constant.ServiceConstant;
 import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.common.web.JsonResult;
 import cn.tedu.mall.service.pojo.authentication.CurrentPrincipal;
@@ -72,6 +74,9 @@ public class UserAddressController {
     @ApiOperation("更新当前用户的地址信息")
     @PostMapping("/update")
     public JsonResult updateAddress(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @Validated UserAddressDTO userAddressDTO){
+        if (userAddressDTO == null) {
+            return JsonResult.fail(ServiceCode.ERROR_ADDRESS_UPDATE_FAILED, ServiceConstant.ADDRESS_UPDATE_FAILED);
+        }
         UserAddressBO userAddressBO = PojoConvert.convert(userAddressDTO, UserAddressBO.class);
         userAddressBO.setAddressDetail(userAddressBO.getProvince()+userAddressBO.getCity()+userAddressBO.getDistrict()+userAddressBO.getAddressName());
         userAddressBO.setAccount("xxxx");
@@ -83,6 +88,9 @@ public class UserAddressController {
     @ApiOperation("新增当前用户的地址信息")
     @PostMapping("/add")
     public JsonResult addAddress(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @Validated UserAddressDTO userAddressDTO){
+        if (userAddressDTO == null) {
+            return JsonResult.fail(ServiceCode.ERROR_ADDRESS_INSERT_FAILED, ServiceConstant.ADDRESS_INSERT_FAILED);
+        }
         UserAddressBO userAddressBO = PojoConvert.convert(userAddressDTO, UserAddressBO.class);
         userAddressBO.setAddressDetail(userAddressBO.getProvince()+userAddressBO.getCity()+userAddressBO.getDistrict()+userAddressBO.getAddressName());
         userAddressBO.setAccount("xxxx");

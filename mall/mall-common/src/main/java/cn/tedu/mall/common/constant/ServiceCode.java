@@ -95,8 +95,11 @@ public enum ServiceCode {
 
     ERROR_STOCK_NO_ENOUGH(30000),
 
-    ERROR_PAY_FAILED(30100);
+    ERROR_PAY_FAILED(30100),
 
+    ERROR_ADDRESS_UPDATE_FAILED(30200),
+    ERROR_ADDRESS_INSERT_FAILED(30300);
+    ;
     /**
      * 枚举对象的值
      */

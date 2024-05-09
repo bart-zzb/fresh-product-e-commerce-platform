@@ -32,4 +32,9 @@ public class ServiceConstant {
     public static final String ORDER_ALREADY_PAID = "订单已支付";
 
     public static final String PAY_FAILED = "支付失败";
+
+    public static final String ADDRESS_UPDATE_FAILED = "更新地址信息不能为空";
+
+    public static final String ADDRESS_INSERT_FAILED = "插入地址信息不能为空";
+
 }
