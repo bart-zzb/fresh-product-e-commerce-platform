@@ -77,7 +77,7 @@ public class AliPayController {
         AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY_URL, aliPayConfig.getAppId(), aliPayConfig.getAppPrivateKey(), FORMAT, CHARSET, aliPayConfig.getAlipayPublicKey(), SIGN_TYPE);
         //创建Request并设置Request参数
         AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
-        request.setNotifyUrl(aliPayConfig.getNotifyUrl());
+        request.setNotifyUrl(aliPayConfig.getNotifyUrl()+"/alipay/notify");
         JSONObject bizContent = new JSONObject();
         bizContent.put("out_trade_no", orderDetailBO.getOrderNo());
         bizContent.put("total_amount", orderDetailBO.getOrderAmountTotal());

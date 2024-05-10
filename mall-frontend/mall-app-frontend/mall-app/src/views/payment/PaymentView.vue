@@ -218,11 +218,36 @@ const payChecked = ref("wechatpay");
 
 const balance = ref();
 
+const isEmpty = (value) => {
+  switch (typeof value) {
+    case 'string':
+      return value.trim() === '';
+    case 'undefined':
+      return true;
+    case 'object':
+      if (Array.isArray(value)) {
+        return value.length === 0;
+      } else if (value === null) {
+        return true;
+      } else {
+        for (let key in value) {
+          if (value.hasOwnProperty(key)) {
+            return false;
+          }
+        }
+        return true;
+      }
+    default:
+      return false;
+  }
+}
+
 //提交订单按钮
 const submit = () => {
-  if (addressValue.value == '') {
+  if (isEmpty(addressValue.value)) {
     showFailToast('未选择收货地址');
   } else {
+    console.log(addressValue);
     let orderNo = new URLSearchParams(location.search).get('orderNo');
     //更新订单地址
     let orderUpdateConsigneeInfoDTO = {
