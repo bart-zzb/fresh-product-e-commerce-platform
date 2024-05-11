@@ -55,7 +55,7 @@ CREATE TABLE tb_product
     sales           INT(10) UNSIGNED        DEFAULT 0 COMMENT '销售量',
     status          TINYINT(3) UNSIGNED     NOT NULL COMMENT '启用状态 (0: 未启用) (1: 启用)',
     info            VARCHAR(50)             DEFAULT '' COMMENT '备注信息'
-)DEFAULT CHARSET = utf8mb4 COMMENT ='商品表';
+)DEFAULT CHARSET = utf8mb4 COMMENT ='商品表[SPU]';
 
 -- 创建商品规格表[SKU] tb_product_specs
 DROP TABLE IF EXISTS tb_product_specs;
@@ -87,7 +87,7 @@ CREATE TABLE tb_brand
     name            VARCHAR(50)             NOT NULL COMMENT '品牌名称',
     status          TINYINT(3) UNSIGNED     NOT NULL COMMENT '启用状态 (0: 未启用) (1: 启用)',
     info            VARCHAR(50)             DEFAULT '' COMMENT '备注信息'
-)DEFAULT CHARSET = utf8mb4 COMMENT ='商品规格表[SKU]';
+)DEFAULT CHARSET = utf8mb4 COMMENT ='商品品牌表';
 
 -- 创建属性key表 tb_attribute_key
 DROP TABLE IF EXISTS tb_attribute_key;

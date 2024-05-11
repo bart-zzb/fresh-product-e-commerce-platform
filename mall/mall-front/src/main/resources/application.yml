@@ -76,7 +76,7 @@ alipay:
   # 支付宝公钥
   alipayPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgNdQ1/4Lvu49SuluOHIL5ow9AiVSz63YI3ZpAOCQaBxIErMX+Qu5F/RV4MwaEHq/kPGLNjqwUTmYpm2JUKL9cID1r7YVU+gKMRellZ4D3C6bJHWLMr55xnaxhlAd3M9MRcYCbPt3O0XhMOAXnJwUPveWhmNHEopCO4uflZ/65PHyxX+wx4xNPvYcD/r6H/frDunMY/tKnSJMsovjBErC4skmrlSbirTBc4USj03e4qtix88wgRY/gEzktwi5m0BroHmYYUmASUgRbZPRk0PcY0agYN7OhPn7Pj9mEAI+rjS4DCk3FpdCVHZWA+XyL+V0fTT+XdubJx647vb3XugR3wIDAQAB
   # 外网, 如本地项目启动测试, 需配置内网穿透, 本项目使用natapp代理的url
-  notifyUrl: http://g4iqh5.natappfree.cc
+  notifyUrl: http://cppvv6.natappfree.cc
 
   #- 测试支付宝买家账号：rpxsxa5806@sandbox.com
   #- 登录密码：111111
