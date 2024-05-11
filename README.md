@@ -112,7 +112,7 @@
   - appId：应用Id
   - appPrivateKey：应用私钥
   - alipayPublicKey：支付宝公钥
-  - notifyUrl：异步回调路径，设置为`后端项目路径+/alipay/notify`，测试时必须为公网地址
+  - notifyUrl：异步回调路径，设置为`后端项目路径`，测试时必须为公网地址
 
 ### 7.9 启动项目
 
