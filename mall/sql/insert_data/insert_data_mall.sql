@@ -1,31 +1,31 @@
 -- 插入用户表测试数据
-USE e_mall;
-TRUNCATE tb_user;
-INSERT INTO tb_user(id,
-                    create_time,
-                    modified_time,
-                    user_type,
-                    nickname,
-                    username,
-                    password,
-                    contact_phone,
-                    user_balance,
-                    coupon_count)
+USE `e_mall`;
+TRUNCATE `tb_user`;
+INSERT INTO `tb_user`(`id`,
+                    `create_time`,
+                    `modified_time`,
+                    `user_type`,
+                    `nickname`,
+                    `username`,
+                    `password`,
+                    `contact_phone`,
+                    `user_balance`,
+                    `coupon_count`)
 VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 1, 'XR', 'bart', '$2a$10$NPsifrclTHOnnuligxSYL.tW4gg6JoDYc1FCPY.WARXjQDnQW9xf2', 13700888022,156.82, 3),
        (2, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 1, 'xiaoy', 'xiaoy', '$2a$10$nILbHwVQOsk9mtqNOm0ndumTFT5aHXG3NPBr28hL.0akCzbNbNVE2',13766687022, 34.82, 4);
 
 -- 插入商品分类列表测设数据 tb_category
-TRUNCATE tb_category;
-INSERT INTO tb_category(id,
-                        create_time,
-                        modified_time,
-                        parent_id,
-                        level,
-                        is_parent,
-                        sort,
-                        category_name,
-                        enable,
-                        is_display)
+TRUNCATE `tb_category`;
+INSERT INTO `tb_category`(`id`,
+                        `create_time`,
+                        `modified_time`,
+                        `parent_id`,
+                        `level`,
+                        `is_parent`,
+                        `sort`,
+                        `category_name`,
+                        `enable`,
+                        `is_display`)
 VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 0, 1, 1, 1, '本周优选', 1, 0),
        (2, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 0, 1, 1, 2, '地方特产', 1, 0),
        (3, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 0, 1, 1, 3, '优惠套餐', 1, 0),
@@ -55,16 +55,16 @@ VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 0, 1, 1, 1, '本周优�
 
 
 -- 插入商品表[SPU] tb_product
-TRUNCATE tb_product;
-INSERT INTO tb_product(id,
-                       create_time,
-                       modified_time,
-                       product_name,
-                       attribute_list,
-                       tb_category_id,
-                       tb_brand_id,
-                       sales,
-                       status)
+TRUNCATE `tb_product`;
+INSERT INTO `tb_product`(`id`,
+                       `create_time`,
+                       `modified_time`,
+                       `product_name`,
+                       `attribute_list`,
+                       `tb_category_id`,
+                       `tb_brand_id`,
+                       `sales`,
+                       `status`)
 VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', '脆皮金猪', '{}', 7, 1, 2, 1),
        (2, '2024-03-27 15:00:00', '2024-03-27 15:00:00', '纯手工鲜肉水饺 约300g (15个装)', '{}', 8, 1, 15, 1),
        (3, '2024-03-27 15:00:00', '2024-03-27 15:00:00', '纯手工包子 约300g (5个装)', '{}', 8, 1, 17, 1),
@@ -86,20 +86,20 @@ VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', '脆皮金猪', '{}', 7
 
 
 -- 插入商品规格表[SKU] tb_product_specs
-TRUNCATE tb_product_specs;
-INSERT INTO tb_product_specs(id,
-                             create_time,
-                             modified_time,
-                             tb_product_id,
-                             specs_name,
-                             img_url,
-                             product_specs,
-                             current_price,
-                             original_price,
-                             amount,
-                             sales,
-                             unit,
-                             status)
+TRUNCATE `tb_product_specs`;
+INSERT INTO `tb_product_specs`(`id`,
+                             `create_time`,
+                             `modified_time`,
+                             `tb_product_id`,
+                             `specs_name`,
+                             `img_url`,
+                             `product_specs`,
+                             `current_price`,
+                             `original_price`,
+                             `amount`,
+                             `sales`,
+                             `unit`,
+                             `status`)
 VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 1, '烧乳猪 4-5斤', 'product/product1.png', '{}', 498, 568, 100, 2, '只', 1),
        (2, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 1, '烧中猪 7-8斤', 'product/product2.png', '{}', 688, 768, 120, 0, '只', 1),
        (3, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 1, '烧金猪 10-11斤', 'product/product3.png', '{}', 888, 968, 120,  0,'只',1),
@@ -163,35 +163,35 @@ VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 1, '烧乳猪 4-5斤', 
         1);
 
 -- 插入品牌表 tb_brand
-TRUNCATE tb_brand;
-INSERT INTO tb_brand(id,
-                     create_time,
-                     modified_time,
-                     name,
-                     status)
+TRUNCATE `tb_brand`;
+INSERT INTO `tb_brand`(`id`,
+                     `create_time`,
+                     `modified_time`,
+                     `name`,
+                     `status`)
 VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', '同城自营', 1),
        (2, '2024-03-27 15:00:00', '2024-03-27 15:00:00', '高州助农', 1);
 
 
 -- 插入属性key表 tb_attribute_key
-TRUNCATE tb_attribute_key;
-INSERT INTO tb_attribute_key(id,
-                             create_time,
-                             modified_time,
-                             attribute_name,
-                             priority,
-                             tb_product_category_id)
+TRUNCATE `tb_attribute_key`;
+INSERT INTO `tb_attribute_key`(`id`,
+                             `create_time`,
+                             `modified_time`,
+                             `attribute_name`,
+                             `priority`,
+                             `tb_product_category_id`)
 VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', '熟食属性', 1, 1),
        (2, '2024-03-27 15:00:00', '2024-03-27 15:00:00', '销售标签属性', 1, 1);
 
 -- 插入属性value表 tb_attribute_value
-TRUNCATE tb_attribute_value;
-INSERT INTO tb_attribute_value(id,
-                               create_time,
-                               modified_time,
-                               attribute_value,
-                               priority,
-                               tb_attribute_key_id)
+TRUNCATE `tb_attribute_value`;
+INSERT INTO `tb_attribute_value`(`id`,
+                               `create_time`,
+                               `modified_time`,
+                               `attribute_value`,
+                               `priority`,
+                               `tb_attribute_key_id`)
 VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', '烧味', 9, 1),
        (2, '2024-03-27 15:00:00', '2024-03-27 15:00:00', '冷盘', 8, 1),
        (3, '2024-03-27 15:00:00', '2024-03-27 15:00:00', '冷冻熟肉', 7, 1),
@@ -202,20 +202,20 @@ VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', '烧味', 9, 1),
        (8, '2024-03-27 15:00:00', '2024-03-27 15:00:00', '近期热卖', 6, 2);
 
 -- 插入tb_shopping_cart数据
-TRUNCATE tb_shopping_cart;
-INSERT INTO tb_shopping_cart(id,
-                             create_time,
-                             modified_time,
-                             tb_user_id,
-                             tb_product_id,
-                             tb_product_name,
-                             tb_product_checked,
-                             tb_product_spec_id,
-                             spec_name,
-                             img_url,
-                             price,
-                             amount,
-                             total_price)
+TRUNCATE `tb_shopping_cart`;
+INSERT INTO `tb_shopping_cart`(`id`,
+                             `create_time`,
+                             `modified_time`,
+                             `tb_user_id`,
+                             `tb_product_id`,
+                             `tb_product_name`,
+                             `tb_product_checked`,
+                             `tb_product_spec_id`,
+                             `spec_name`,
+                             `img_url`,
+                             `price`,
+                             `amount`,
+                             `total_price`)
 VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 2, 2, '纯手工鲜肉水饺 约300g (15个装)', 1, 6, '韭菜鲜肉馅', 'product/product6.png', 27.50, 3,
         82.50),
        (2, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 2, 2, '纯手工鲜肉水饺 约300g (15个装)', 1, 7, '芹菜鲜肉馅', 'product/product7.png', 27.50, 2,
@@ -228,26 +228,26 @@ VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 2, 2, '纯手工鲜肉�
        (6, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 1, 13, '五花肉', 1, 25, '五花肉 300g/份', '1.png', 13.90, 2, 27.80);
 
 -- 插入tb_order数据
-TRUNCATE tb_order;
-INSERT INTO tb_order(id,
-                     create_time,
-                     modified_time,
-                     order_no,
-                     status,
-                     product_amount_total,
-                     order_amount_total,
-                     integration,
-                     integration_amount,
-                     tb_user_id,
-                     tb_address_id,
-                     consignee,
-                     consignee_phone,
-                     consignee_address,
-                     pay_channel,
-                     out_trade_no,
-                     pay_time,
-                     delivery_time,
-                     receive_delivery_time)
+TRUNCATE `tb_order`;
+INSERT INTO `tb_order`(`id`,
+                     `create_time`,
+                     `modified_time`,
+                     `order_no`,
+                     `status`,
+                     `product_amount_total`,
+                     `order_amount_total`,
+                     `integration`,
+                     `integration_amount`,
+                     `tb_user_id`,
+                     `tb_address_id`,
+                     `consignee`,
+                     `consignee_phone`,
+                     `consignee_address`,
+                     `pay_channel`,
+                     `out_trade_no`,
+                     `pay_time`,
+                     `delivery_time`,
+                     `receive_delivery_time`)
 VALUES (1, '2024-03-27 15:14:52', '2024-03-27 19:08:38', 'e58fcc37-f139-475a-8715-324c90a15a83', 2, 68.90, 13.90, 13,
         0.00, 2, 1, 'xiaoy', '13456789121', '广东省广州天河区体育中心一号', 1, 'de69c23a-043e-4af6-a526-3daafc423585', '2024-03-27 17:27:40', '2024-03-27 18:14:42', '2024-03-27 19:08:38'),
        (2, '2024-03-27 15:18:11', '2024-03-27 19:24:31', 'a6c2f3d3-38ec-4ef1-a43f-318bd4c295ee', 3, 41.80, 41.80, 41,
@@ -256,24 +256,24 @@ VALUES (1, '2024-03-27 15:14:52', '2024-03-27 19:08:38', 'e58fcc37-f139-475a-871
         0.00, 2, 2, 'xiaoy', '13456789121', '广东省佛山禅城区百花广场11楼', 1, '3b725e7a-6bc4-4cd7-a23c-97242b2466b4', '2024-03-27 16:28:57', '1000-01-01 00:00:00', '1000-01-01 00:00:00');
 
 -- 插入tb_order_items数据
-TRUNCATE tb_order_items;
-INSERT INTO tb_order_items(id,
-                           create_time,
-                           modified_time,
-                           tb_order_id,
-                           tb_product_id,
-                           tb_product_name,
-                           tb_product_spec_id,
-                           specs_name,
-                           img_url,
-                           price,
-                           amount,
-                           tb_category_id,
-                           tb_category_name,
-                           tb_brand_id,
-                           tb_brand_name,
-                           ift_integration,
-                           total_price)
+TRUNCATE `tb_order_items`;
+INSERT INTO `tb_order_items`(`id`,
+                           `create_time`,
+                           `modified_time`,
+                           `tb_order_id`,
+                           `tb_product_id`,
+                           `tb_product_name`,
+                           `tb_product_spec_id`,
+                           `specs_name`,
+                           `img_url`,
+                           `price`,
+                           `amount`,
+                           `tb_category_id`,
+                           `tb_category_name`,
+                           `tb_brand_id`,
+                           `tb_brand_name`,
+                           `ift_integration`,
+                           `total_price`)
 VALUES (1, '2024-03-27 15:14:52', '2024-03-27 15:14:52', 1, 2, '纯手工鲜肉水饺 约300g (15个装)', 6, '韭菜鲜肉馅', 'product/product6.png', 27.50, 2, 8,
         '手工面点', 1, '同城自营', 55, 55),
        (2, '2024-03-27 15:18:11', '2024-03-27 15:18:11', 1, 13, '五花肉', 25, '五花肉 300g/份', 'product/product25.png', 13.9, 1, 19, '猪肉类', 1,
@@ -286,17 +286,17 @@ VALUES (1, '2024-03-27 15:14:52', '2024-03-27 15:14:52', 1, 2, '纯手工鲜肉�
        (7, '2024-03-27 15:58:27', '2024-03-27 15:58:27', 3, 9, '精选火锅套餐 750g',18,'嫩牛肉+吊龙+牛肉丸','product/product18.png',128.00,1,19,'火锅套餐',1,'同城自营',128,128.00);
 
 -- 插入tb_order_items数据
-TRUNCATE tb_address;
-INSERT INTO tb_address(id, create_time, modified_time, contact_phone, account, province, city, district, address_detail,
-                       tb_user_id, address_name, is_default, receiver)
+TRUNCATE `tb_address`;
+INSERT INTO `tb_address`(`id`, `create_time`, `modified_time`, `contact_phone`, `account`, `province`, `city`, `district`, `address_detail`,
+                       `tb_user_id`, `address_name`, `is_default`, `receiver`)
 VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', '13456789121', '0001', '广东省', '广州市', '天河区', '广东省广州市天河区体育中心一号', 2,
         '体育中心一号', 1, 'xiaoy'),
        (2, '2024-03-27 15:00:00', '2024-03-27 15:00:00', '13456789121', '0001', '广东省', '佛山市', '禅城区', '广东省佛山市禅城区百花广场11楼', 2,
         '百花广场11楼', 0, 'xiaoy');
 
 -- 插入sys_index_carousel
-TRUNCATE sys_index_carousel;
-INSERT INTO sys_index_carousel(id, create_time, modified_time, img_url, sort)
+TRUNCATE `sys_index_carousel`;
+INSERT INTO `sys_index_carousel`(`id`, `create_time`, `modified_time`, `img_url`, `sort`)
 VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'carousel/carousel1.png', 1),
        (2, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'carousel/carousel2.png', 2),
        (3, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'carousel/carousel3.png', 3),
@@ -305,8 +305,8 @@ VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'carousel/carousel1.png
        (6, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'carousel/carousel6.png', 6);
 
 -- 插入sys_index_banner
-TRUNCATE sys_index_banner;
-INSERT INTO sys_index_banner(id, create_time, modified_time, img_url, name, sort)
+TRUNCATE `sys_index_banner`;
+INSERT INTO `sys_index_banner`(`id`, `create_time`, `modified_time`, `img_url`, `name`, `sort`)
 VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'banner/banner1.png', '新品上线', 1),
        (2, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'banner/banner2.png', '猪肉产品', 2),
        (3, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'banner/banner3.png', '牛肉产品', 3),
@@ -314,16 +314,16 @@ VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'banner/banner1.png', '
        (5, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'banner/banner5.png', '其他产品', 5);
 
 -- 插入sys_live_card
-TRUNCATE sys_live_card;
-INSERT INTO sys_live_card(id, create_time, modified_time, img_url, sort)
+TRUNCATE `sys_live_card`;
+INSERT INTO `sys_live_card`(`id`, `create_time`, `modified_time`, `img_url`, `sort`)
 VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'live_card/live_card1.png', 1),
        (2, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'live_card/live_card2.png', 2),
        (3, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'live_card/live_card3.png', 3),
        (4, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'live_card/live_card4.png', 4);
 
 -- 插入sys_index_label
-TRUNCATE sys_index_label;
-INSERT INTO sys_index_label(id, create_time, modified_time, img_url, name, sort)
+TRUNCATE `sys_index_label`;
+INSERT INTO `sys_index_label`(`id`, `create_time`, `modified_time`, `img_url`, `name`, `sort`)
 VALUES (1, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'label/label1.png', '猪肉', 1),
        (2, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'label/label2.png', '牛肉', 2),
        (3, '2024-03-27 15:00:00', '2024-03-27 15:00:00', 'label/label3.png', '猪骨', 3),
