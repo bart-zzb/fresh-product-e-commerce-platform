@@ -39,6 +39,7 @@
         <spring.security.version>5.5.8</spring.security.version>
         <jackson.version>2.13.2</jackson.version>
         <alipay.version>4.38.72.ALL</alipay.version>
+        <hutool.version>5.7.17</hutool.version>
     </properties>
 
     <dependencies>
@@ -150,6 +151,12 @@
                 <groupId>com.alipay.sdk</groupId>
                 <artifactId>alipay-sdk-java</artifactId>
                 <version>${alipay.version}</version>
+            </dependency>
+            <!--hutool-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

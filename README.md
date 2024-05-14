@@ -47,6 +47,7 @@
 - `fastjson`
 - `jackson-datatype-jsr310`
 - `alipay-sdk-java`
+- `hutool-all`
 
 ## 7.本地启动项目
 

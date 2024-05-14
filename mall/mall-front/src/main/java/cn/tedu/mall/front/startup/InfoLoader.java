@@ -1,5 +1,6 @@
 package cn.tedu.mall.front.startup;
 
+import cn.tedu.mall.service.service.IBannerService;
 import cn.tedu.mall.service.service.ICategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class InfoLoader implements ApplicationRunner {
     @Autowired
     private ICategoryService categoryService;
 
+    @Autowired
+    private IBannerService bannerService;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         log.debug("ApplicationRunner 开始加载类别数据到redis");
@@ -27,6 +31,7 @@ public class InfoLoader implements ApplicationRunner {
         // 1 从数据库查出来
         // 2 放到redis
         categoryService.initCategory();
+        bannerService.initBanner();
         log.debug("ApplicationRunner 加载类别数据到redis 成功");
     }
 }
