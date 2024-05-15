@@ -2,6 +2,7 @@ package cn.tedu.mall.front.startup;
 
 import cn.tedu.mall.service.service.IBannerService;
 import cn.tedu.mall.service.service.ICategoryService;
+import cn.tedu.mall.service.service.IProductSpecsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -19,10 +20,10 @@ import org.springframework.stereotype.Component;
 public class InfoLoader implements ApplicationRunner {
 
     @Autowired
-    private ICategoryService categoryService;
+    private IBannerService bannerService;
 
     @Autowired
-    private IBannerService bannerService;
+    private IProductSpecsService productSpecsService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -30,8 +31,8 @@ public class InfoLoader implements ApplicationRunner {
         // 业务流程
         // 1 从数据库查出来
         // 2 放到redis
-        categoryService.initCategory();
         bannerService.initBanner();
+        productSpecsService.initProductSpecsTree();
         log.debug("ApplicationRunner 加载类别数据到redis 成功");
     }
 }

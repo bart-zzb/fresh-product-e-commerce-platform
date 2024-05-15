@@ -12,4 +12,6 @@ public class RedisConstants {
     public static final String DATA = "_data";
 
     public static final String KEY_PREFIX_BANNER = "e_mall:tb_banner";
+
+    public static final String KEY_PREFIX_PRODUCT_SPECS = "e_mall:tb_product_specs";
 }

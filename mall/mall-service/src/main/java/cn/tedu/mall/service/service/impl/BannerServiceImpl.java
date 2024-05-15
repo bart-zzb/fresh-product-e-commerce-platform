@@ -25,25 +25,25 @@ public class BannerServiceImpl implements IBannerService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
     public List<BannerIndexBO> listForIndex() throws JsonProcessingException {
-        List<BannerIndexBO> list = new ArrayList<>();
+        List<BannerIndexBO> BannerIndexBOS = new ArrayList<>();
         String key = RedisConstants.KEY_PREFIX_BANNER;
         Boolean b = stringRedisTemplate.hasKey(key);
         //判断key是否存在
         if (Boolean.TRUE.equals(b)) {
             List<String> range = stringRedisTemplate.opsForList().range(key, 0, -1);
-            log.debug("从缓存中获取Banner数据{}",range);
-            //判断list长度是否为空,长度为0
-            if (range==null || range.isEmpty()) {
-                return list;
+            //判断list长度是否为空,长度不能为0
+            if(range!=null&& !range.isEmpty()){
+                for (String s : range) {
+                    BannerIndexBOS.add(objectMapper.readValue(s, BannerIndexBO.class));
+                }
             }
-            for (String s : range) {
-                list.add(objectMapper.readValue(s, BannerIndexBO.class));
-            }
-            return list;
+            log.debug("从缓存中获取Banner数据{}",BannerIndexBOS);
+            return BannerIndexBOS;
         }
 
         return loadBanner2Redis(key);

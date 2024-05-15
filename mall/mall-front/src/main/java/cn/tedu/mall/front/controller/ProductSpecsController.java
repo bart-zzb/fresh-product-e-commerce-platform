@@ -8,6 +8,7 @@ import cn.tedu.mall.service.pojo.dto.ProductSpecDeleteDTO;
 import cn.tedu.mall.service.pojo.vo.ProductSpecsTreeVO;
 import cn.tedu.mall.service.pojo.vo.ProductSpecsVO;
 import cn.tedu.mall.service.service.IProductSpecsService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -53,7 +54,7 @@ public class ProductSpecsController {
 
     @ApiOperation("根据商品分类树包含商品SKU")
     @GetMapping("/tree")
-    public JsonResult getProductSpecsTree() {
+    public JsonResult getProductSpecsTree() throws JsonProcessingException, InterruptedException {
         List<ProductSpecsTreeVO> list = productSpecsService.getProductSpecsTree();
         return JsonResult.ok(list);
     }

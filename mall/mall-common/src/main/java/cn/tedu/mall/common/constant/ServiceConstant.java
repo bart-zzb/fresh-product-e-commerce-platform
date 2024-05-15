@@ -37,4 +37,6 @@ public class ServiceConstant {
 
     public static final String ADDRESS_INSERT_FAILED = "插入地址信息不能为空";
 
+    public static final String LOAD_DATA_FAILED = "从数据库或者Redis中加载数据异常,请检查日志";
+
 }

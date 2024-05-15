@@ -40,6 +40,7 @@
         <jackson.version>2.13.2</jackson.version>
         <alipay.version>4.38.72.ALL</alipay.version>
         <hutool.version>5.7.17</hutool.version>
+        <redisson.version>3.13.6</redisson.version>
     </properties>
 
     <dependencies>
@@ -157,6 +158,11 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson</artifactId>
+                <version>${redisson.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

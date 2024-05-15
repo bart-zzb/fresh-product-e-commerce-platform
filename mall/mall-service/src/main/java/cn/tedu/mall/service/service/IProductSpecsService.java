@@ -4,6 +4,7 @@ import cn.tedu.mall.common.web.PageData;
 import cn.tedu.mall.service.pojo.dto.ProductSpecDeleteDTO;
 import cn.tedu.mall.service.pojo.vo.ProductSpecsTreeVO;
 import cn.tedu.mall.service.pojo.vo.ProductSpecsVO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -14,7 +15,9 @@ public interface IProductSpecsService {
 
     PageData<ProductSpecsVO> getProductSpecsByCategoryId(Long id, Integer pageNum, Integer pageSize);
 
-    List<ProductSpecsTreeVO> getProductSpecsTree();
+    List<ProductSpecsTreeVO> getProductSpecsTree() throws JsonProcessingException, InterruptedException;
 
     void deleteProductSpecsAmount(Long id, List<ProductSpecDeleteDTO> productSpecDeleteDTOS);
+
+    void initProductSpecsTree();
 }
