@@ -39,4 +39,7 @@ public class ServiceConstant {
 
     public static final String LOAD_DATA_FAILED = "从数据库或者Redis中加载数据异常,请检查日志";
 
+    public static final String PRODUCT_SPECS_NOT_EXIST = "商品SKU不存在";
+
+    public static final String ORDER_CREATION_FAILED = "订单创建失败,请稍后重试";
 }

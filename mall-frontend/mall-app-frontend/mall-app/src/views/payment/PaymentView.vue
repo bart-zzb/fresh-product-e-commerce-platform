@@ -274,29 +274,27 @@ const submit = () => {
         axios.post("mall/order/update/pay", data).then((response)=>{
           if (response.data.state==20000){
             //更新库存，更新销量
-            let productSpecDeleteDTOS = [];
-            for (let i = 0; i < order.value.productList.length; i++) {
-              productSpecDeleteDTOS.push({
-                tbProductSpecId: order.value.productList[i].tbProductSpecId,
-                amount: order.value.productList[i].amount
-              })
-            }
-            axios({
-              method: "post",
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              dataType: "json",
-              data: JSON.stringify(productSpecDeleteDTOS),
-              url: "mall/product_specs/modify"
-            }).then((response) => {
-              if (response.data.state == 20000) {
+            // let productSpecDeleteDTOS = [];
+            // for (let i = 0; i < order.value.productList.length; i++) {
+            //   productSpecDeleteDTOS.push({
+            //     tbProductSpecId: order.value.productList[i].tbProductSpecId,
+            //     amount: order.value.productList[i].amount
+            //   })
+            // }
+            // axios({
+            //   method: "post",
+            //   headers: {
+            //     'Content-Type': 'application/json',
+            //   },
+            //   dataType: "json",
+            //   data: JSON.stringify(productSpecDeleteDTOS),
+            //   url: "mall/product_specs/modify"
+            // }).then((response) => {
+            //   if (response.data.state == 20000) {
                 showSuccessToast('支付成功');
-                setTimeout(() => {
-                  router.push('/personal');
-                }, 1000);
-              }
-            })
+                setTimeout(() => {router.push('/personal');}, 1000);
+          //     }
+          //   })
           }
         })
       }

@@ -68,7 +68,7 @@ public class CategoryController {
     })
     public JsonResult getCategoryByLevel(@PathVariable @Range(min = 1, max = 2, message = "分类层级必须是1或2之间") Integer level){
         List<CategoryVO> list = categoryService.listCategoryByLevel(level);
-        log.debug("商品类别列表:"+ list);
+        log.debug("商品类别列表:{}",list);
         return JsonResult.ok(list);
     }
 

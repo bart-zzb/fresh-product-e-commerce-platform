@@ -1,7 +1,6 @@
 package cn.tedu.mall.front.controller;
 
 import cn.tedu.mall.common.annotation.CurrentUser;
-import cn.tedu.mall.common.constant.OrderConstants;
 import cn.tedu.mall.common.constant.ServiceCode;
 import cn.tedu.mall.common.constant.ServiceConstant;
 import cn.tedu.mall.common.util.PojoConvert;
@@ -40,8 +39,8 @@ public class OrderController {
      */
     @ApiOperation("增加订单")
     @PostMapping("/add")
-    public JsonResult addOrder(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @Validated @RequestBody List<OrderItemsAddDTO> orderItemsAddDTOS) {
-        log.debug("currentPrincipal" + currentPrincipal);
+    public JsonResult addOrder(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @Validated @RequestBody List<OrderItemsAddDTO> orderItemsAddDTOS) throws InterruptedException {
+        log.debug("currentPrincipal:{}",currentPrincipal);
         OrderDetailBO orderDetailBO = orderService.addOrder(currentPrincipal.getId(), orderItemsAddDTOS);
         OrderDetailVO orderDetailVO = PojoConvert.convert(orderDetailBO, OrderDetailVO.class);
         return JsonResult.ok(orderDetailVO);
@@ -89,7 +88,7 @@ public class OrderController {
     @ApiOperation("查询当前用户所有订单")
     @GetMapping("/select/all")
     public JsonResult getOrderByUserId(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal) {
-        log.debug("currentPrincipal" + currentPrincipal);
+        log.debug("currentPrincipal:{}",currentPrincipal);
         List<OrderDetailBO> orderDetailBOS = orderService.getOrderByUserId(currentPrincipal.getId());
         List<OrderDetailVO> orderDetailVOS = PojoConvert.convertList(orderDetailBOS, OrderDetailVO.class);
         return JsonResult.ok(orderDetailVOS);

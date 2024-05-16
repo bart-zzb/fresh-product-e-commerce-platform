@@ -10,7 +10,7 @@ import java.util.List;
 
 @Transactional(rollbackFor = Exception.class)
 public interface IOrderService {
-    OrderDetailBO addOrder(Long userId, List<OrderItemsAddDTO> orderItemsAddDTOS);
+    OrderDetailBO addOrder(Long userId, List<OrderItemsAddDTO> orderItemsAddDTOS) throws InterruptedException;
 
     int updateOrder(OrderUpdateConsigneeInfoDTO orderUpdateConsigneeInfoDTO);
 

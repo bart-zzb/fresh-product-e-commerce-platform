@@ -41,15 +41,15 @@ public class ProductSpecsRepositoryImpl implements IProductSpecsRepository {
 
     @Override
     public void deleteProductSpecsAmountByIdAndAmount(Long tbProductSpecId, Integer amount) {
-        log.debug("tbProductSpecId" + tbProductSpecId);
+        log.debug("tbProductSpecId:{}",tbProductSpecId);
         ProductSpecsPO productSpecsPO = productSpecsMapper.selectById(tbProductSpecId);
-        log.debug("当前productSpecsPO" + productSpecsPO);
+        log.debug("当前productSpecsPO:{}",productSpecsPO);
         if (productSpecsPO.getAmount() < amount) {
             throw new ServiceException(ServiceCode.ERROR_STOCK_NO_ENOUGH, ServiceConstant.PRODUCT_STOCK_NO_ENOUGH);
         }
         productSpecsPO.setSales(productSpecsPO.getSales() + amount);
         productSpecsPO.setAmount(productSpecsPO.getAmount() - amount);
-        log.debug("修改后productSpecsPO" + productSpecsPO);
+        log.debug("修改后productSpecsPO:{}",productSpecsPO);
         productSpecsMapper.updateById(productSpecsPO);
     }
 

@@ -78,6 +78,3 @@ alipay:
   # 外网, 如本地项目启动测试, 需配置内网穿透, 本项目使用natapp代理的url
   notifyUrl: http://cppvv6.natappfree.cc
 
-  #- 测试支付宝买家账号：rpxsxa5806@sandbox.com
-  #- 登录密码：111111
-  #- 支付密码：111111

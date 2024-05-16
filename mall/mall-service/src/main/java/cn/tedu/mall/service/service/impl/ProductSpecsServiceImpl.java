@@ -54,7 +54,7 @@ public class ProductSpecsServiceImpl implements IProductSpecsService {
     @Override
     public List<ProductSpecsTreeVO> getProductSpecsTree() throws InterruptedException {
         //设置大key
-        String key = RedisConstants.KEY_PREFIX_PRODUCT_SPECS;
+        String key = RedisConstants.KEY_PRODUCT_SPECS;
         //从缓存中获取数据
         List<ProductSpecsTreeVO> productSpecsTreeVOSFromRedis = getProductSpecsTreeVOSFromRedis(key);
         //判断是否获取了数据,为null说明不存在key值,有则直接返回数据
@@ -62,10 +62,10 @@ public class ProductSpecsServiceImpl implements IProductSpecsService {
             return productSpecsTreeVOSFromRedis;
         }
 
-        //抢锁,高并发下只能一个线程获取锁, 使用Redission框架实现
-        RLock lock = redissonClient.getLock("lockProductSpecs");
-        //让锁重试, 实现锁的重试, 默认第二个参数是-1,开启缓存续命,watchdog
-        boolean tryLock = lock.tryLock(20, TimeUnit.MILLISECONDS);
+        //抢锁,高并发下只能一个线程获取锁, 使用Redisson框架实现
+        RLock lock = redissonClient.getLock(RedisConstants.KEY_LOCK_PRODUCT_SPECS_TREE);
+        //让锁重试, 实现锁的重试, 第一个参数,等待时间为10s,如果10s内未抢到锁,直接放弃, 默认第二个参数是-1,开启缓存续命,watchdog, 锁默认过期时间为30s
+        boolean tryLock = lock.tryLock(10, TimeUnit.SECONDS);
         if (tryLock) {
             try {
                 //双重检查锁,再次检查Redis
@@ -134,7 +134,7 @@ public class ProductSpecsServiceImpl implements IProductSpecsService {
     @Override
     public void initProductSpecsTree(){
         //先删除key
-        String key = RedisConstants.KEY_PREFIX_PRODUCT_SPECS;
+        String key = RedisConstants.KEY_PRODUCT_SPECS;
         long delete = redissonClient.getKeys().delete(key);
         getProductSpecsTreeVOSFromMysql(key);
     }

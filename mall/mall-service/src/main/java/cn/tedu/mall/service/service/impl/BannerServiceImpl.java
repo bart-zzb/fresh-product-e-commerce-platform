@@ -31,7 +31,7 @@ public class BannerServiceImpl implements IBannerService {
     @Override
     public List<BannerIndexBO> listForIndex() throws JsonProcessingException {
         List<BannerIndexBO> BannerIndexBOS = new ArrayList<>();
-        String key = RedisConstants.KEY_PREFIX_BANNER;
+        String key = RedisConstants.KEY_BANNER;
         Boolean b = stringRedisTemplate.hasKey(key);
         //判断key是否存在
         if (Boolean.TRUE.equals(b)) {
@@ -51,7 +51,7 @@ public class BannerServiceImpl implements IBannerService {
 
     @Override
     public void initBanner() throws JsonProcessingException {
-        String key = RedisConstants.KEY_PREFIX_BANNER;
+        String key = RedisConstants.KEY_BANNER;
         stringRedisTemplate.delete(key);
         loadBanner2Redis(key);
     }

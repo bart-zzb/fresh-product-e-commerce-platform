@@ -135,9 +135,9 @@ public class AliPayController {
                 OrderUpdatePaidDTO orderUpdatePaidDTO = PojoConvert.convert(orderDetailBO, OrderUpdatePaidDTO.class);
                 orderService.updateOrder2Paid(orderUpdatePaidDTO);
                 //更新库存, 更新销量
-                List<OrderItemsVO> orderItemsVOS = orderDetailBO.getOrderItemsVOS();
-                List<ProductSpecDeleteDTO> productSpecDeleteDTOS = PojoConvert.convertList(orderItemsVOS, ProductSpecDeleteDTO.class);
-                productSpecsService.deleteProductSpecsAmount(orderDetailBO.getId(), productSpecDeleteDTOS);
+//                List<OrderItemsVO> orderItemsVOS = orderDetailBO.getOrderItemsVOS();
+//                List<ProductSpecDeleteDTO> productSpecDeleteDTOS = PojoConvert.convertList(orderItemsVOS, ProductSpecDeleteDTO.class);
+//                productSpecsService.deleteProductSpecsAmount(orderDetailBO.getId(), productSpecDeleteDTOS);
             }
             return JsonResult.ok();
         }

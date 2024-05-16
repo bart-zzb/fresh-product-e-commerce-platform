@@ -48,7 +48,7 @@ public class ProductSpecsController {
     })
     public JsonResult getProductSpecsByCategoryId(@PathVariable @NotNull Long id, @Range(min = 1) @RequestParam Integer pageNum, @RequestParam @Range(min = 1) Integer pageSize) {
         PageData<ProductSpecsVO> pageData = productSpecsService.getProductSpecsByCategoryId(id, pageNum, pageSize);
-        log.debug("pageData:" + pageData);
+        log.debug("pageData:{}",pageData);
         return JsonResult.ok(pageData);
     }
 
@@ -62,7 +62,7 @@ public class ProductSpecsController {
     @ApiOperation("删除商品的库存")
     @PostMapping("/modify")
     public JsonResult deleteProductSpecsAmount(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @Validated @RequestBody List<ProductSpecDeleteDTO> productSpecDeleteDTOS) {
-        log.debug("入参" + productSpecDeleteDTOS);
+        log.debug("入参{}",productSpecDeleteDTOS);
         productSpecsService.deleteProductSpecsAmount(currentPrincipal.getId(), productSpecDeleteDTOS);
         return JsonResult.ok();
     }

@@ -48,6 +48,7 @@
 - `jackson-datatype-jsr310`
 - `alipay-sdk-java`
 - `hutool-all`
+- `redisson`
 
 ## 7.本地启动项目
 

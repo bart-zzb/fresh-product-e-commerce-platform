@@ -31,7 +31,7 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
     private RedisTemplate<String, Serializable> redisTemplate;
 
     private String getCartKey(Long userId) {
-        return RedisConstants.KEY_PREFIX_CART + userId + RedisConstants.DATA;
+        return RedisConstants.KEY_CART_PREFIX+ userId + RedisConstants.DATA;
     }
 
     private String getProductNumHashKey(Long productSpecsId) {
