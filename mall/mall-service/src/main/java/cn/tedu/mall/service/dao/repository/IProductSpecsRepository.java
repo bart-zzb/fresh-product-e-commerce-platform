@@ -11,5 +11,7 @@ public interface IProductSpecsRepository {
 
     void deleteProductSpecsAmountByIdAndAmount(Long tbProductSpecId, Integer amount);
 
+    void returnProductSpecsAmountByIdAndAmount(Long tbProductSpecId, Integer amount);
+
     ProductSpecsBO getProductIdByProductSpecsId(Long tbProductSpecId);
 }

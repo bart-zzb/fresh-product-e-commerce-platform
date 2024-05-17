@@ -1,27 +1,22 @@
 package cn.tedu.mall.service.service.impl;
 
-import cn.tedu.mall.common.constant.OrderConstants;
-import cn.tedu.mall.common.constant.RedisConstants;
-import cn.tedu.mall.common.constant.ServiceCode;
-import cn.tedu.mall.common.constant.ServiceConstant;
+import cn.tedu.mall.common.constant.*;
 import cn.tedu.mall.common.ex.ServiceException;
 import cn.tedu.mall.common.util.PojoConvert;
 import cn.tedu.mall.service.dao.repository.IOrderItemsRepository;
 import cn.tedu.mall.service.dao.repository.IOrderRepository;
 import cn.tedu.mall.service.dao.repository.IProductSpecsRepository;
 import cn.tedu.mall.service.pojo.bo.OrderDetailBO;
-import cn.tedu.mall.service.pojo.bo.ProductSpecsBO;
 import cn.tedu.mall.service.pojo.dto.OrderItemsAddDTO;
 import cn.tedu.mall.service.pojo.dto.OrderUpdateConsigneeInfoDTO;
 import cn.tedu.mall.service.pojo.dto.OrderUpdatePaidDTO;
-import cn.tedu.mall.service.pojo.dto.ProductSpecDeleteDTO;
 import cn.tedu.mall.service.pojo.po.OrderItemsPO;
 import cn.tedu.mall.service.pojo.po.OrderPO;
 import cn.tedu.mall.service.pojo.vo.OrderItemsVO;
 import cn.tedu.mall.service.pojo.vo.ProductSpecsVO;
 import cn.tedu.mall.service.service.IOrderService;
+import cn.tedu.mall.service.service.IRedissonDelayedQueueService;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.Redisson;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +44,9 @@ public class OrderServiceImpl implements IOrderService {
 
     @Autowired
     private IProductSpecsRepository productSpecsRepository;
+
+    @Autowired
+    private IRedissonDelayedQueueService redissonDelayedQueueService;
 
     @Override
     public OrderDetailBO addOrder(Long userId, List<OrderItemsAddDTO> orderItemsAddDTOS) throws InterruptedException {
@@ -114,6 +112,9 @@ public class OrderServiceImpl implements IOrderService {
                 //将orderItemsVOS赋值到orderDetailVO中
                 orderDetailBO.setOrderItemsVOS(orderItemsVOS);
                 orderDetailBO.setOrderAmountTotal(total);
+
+                //将当前订单放入延时任务中：
+                redissonDelayedQueueService.addQueue(orderDetailBO.getOrderNo(), TimeConstant.TWO.getValue(), TimeUnit.MINUTES, RedisConstants.REDIS_KEY_ORDER);
                 return orderDetailBO;
             } finally {
                 //释放userId锁
@@ -123,24 +124,61 @@ public class OrderServiceImpl implements IOrderService {
         throw new ServiceException(ServiceCode.ERROR_ORDER_CREATION_FAILED, ServiceConstant.ORDER_CREATION_FAILED);
     }
 
-
     @Override
     public int updateOrder2Paid(OrderUpdatePaidDTO orderUpdatePaidDTO) {
         OrderDetailBO existOrderDetailBO = orderRepository.getOrderByUserIdAndOrderNo(orderUpdatePaidDTO.getTbUserId(), orderUpdatePaidDTO.getOrderNo());
-        if (existOrderDetailBO == null && existOrderDetailBO.getId() != null) {
+        if (existOrderDetailBO == null || existOrderDetailBO.getId() == null) {
             throw new ServiceException(ServiceCode.ERROR_NOT_FOUND, ServiceConstant.ORDER_NOT_EXIST);
         }
         OrderPO orderPO = PojoConvert.convert(orderUpdatePaidDTO, OrderPO.class);
         orderPO.setId(existOrderDetailBO.getId());
         orderPO.setStatus(OrderConstants.PAID.getValue());
         updateStatusTime(existOrderDetailBO, orderPO);
+
+        //删除redisson 延迟队列元素
+        redissonDelayedQueueService.removeQueueElement(orderPO.getOrderNo(), RedisConstants.REDIS_KEY_ORDER);
+        return orderRepository.saveOrder(orderPO);
+    }
+
+    @Override
+    public int updateOrder2SysCancel(String orderNo) {
+        OrderDetailBO orderDetailBO = orderRepository.getUnpaidOrderByOrderNo(orderNo);
+        if (orderDetailBO == null) {
+            return 0;
+        }
+
+        OrderPO orderPO = PojoConvert.convert(orderDetailBO, OrderPO.class);
+        orderPO.setStatus(OrderConstants.SYS_SHUTDOWN.getValue());
+
+        //通过orderId 查询orderItemsPO详情
+        List<OrderItemsPO> orderItemsPOS = orderItemsRepository.getOrderItemsByOrderId(orderPO.getId());
+        for (OrderItemsPO orderItemsPO : orderItemsPOS) {
+            //获取商品id
+            log.debug("orderItemsPO:{}", orderItemsPO);
+            Long tbProductSpecId = orderItemsPO.getTbProductSpecId();
+            //配置商品SKU id锁, 不同的SKU id, 锁不一样
+            RLock productSpecsLock = redissonClient.getLock(RedisConstants.KEY_LOCK_PRODUCT_SPECS_PREFIX + tbProductSpecId);
+            try {
+                //抢商品SKU id锁
+                boolean tryProductSpecsLock = productSpecsLock.tryLock(10, TimeUnit.SECONDS);
+                if (tryProductSpecsLock) {
+                    productSpecsRepository.returnProductSpecsAmountByIdAndAmount(orderItemsPO.getTbProductSpecId(), orderItemsPO.getAmount());
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            } finally {
+                //释放productSpecs锁
+                productSpecsLock.unlock();
+            }
+        }
+
         return orderRepository.saveOrder(orderPO);
     }
 
     @Override
     public int updateOrder(OrderUpdateConsigneeInfoDTO orderUpdateConsigneeInfoDTO) {
         OrderDetailBO existOrderDetailBO = orderRepository.getOrderByUserIdAndOrderNo(orderUpdateConsigneeInfoDTO.getTbUserId(), orderUpdateConsigneeInfoDTO.getOrderNo());
-        if (existOrderDetailBO == null && existOrderDetailBO.getId() != null) {
+        if (existOrderDetailBO == null || existOrderDetailBO.getId() == null) {
             throw new ServiceException(ServiceCode.ERROR_NOT_FOUND, ServiceConstant.ORDER_NOT_EXIST);
         }
         OrderPO orderPO = PojoConvert.convert(orderUpdateConsigneeInfoDTO, OrderPO.class);

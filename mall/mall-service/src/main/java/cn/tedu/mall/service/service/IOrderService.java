@@ -12,6 +12,8 @@ import java.util.List;
 public interface IOrderService {
     OrderDetailBO addOrder(Long userId, List<OrderItemsAddDTO> orderItemsAddDTOS) throws InterruptedException;
 
+    int updateOrder2SysCancel(String orderNo);
+
     int updateOrder(OrderUpdateConsigneeInfoDTO orderUpdateConsigneeInfoDTO);
 
     List<OrderDetailBO> getOrderByUserId(Long userId);

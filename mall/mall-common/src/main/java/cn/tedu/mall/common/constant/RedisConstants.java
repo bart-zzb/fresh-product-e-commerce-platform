@@ -20,4 +20,6 @@ public class RedisConstants {
     public static final String KEY_LOCK_PRODUCT_SPECS_PREFIX = "e_mall:lock:tb_product_specs_";
 
     public static final String KEY_LOCK_PRODUCT_SPECS_TREE = "e_mall:lock:tb_product_specs_tree";
+
+    public static final String REDIS_KEY_ORDER = "e_mall:redis_key_publish_order";
 }

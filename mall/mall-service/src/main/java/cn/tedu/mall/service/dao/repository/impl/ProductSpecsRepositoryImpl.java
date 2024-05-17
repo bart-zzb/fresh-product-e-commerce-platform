@@ -54,6 +54,17 @@ public class ProductSpecsRepositoryImpl implements IProductSpecsRepository {
     }
 
     @Override
+    public void returnProductSpecsAmountByIdAndAmount(Long tbProductSpecId, Integer amount) {
+        log.debug("tbProductSpecId:{}",tbProductSpecId);
+        ProductSpecsPO productSpecsPO = productSpecsMapper.selectById(tbProductSpecId);
+        log.debug("当前productSpecsPO:{}",productSpecsPO);
+        productSpecsPO.setSales(productSpecsPO.getSales() - amount);
+        productSpecsPO.setAmount(productSpecsPO.getAmount() + amount);
+        log.debug("修改后productSpecsPO:{}",productSpecsPO);
+        productSpecsMapper.updateById(productSpecsPO);
+    }
+
+    @Override
     public ProductSpecsBO getProductIdByProductSpecsId(Long tbProductSpecId) {
         return productSpecsMapper.selectProductIdByProductSpecsId(tbProductSpecId);
     }
