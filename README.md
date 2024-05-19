@@ -25,11 +25,15 @@
 
 - #### https://k0gvly5pumi.feishu.cn/wiki/XAGZwivodiZ49Hk1OTAclVhenZb
 
-## 5.技术选型
+## 5.项目页面效果展示
+
+- #### https://k0gvly5pumi.feishu.cn/wiki/HnGSwOECciOD07kJSPTchnfPnig
+
+## 6.技术选型
 - 后端：Spring Boot + Spring SSM + MySQL + Redis
 - 前端：HTML/CSS + JavaScript + Vue + Vant + ElementsPlus
 
-## 6.开发技术
+## 7.开发技术
 
 - `spring-boot-starter-web`
 - `spring-boot-starter-validation`
@@ -50,9 +54,9 @@
 - `hutool-all`
 - `redisson`
 
-## 7.本地启动项目
+## 8.本地启动项目
 
-### 7.1 项目架构说明
+### 8.1 项目架构说明
 
 - 后端项目为主目录下 `mall`，其中包含三个模块：
   - 通用模块：`mall-common`
@@ -61,7 +65,7 @@
 - 后端主启动项在`mall-front`
 - 前端项目在`mall-frontend/mall-app-frontend/mall-app`
 
-### 7.2 项目分层出参入参流转说明
+### 8.2 项目分层出参入参流转说明
 
 |              | 读               | 读                | 写       | 写             |
 | ------------ | ---------------- | ----------------- | -------- | -------------- |
@@ -71,7 +75,7 @@
 | repository： | 基本数据类型/DTO | BO                | DTO      | 写入生成的ID值 |
 | mapper：     | 基本数据类型/DTO | PO                | PO       | 写入生成的ID值 |
 
-### 7.3 安装软件
+### 8.3 安装软件
 
 - 在启动项目之前，你需要安装：
 
@@ -84,7 +88,7 @@
 
 - 在前端项目主目录下 `mall-frontend/mall-app-frontend/mall-app` 运行 `npm install`安装项目依赖
 
-### 7.4 关于软件配置
+### 8.4 关于软件配置
 
 本项目连接各数据库均使用默认配置，如下：
 
@@ -93,21 +97,21 @@
 | MySQL / MariaDB | localhost | 3306 | root   | root |
 | Redis           | localhost | 6379 | <无>   | <无> |
 
-### 7.5 创建数据库与数据表
+### 8.5 创建数据库与数据表
 
 在主目录下的执行 `mall/sql/create_table/create_table_mall.sql` 创建数据库 e_mall;
 
-### 7.6 插入测试数据
+### 8.6 插入测试数据
 
 在主目录下的执行 `mall/sql/insert_data/insert_data_mall.sql` 插入测试数据；
 
-### 7.7 配值访问静态资源路径
+### 8.7 配值访问静态资源路径
 
 - 本项目的图片静态资源默认访问路径默认为： `d:/files/e_mall/imgs`
 - 本项目已经将所有需要的静态资源放在主目录下的 `mall-frontend/mall-app-frontend/mall-app/public/imgs`，启动项目时可以将所需的静态资源拷贝到上面的默认访问路径 `d:/files/e_mall/imgs`
 - 或者在`mall/mall-front/src/main/resources/application.yml` 中的 `file-path`属性自定义访问路径
 
-### 7.8 支付宝沙箱功能
+### 8.8 支付宝沙箱功能
 
 - 若要体验支付宝支付功能，请先登录注册支付宝沙箱账号 https://open.alipay.com/
 - 在`mall/mall-front/src/main/resources/application.yml`的配置文件的`alipay`属性中，根据自己的支付宝沙箱账号配置四个属性：
@@ -116,7 +120,7 @@
   - alipayPublicKey：支付宝公钥
   - notifyUrl：异步回调路径，设置为`后端项目路径`，测试时必须为公网地址
 
-### 7.9 启动项目
+### 8.9 启动项目
 
 | 页面     | 主机      | 端口 |
 | -------- | --------- | ---- |
