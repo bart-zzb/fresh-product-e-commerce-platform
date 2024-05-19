@@ -28,15 +28,17 @@ public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgu
 
     //当符合判断的条件后具体的方法
     @Override
-    public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
+    public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory){
         //header中获取用户token
         nativeWebRequest.getHeader(JwtConstants.AUTHORIZATION);
         Map<String, Object> userInfo = JwtUtils.getUserInfo(nativeWebRequest);
         CurrentPrincipal currentPrincipal = new CurrentPrincipal();
-        log.debug("id:"+userInfo.get("id"));
-        log.debug("username:"+userInfo.get("username"));
-        currentPrincipal.setId(Long.parseLong((String) userInfo.get("id")));
-        currentPrincipal.setUsername((String) userInfo.get("username"));
+        Long id = Long.parseLong((String) userInfo.get("id"));
+        String username = (String) userInfo.get("username");
+        log.debug("id:{}",id);
+        log.debug("username:{}",username);
+        currentPrincipal.setId(id);
+        currentPrincipal.setUsername(username);
         return currentPrincipal;
     }
 }

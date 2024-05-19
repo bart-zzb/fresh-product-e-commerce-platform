@@ -5,7 +5,6 @@ import cn.tedu.mall.service.dao.mapper.CarouselMapper;
 import cn.tedu.mall.service.dao.repository.ICarouselRepository;
 import cn.tedu.mall.service.pojo.bo.CarouselIndexBO;
 import cn.tedu.mall.service.pojo.po.CarouselPO;
-import cn.tedu.mall.service.pojo.vo.CarouselIndexVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;

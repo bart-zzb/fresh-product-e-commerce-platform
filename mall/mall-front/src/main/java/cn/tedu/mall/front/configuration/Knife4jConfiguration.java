@@ -54,14 +54,12 @@ public class Knife4jConfiguration {
     /**
      * 联系邮箱
      */
-    private static final String CONTACT_EMAIL = "3533272661@qq.com";
+    private static final String CONTACT_EMAIL = "3533272661@qq.com/bartzhaozb@gmail.com";
     /**
      * 版本号
      */
     private static final String VERSION = "1.0";
 
-    //@Autowired
-    //private OpenApiExtensionResolver openApiExtensionResolver;
 
     public Knife4jConfiguration() {
         log.debug("创建配置类对象：Knife4jConfiguration");

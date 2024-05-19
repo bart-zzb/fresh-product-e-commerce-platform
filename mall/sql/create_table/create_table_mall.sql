@@ -139,7 +139,7 @@ CREATE TABLE `tb_order`
     `id`                      BIGINT UNSIGNED         NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'id',
     `create_time`             DATETIME                NOT NULL COMMENT '创建时间',
     `modified_time`           DATETIME                NOT NULL COMMENT '修改时间',
-    `order_no`                VARCHAR(50)             NOT NULL COMMENT '订单编号',
+    `order_no`                VARCHAR(50)             NOT NULL UNIQUE COMMENT '订单编号',
     `status`                  TINYINT(3) UNSIGNED     NOT NULL COMMENT '订单状态订单状态
                                                                         (0 : 待支付)
                                                                         (1 : 已支付，待发货)
