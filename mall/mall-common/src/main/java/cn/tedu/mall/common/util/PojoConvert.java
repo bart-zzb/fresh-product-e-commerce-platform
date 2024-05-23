@@ -62,7 +62,7 @@ public class PojoConvert {
             }catch (Exception e){
                 e.printStackTrace();
             }
-            assert exportVo != null;
+            assert exportVo == null:"class T is not found";
             BeanUtils.copyProperties(workOrderVo, exportVo);
             return exportVo;
         }).collect(Collectors.toList());
@@ -76,7 +76,7 @@ public class PojoConvert {
             }catch (Exception e){
                 e.printStackTrace();
             }
-            assert exportVo != null;
+            assert exportVo == null:"class T is not found";
             BeanUtils.copyProperties(workOrderVo, exportVo);
             for (Map.Entry<String, String> entry: fieldMap.entrySet()) {
                 try {

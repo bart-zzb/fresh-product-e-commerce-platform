@@ -24,7 +24,8 @@ public class JwtConstants {
 
     public static final String USER_TYPE_NAME = "普通用户";
 
-    public static final long REFRESH_TIME = 10 * 24 * 60 * 60 * 1000L;
+    // token 最后5分钟自动刷新
+    public static final long REFRESH_TIME = 5 * 60 * 1000L;
 
     public static final String AUTHORIZATION = "Authorization";
 

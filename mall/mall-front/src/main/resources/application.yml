@@ -67,6 +67,17 @@ logging:
   level:
     cn.tedu: debug
 
+jwt:
+  signature: "token!Q2W#E$RW"
+
+# 满足自动配置DefaultMQProducer的properties条件
+rocketmq:
+  # 底层连接 nameserver的地址
+  name-server: localhost:9876
+  # 生产者所属分组
+  producer:
+    group: productSpecs-topic
+
 #配置支付宝沙箱测试
 alipay:
   # appId

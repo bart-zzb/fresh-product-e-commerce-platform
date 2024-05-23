@@ -30,8 +30,8 @@
 - #### https://k0gvly5pumi.feishu.cn/wiki/HnGSwOECciOD07kJSPTchnfPnig
 
 ## 6.技术选型
-- 后端：Spring Boot + Spring SSM + MySQL + Redis
-- 前端：HTML/CSS + JavaScript + Vue + Vant + ElementsPlus
+- 后端：Spring Boot + Spring SSM + MySQL + Spring Security + Redis + Redisson
+- 前端：HTML/CSS + JavaScript + Vue + Vant
 
 ## 7.开发技术
 
@@ -82,7 +82,6 @@
   - MySQL（或Maria DB） 5.5或以上版本
   - Redis
   - Node.js
-  - npm
 
   并且，保证以上软件的处于可用状态。
 

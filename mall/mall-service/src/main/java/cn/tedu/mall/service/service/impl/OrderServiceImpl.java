@@ -14,9 +14,13 @@ import cn.tedu.mall.service.pojo.po.OrderItemsPO;
 import cn.tedu.mall.service.pojo.po.OrderPO;
 import cn.tedu.mall.service.pojo.vo.OrderItemsVO;
 import cn.tedu.mall.service.pojo.vo.ProductSpecsVO;
+import cn.tedu.mall.service.rocketmq.producers.ProductSpecsProducer;
 import cn.tedu.mall.service.service.IOrderService;
 import cn.tedu.mall.service.service.IRedissonDelayedQueueService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.exception.MQBrokerException;
+import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,8 +119,11 @@ public class OrderServiceImpl implements IOrderService {
 
                 //将当前订单放入延时任务中：
                 redissonDelayedQueueService.addQueue(orderDetailBO.getOrderNo(), TimeConstant.TWO.getValue(), TimeUnit.MINUTES, RedisConstants.REDIS_KEY_ORDER);
+                //将当前订单放入rocketmq当中：
+//                ProductSpecsProducer producer = new ProductSpecsProducer();
+//                producer.sendMsg(orderDetailBO.getOrderNo());
                 return orderDetailBO;
-            } finally {
+            }  finally {
                 //释放userId锁
                 userLock.unlock();
             }

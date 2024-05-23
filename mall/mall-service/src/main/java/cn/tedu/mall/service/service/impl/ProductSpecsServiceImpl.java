@@ -145,7 +145,6 @@ public class ProductSpecsServiceImpl implements IProductSpecsService {
         for (CategoryPO categoryPO : all) {
             if (vo.getId().equals(categoryPO.getParentId())) {
                 ProductSpecsTreeVO childVO = PojoConvert.convert(categoryPO, ProductSpecsTreeVO.class);
-                assert childVO != null;
                 childVO.setText(categoryPO.getCategoryName());
                 children.add(appendChild(childVO, all)); //去找childVo的子级
             }
