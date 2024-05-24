@@ -16,6 +16,7 @@
 - 使用简单JWT认证功能，识别用户，确保安全性  
 - 使用Redis缓存技术，方便购物车数据读写操作，实现访问购物车数据的高性能
 - 通过连接支付包沙箱网页支付接口功能，模拟实现支付宝支付功能和异步通知回调
+- 使用RocketMQ实现订单超时未支付后的库存销量自动回退
 
 ## 3.需求分析
 
@@ -30,7 +31,7 @@
 - #### https://k0gvly5pumi.feishu.cn/wiki/HnGSwOECciOD07kJSPTchnfPnig
 
 ## 6.技术选型
-- 后端：Spring Boot + Spring SSM + MySQL + Spring Security + Redis + Redisson
+- 后端：Spring Boot + Spring SSM + MySQL + Spring Security + Redis + Redisson + RocketMQ
 - 前端：HTML/CSS + JavaScript + Vue + Vant
 
 ## 7.开发技术
@@ -53,6 +54,7 @@
 - `alipay-sdk-java`
 - `hutool-all`
 - `redisson`
+- `rocketmq-spring-boot-starter`
 
 ## 8.本地启动项目
 
@@ -82,6 +84,7 @@
   - MySQL（或Maria DB） 5.5或以上版本
   - Redis
   - Node.js
+  - RocketMQ
 
   并且，保证以上软件的处于可用状态。
 
@@ -95,6 +98,7 @@
 | --------------- | --------- | ---- | ------ | ---- |
 | MySQL / MariaDB | localhost | 3306 | root   | root |
 | Redis           | localhost | 6379 | <无>   | <无> |
+| RocketMQ        | localhost | 9876 | <无>   | <无> |
 
 ### 8.5 创建数据库与数据表
 
