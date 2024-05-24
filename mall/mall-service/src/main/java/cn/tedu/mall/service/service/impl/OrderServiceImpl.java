@@ -24,6 +24,7 @@ import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +52,9 @@ public class OrderServiceImpl implements IOrderService {
 
     @Autowired
     private IRedissonDelayedQueueService redissonDelayedQueueService;
+
+    @Value("${myRocketmq.delayLevel}")
+    private int rocketmqDelayLevel;
 
     @Override
     public OrderDetailBO addOrder(Long userId, List<OrderItemsAddDTO> orderItemsAddDTOS) throws InterruptedException {
@@ -118,12 +122,18 @@ public class OrderServiceImpl implements IOrderService {
                 orderDetailBO.setOrderAmountTotal(total);
 
                 //将当前订单放入延时任务中：
-                redissonDelayedQueueService.addQueue(orderDetailBO.getOrderNo(), TimeConstant.TWO.getValue(), TimeUnit.MINUTES, RedisConstants.REDIS_KEY_ORDER);
+                //redissonDelayedQueueService.addQueue(orderDetailBO.getOrderNo(), TimeConstant.TWO.getValue(), TimeUnit.MINUTES, RedisConstants.REDIS_KEY_ORDER);
                 //将当前订单放入rocketmq当中：
-//                ProductSpecsProducer producer = new ProductSpecsProducer();
-//                producer.sendMsg(orderDetailBO.getOrderNo());
+                ProductSpecsProducer producer = new ProductSpecsProducer();
+                producer.sendMsg(orderDetailBO.getOrderNo(), rocketmqDelayLevel);
                 return orderDetailBO;
-            }  finally {
+            } catch (MQBrokerException e) {
+                throw new RuntimeException(e);
+            } catch (RemotingException e) {
+                throw new RuntimeException(e);
+            } catch (MQClientException e) {
+                throw new RuntimeException(e);
+            } finally {
                 //释放userId锁
                 userLock.unlock();
             }
@@ -143,7 +153,7 @@ public class OrderServiceImpl implements IOrderService {
         updateStatusTime(existOrderDetailBO, orderPO);
 
         //删除redisson 延迟队列元素
-        redissonDelayedQueueService.removeQueueElement(orderPO.getOrderNo(), RedisConstants.REDIS_KEY_ORDER);
+        //redissonDelayedQueueService.removeQueueElement(orderPO.getOrderNo(), RedisConstants.REDIS_KEY_ORDER);
         return orderRepository.saveOrder(orderPO);
     }
 
