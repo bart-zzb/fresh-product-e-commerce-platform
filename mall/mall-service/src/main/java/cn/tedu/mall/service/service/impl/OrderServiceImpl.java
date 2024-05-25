@@ -53,8 +53,8 @@ public class OrderServiceImpl implements IOrderService {
     @Autowired
     private IRedissonDelayedQueueService redissonDelayedQueueService;
 
-    @Value("${myRocketmq.delayLevel}")
-    private int rocketmqDelayLevel;
+    @Autowired
+    private ProductSpecsProducer producer;
 
     @Override
     public OrderDetailBO addOrder(Long userId, List<OrderItemsAddDTO> orderItemsAddDTOS) throws InterruptedException {
@@ -123,16 +123,9 @@ public class OrderServiceImpl implements IOrderService {
 
                 //将当前订单放入延时任务中：
                 //redissonDelayedQueueService.addQueue(orderDetailBO.getOrderNo(), TimeConstant.TWO.getValue(), TimeUnit.MINUTES, RedisConstants.REDIS_KEY_ORDER);
-                //将当前订单放入rocketmq当中：
-                ProductSpecsProducer producer = new ProductSpecsProducer();
-                producer.sendMsg(orderDetailBO.getOrderNo(), rocketmqDelayLevel);
+                //将当前订单放入rocketMQTemplate当中：
+                producer.sendMsg(orderDetailBO.getOrderNo());
                 return orderDetailBO;
-            } catch (MQBrokerException e) {
-                throw new RuntimeException(e);
-            } catch (RemotingException e) {
-                throw new RuntimeException(e);
-            } catch (MQClientException e) {
-                throw new RuntimeException(e);
             } finally {
                 //释放userId锁
                 userLock.unlock();
@@ -188,7 +181,7 @@ public class OrderServiceImpl implements IOrderService {
                 productSpecsLock.unlock();
             }
         }
-
+        log.debug("库存销量回退完成");
         return orderRepository.saveOrder(orderPO);
     }
 

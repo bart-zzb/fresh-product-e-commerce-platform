@@ -13,7 +13,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Slf4j
-@Component
+//测试Redisson实现延时队列消费时才开启
+//@Component
 public class OrderDelayedQueueListener {
     @Autowired
     private IRedissonDelayedQueueService redissonDelayedQueueService;

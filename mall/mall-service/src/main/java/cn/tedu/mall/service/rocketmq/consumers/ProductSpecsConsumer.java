@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RocketMQMessageListener(
         topic = "product-specs-topic",
-        consumerGroup = "productSpecs-consumer-group"
+        consumerGroup = "product-specs-consumer-group"
 )
 public class ProductSpecsConsumer implements RocketMQListener<String> {
     @Autowired
@@ -21,6 +21,6 @@ public class ProductSpecsConsumer implements RocketMQListener<String> {
     public void onMessage(String message) {
         log.debug("开始处理超时未支付的订单:{}", message);
         orderService.updateOrder2SysCancel(message);
-        log.debug("库存销量回退完成");
+        log.debug("超时未支付订单操作完成");
     }
 }

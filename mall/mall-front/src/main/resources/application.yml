@@ -70,17 +70,17 @@ logging:
 jwt:
   signature: "token!Q2W#E$RW"
 
-# 满足自动配置DefaultMQProducer的properties条件
+# 满足自动配置DefaultMQProducer的properties条件, name-server和producer-group即可，delayLevel是自己定义的
 rocketmq:
   # 底层连接 nameserver的地址
   name-server: localhost:9876
   # 生产者所属分组
   producer:
-    group: productSpecs-topic
-
-#1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h
-myRocketmq:
+    group: product-specs-group
+  #1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h
   delayLevel: 4
+
+
 
 #配置支付宝沙箱测试
 alipay:

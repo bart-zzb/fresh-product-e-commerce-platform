@@ -75,6 +75,9 @@ public class OrderRepositoryImpl implements IOrderRepository {
         queryWrapper.eq("order_no", orderNo);
         queryWrapper.eq("status", OrderConstants.UNPAID.getValue());
         OrderPO orderPO = orderMapper.selectOne(queryWrapper);
+        if (orderPO == null) {
+            return null;
+        }
         return PojoConvert.convert(orderPO, OrderDetailBO.class);
     }
 }
