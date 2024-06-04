@@ -25,7 +25,7 @@ public class LiveController {
 
     @ApiOperation("查询直播卡片功能")
     @GetMapping("/index")
-    public JsonResult listForIndex(){
+    public JsonResult listForIndex() {
         List<LiveVO> list = liveService.listForIndex();
         return JsonResult.ok(list);
     }

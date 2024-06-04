@@ -18,53 +18,53 @@ public class CategoryRepositoryImpl implements ICategoryRepository {
     private CategoryMapper categoryMapper;
 
     @Override
-    public int saveCategory(CategoryPO categoryPO){
+    public int saveCategory(CategoryPO categoryPO) {
         return categoryMapper.insert(categoryPO);
     }
 
     @Override
-    public int deleteCategory(CategoryPO categoryPO){
+    public int deleteCategory(CategoryPO categoryPO) {
         return categoryMapper.deleteById(categoryPO);
     }
 
     @Override
-    public int deleteCategoryById(Long id){
+    public int deleteCategoryById(Long id) {
         return categoryMapper.deleteById(id);
     }
 
     @Override
-    public CategoryPO getCategoryById(Long id){
+    public CategoryPO getCategoryById(Long id) {
         return categoryMapper.selectById(id);
     }
 
     @Override
-    public Long getCountByCategoryName(String categoryName){
+    public Long getCountByCategoryName(String categoryName) {
         QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.eq("category_name",categoryName);
+        queryWrapper.eq("category_name", categoryName);
         return categoryMapper.selectCount(queryWrapper);
     }
 
     @Override
     public List<CategoryPO> getCategoryListByLevel(Integer level) {
         QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.eq("level",level);
+        queryWrapper.eq("level", level);
         return categoryMapper.selectList(queryWrapper);
     }
 
     @Override
     public List<CategoryPO> getCategoryListByParentId(Long parentId) {
         QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.eq("parent_id",parentId);
+        queryWrapper.eq("parent_id", parentId);
         return categoryMapper.selectList(queryWrapper);
     }
 
     @Override
-    public int updateCategoryByCategoryPO(CategoryPO categoryPO){
-         return categoryMapper.updateById(categoryPO);
+    public int updateCategoryByCategoryPO(CategoryPO categoryPO) {
+        return categoryMapper.updateById(categoryPO);
     }
 
     @Override
-    public List<CategoryPO> getSortedCategoryByParentId(Long parentId, Integer pageNum, Integer pageSize){
+    public List<CategoryPO> getSortedCategoryByParentId(Long parentId, Integer pageNum, Integer pageSize) {
         return categoryMapper.selectSortedCategoryByParentId(parentId, pageNum, pageSize);
     }
 

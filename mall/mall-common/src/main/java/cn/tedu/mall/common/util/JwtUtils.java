@@ -36,19 +36,19 @@ public class JwtUtils {
     private static String SIGNATURE;
 
     @Value("${jwt.signature}")
-    public void setSignature(String signature){
+    public void setSignature(String signature) {
         SIGNATURE = signature;
     }
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+//    @Autowired
+//    private StringRedisTemplate stringRedisTemplate;
 
 //    @Autowired
 //    private static HttpServletRequest request;
 
     public static Map<String, Object> getUserInfo(NativeWebRequest nativeWebRequest) {
         String header = nativeWebRequest.getHeader(JwtConstants.AUTHORIZATION);
-        if(header == null){
+        if (header == null) {
             throw new ServiceException(ServiceCode.ERR_JWT_NOT_EXIST, ServiceConstant.JWT_NOT_FOUND);
         }
         String token = header.substring(JwtConstants.AUTHORIZATION_BEARER.length());
@@ -86,6 +86,7 @@ public class JwtUtils {
 
     /**
      * 验证token有效性
+     *
      * @param token 令牌
      */
     public static void verify(String token) {

@@ -1,8 +1,6 @@
 package cn.tedu.mall.common.constant;
 
 public class ServiceConstant {
-    public static final String CART_NOT_EXIST = "购物车类别不存在";
-
     public static final String CATEGORY_ALREADY_EXISTED = "商品类别已存在";
 
     public static final String CATEGORY_PARENT_NOT_EXIST = "商品父类不存在";
@@ -28,8 +26,6 @@ public class ServiceConstant {
     public static final String PRODUCT_STOCK_NO_ENOUGH = "购买数量超过库存";
 
     public static final String ERROR_USERNAME_ALREADY_EXIST = "用户名已存在";
-
-    public static final String ORDER_ALREADY_PAID = "订单已支付";
 
     public static final String PAY_FAILED = "支付失败";
 

@@ -77,7 +77,7 @@ public class AliPayController {
         AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY_URL, aliPayConfig.getAppId(), aliPayConfig.getAppPrivateKey(), FORMAT, CHARSET, aliPayConfig.getAlipayPublicKey(), SIGN_TYPE);
         //创建Request并设置Request参数
         AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
-        request.setNotifyUrl(aliPayConfig.getNotifyUrl()+"/alipay/notify");
+        request.setNotifyUrl(aliPayConfig.getNotifyUrl() + "/alipay/notify");
         JSONObject bizContent = new JSONObject();
         bizContent.put("out_trade_no", orderDetailBO.getOrderNo());
         bizContent.put("total_amount", orderDetailBO.getOrderAmountTotal());
@@ -117,14 +117,14 @@ public class AliPayController {
             boolean checkSignature = AlipaySignature.rsa256CheckContent(content, sign, aliPayConfig.getAlipayPublicKey(), "UTF-8");
             //支付宝验签
             if (checkSignature) {
-                log.debug("交易名称:" + params.get("subject"));
-                log.debug("交易状态:" + params.get("trade_status"));
-                log.debug("支付宝交易凭证号:" + params.get("trade_no"));
-                log.debug("商户订单号:" + params.get("out_trade_no"));
-                log.debug("交易金额:" + params.get("total_amount"));
-                log.debug("买家在支付宝唯一id:" + params.get("buyer_id"));
-                log.debug("买家付款时间:" + params.get("gmt_payment"));
-                log.debug("买家付款金额:" + params.get("buyer_pay_amount"));
+                log.debug("交易名称:{}", params.get("subject"));
+                log.debug("交易状态:{}", params.get("trade_status"));
+                log.debug("支付宝交易凭证号:{}", params.get("trade_no"));
+                log.debug("商户订单号:{}", params.get("out_trade_no"));
+                log.debug("交易金额:{}", params.get("total_amount"));
+                log.debug("买家在支付宝唯一id:{}", params.get("buyer_id"));
+                log.debug("买家付款时间:{}", params.get("gmt_payment"));
+                log.debug("买家付款金额:{}", params.get("buyer_pay_amount"));
 
                 String tradeNo = params.get("out_trade_no");
                 String gmtPayment = params.get("gmt_payment");

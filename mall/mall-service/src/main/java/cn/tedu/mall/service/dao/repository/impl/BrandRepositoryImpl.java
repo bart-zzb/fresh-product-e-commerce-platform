@@ -23,7 +23,7 @@ public class BrandRepositoryImpl implements IBrandRepository {
     public List<BrandBO> listForAll() {
         List<BrandPO> brandPOS = brandMapper.selectListForAll();
         List<BrandBO> brandBOS = PojoConvert.convertList(brandPOS, BrandBO.class);
-        log.debug("出参{}",brandBOS);
+        log.debug("出参{}", brandBOS);
         return brandBOS;
     }
 

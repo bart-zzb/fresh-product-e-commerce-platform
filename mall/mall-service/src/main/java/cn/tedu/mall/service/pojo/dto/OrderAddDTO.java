@@ -14,21 +14,21 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderAddDTO implements Serializable {
     @NotNull(message = "用户id不能为空")
-    @ApiModelProperty(value = "用户id",required = true,dataType = "Long")
+    @ApiModelProperty(value = "用户id", required = true, dataType = "Long")
     Long tbUserId;
 
     @NotNull(message = "用户地址表id不能为空")
-    @ApiModelProperty(value = "用户地址表id",required = true,dataType = "Long")
+    @ApiModelProperty(value = "用户地址表id", required = true, dataType = "Long")
     Long tbAddressId;
 
     @NotNull(message = "支付方式不能为空")
-    @ApiModelProperty(value = "支付方式",required = true,dataType = "Integer")
+    @ApiModelProperty(value = "支付方式", required = true, dataType = "Integer")
     Integer payChannel;
 
-    @ApiModelProperty(value = "备注",required = false,dataType = "String")
+    @ApiModelProperty(value = "备注", required = false, dataType = "String")
     String tbUserNotes;
 
     @Size(min = 1, message = "订单商品列表不能少于1个")
-    @ApiModelProperty(value = "订单列表详情",required = true,dataType = "cn.tedu.mall.service.pojo.dto.OrderItemsAddDTO")
+    @ApiModelProperty(value = "订单列表详情", required = true, dataType = "cn.tedu.mall.service.pojo.dto.OrderItemsAddDTO")
     List<OrderItemsAddDTO> orderItemsAddDTOList;
 }

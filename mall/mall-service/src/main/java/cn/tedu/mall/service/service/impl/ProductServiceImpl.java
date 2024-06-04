@@ -34,19 +34,19 @@ public class ProductServiceImpl implements IProductService {
         ProductPO productOrigPO = productRepository.selectProductByProductName(productAddDTO.getProductName());
 
         //查看商品SPU是否已存在
-        if(productOrigPO!=null){
+        if (productOrigPO != null) {
             throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, ServiceConstant.PRODUCT_ALREADY_EXISTED);
         }
 
         //查看商品分类id是否存在
         CategoryPO categoryById = categoryRepository.getCategoryById(productAddDTO.getTbCategoryId());
-        if(categoryById==null){
+        if (categoryById == null) {
             throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, ServiceConstant.CATEGORY_NOT_EXIST);
         }
 
         //查看品牌id是否存在
         BrandPO brandById = brandRepository.selectBrandById(productAddDTO.getTbBrandId());
-        if(brandById==null){
+        if (brandById == null) {
             throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, ServiceConstant.BRAND_NOT_EXIST);
         }
         ProductPO productPO = PojoConvert.convert(productAddDTO, ProductPO.class);

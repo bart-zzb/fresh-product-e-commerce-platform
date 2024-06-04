@@ -27,10 +27,10 @@ public class BrandController {
 
     @ApiOperation("查询所有品牌功能")
     @GetMapping("/all")
-    public JsonResult listForAll(){
+    public JsonResult listForAll() {
         List<BrandBO> brandBOS = brandService.listForAll();
         List<BrandVO> brandVOS = PojoConvert.convertList(brandBOS, BrandVO.class);
-        log.debug("查询所有品牌功能, 结果出参{}",brandVOS);
+        log.debug("查询所有品牌功能, 结果出参{}", brandVOS);
         return JsonResult.ok(brandVOS);
     }
 }

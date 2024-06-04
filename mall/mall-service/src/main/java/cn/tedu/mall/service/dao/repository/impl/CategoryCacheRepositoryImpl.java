@@ -19,6 +19,6 @@ public class CategoryCacheRepositoryImpl implements ICategoryCacheRepository {
     @Override
     public void saveTreeCategory(List<CategoryTreeVO> CategoryTreeVOS) {
         ValueOperations valueOperations = redisTemplate.opsForValue();
-        valueOperations.set("CATEGORY_ALL",CategoryTreeVOS);
+        valueOperations.set("CATEGORY_ALL", CategoryTreeVOS);
     }
 }

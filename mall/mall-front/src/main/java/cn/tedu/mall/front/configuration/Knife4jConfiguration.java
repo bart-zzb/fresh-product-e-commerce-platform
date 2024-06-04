@@ -76,7 +76,7 @@ public class Knife4jConfiguration {
                 .apis(RequestHandlerSelectors.basePackage(BASE_PACKAGE))
                 .paths(PathSelectors.any())
                 .build();
-                //.extensions(openApiExtensionResolver.buildExtensions(GROUP_NAME));
+        //.extensions(openApiExtensionResolver.buildExtensions(GROUP_NAME));
     }
 
     private ApiInfo apiInfo() {

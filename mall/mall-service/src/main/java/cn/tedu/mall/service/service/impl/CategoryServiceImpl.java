@@ -49,6 +49,7 @@ public class CategoryServiceImpl implements ICategoryService {
 
     /**
      * 增加商品类别
+     *
      * @param categoryAddDTO 商品类别
      */
     @Override
@@ -94,14 +95,14 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public void deleteCategoryById(Long id) {
         CategoryPO categoryPO = categoryRepository.getCategoryById(id);
-        if(categoryPO == null){
+        if (categoryPO == null) {
             throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, ServiceConstant.CATEGORY_NOT_EXIST);
         }
         List<CategoryPO> categoryListByParentId = categoryRepository.getCategoryListByParentId(id);
         StringBuffer errorMessage = new StringBuffer(ServiceConstant.CATEGORY_CHILDREN_IS_EXISTED);
         if (!categoryListByParentId.isEmpty()) {
             for (int i = 0; i < categoryListByParentId.size(); i++) {
-                errorMessage.append(": [ "+ "id: "+categoryListByParentId.get(i).getId() + ", categoryName: " + categoryListByParentId.get(i).getCategoryName() + " ] ");
+                errorMessage.append(": [ " + "id: " + categoryListByParentId.get(i).getId() + ", categoryName: " + categoryListByParentId.get(i).getCategoryName() + " ] ");
             }
             throw new ServiceException(ServiceCode.ERROR_DELETE, errorMessage.toString());
         } else {
@@ -112,15 +113,15 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     @Override
-    public CategoryPO getCategoryById(Long id){
+    public CategoryPO getCategoryById(Long id) {
         return categoryRepository.getCategoryById(id);
     }
 
     @Override
     public void updateCategory(CategoryUpdateDTO categoryUpdateDTO) {
-       CategoryPO origCategoryPO = categoryRepository.getCategoryById(categoryUpdateDTO.getId());
-        if(origCategoryPO==null){
-            throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST,ServiceConstant.CATEGORY_NOT_EXIST);
+        CategoryPO origCategoryPO = categoryRepository.getCategoryById(categoryUpdateDTO.getId());
+        if (origCategoryPO == null) {
+            throw new ServiceException(ServiceCode.ERROR_BAD_REQUEST, ServiceConstant.CATEGORY_NOT_EXIST);
         }
         CategoryPO categoryPO = PojoConvert.convert(categoryUpdateDTO, CategoryPO.class);
 

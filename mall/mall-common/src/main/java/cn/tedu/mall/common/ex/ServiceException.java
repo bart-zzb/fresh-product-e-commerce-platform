@@ -6,10 +6,10 @@ import lombok.Getter;
 /**
  * 业务异常
  */
+@Getter
 public class ServiceException extends RuntimeException {
 
-    @Getter
-    private ServiceCode serviceCode;
+    private final ServiceCode serviceCode;
 
     /**
      * 创建业务异常对象

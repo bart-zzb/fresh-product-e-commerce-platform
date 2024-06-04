@@ -31,7 +31,7 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
     private RedisTemplate<String, Serializable> redisTemplate;
 
     private String getCartKey(Long userId) {
-        return RedisConstants.KEY_CART_PREFIX+ userId + RedisConstants.DATA;
+        return RedisConstants.KEY_CART_PREFIX + userId + RedisConstants.DATA;
     }
 
     private String getProductNumHashKey(Long productSpecsId) {
@@ -153,10 +153,10 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
                         allChecked = false;
                     }
                 }
-            }else{
+            } else {
                 allChecked = false;
             }
-        }else{
+        } else {
             allChecked = false;
         }
 
@@ -174,7 +174,7 @@ public class CartCacheRepositoryImpl implements ICartCacheRepository {
         if (currentAllChecked) {
             allChecked = ProductConstants.CHECKED.getValue();
         }
-        log.debug("选中状态修改为" + allChecked);
+        log.debug("选中状态修改为{}", allChecked);
         for (CartCacheBO cartCacheBO : cartCacheBOS) {
             updateKeyValue(userId, cartCacheBO.getTbProductSpecId(), null, allChecked);
         }

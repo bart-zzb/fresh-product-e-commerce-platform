@@ -34,7 +34,7 @@ public class ProductSpecsProducer {
             public void onException(Throwable e) {
                 log.debug("发送失败");
             }
-        },2000, delayLevel);
+        }, 2000, delayLevel);
         //2.4 异步延迟消息
         log.debug("发送完毕");
     }

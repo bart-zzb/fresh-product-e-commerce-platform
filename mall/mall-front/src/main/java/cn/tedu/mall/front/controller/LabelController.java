@@ -25,7 +25,7 @@ public class LabelController {
 
     @ApiOperation("查询图标功能")
     @GetMapping("/index")
-    public JsonResult listForIndex(){
+    public JsonResult listForIndex() {
         List<LabelIndexVO> list = labelService.listForIndex();
         return JsonResult.ok(list);
     }

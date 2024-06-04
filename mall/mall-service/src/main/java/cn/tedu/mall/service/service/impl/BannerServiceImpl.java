@@ -37,12 +37,12 @@ public class BannerServiceImpl implements IBannerService {
         if (Boolean.TRUE.equals(b)) {
             List<String> range = stringRedisTemplate.opsForList().range(key, 0, -1);
             //判断list长度是否为空,长度不能为0
-            if(range!=null&& !range.isEmpty()){
+            if (range != null && !range.isEmpty()) {
                 for (String s : range) {
                     BannerIndexBOS.add(objectMapper.readValue(s, BannerIndexBO.class));
                 }
             }
-            log.debug("从缓存中获取Banner数据{}",BannerIndexBOS);
+            log.debug("从缓存中获取Banner数据{}", BannerIndexBOS);
             return BannerIndexBOS;
         }
 
@@ -58,7 +58,7 @@ public class BannerServiceImpl implements IBannerService {
 
     private List<BannerIndexBO> loadBanner2Redis(String key) throws JsonProcessingException {
         List<BannerIndexBO> bannerIndexBOS = bannerRepository.listForIndex();
-        log.debug("从数据库获取banner信息, 并加载到Redis中{}",bannerIndexBOS);
+        log.debug("从数据库获取banner信息, 并加载到Redis中{}", bannerIndexBOS);
         List<String> bannerIndexBOSStr = new ArrayList<>();
         for (BannerIndexBO bannerIndexBO : bannerIndexBOS) {
             bannerIndexBOSStr.add(objectMapper.writeValueAsString(bannerIndexBO));

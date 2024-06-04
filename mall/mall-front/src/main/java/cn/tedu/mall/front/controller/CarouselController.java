@@ -27,7 +27,7 @@ public class CarouselController {
 
     @ApiOperation("查询轮播图功能")
     @GetMapping("/index")
-    public JsonResult listForIndex(){
+    public JsonResult listForIndex() {
         List<CarouselIndexBO> carouselIndexBOS = carouselService.listForIndex();
         List<CarouselIndexVO> carouselIndexVOS = PojoConvert.convertList(carouselIndexBOS, CarouselIndexVO.class);
         log.debug("查询查询轮播图功能,控制层出参{}", carouselIndexVOS);

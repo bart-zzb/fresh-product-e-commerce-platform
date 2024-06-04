@@ -2,7 +2,6 @@ package cn.tedu.mall.service.service.impl;
 
 import cn.tedu.mall.service.dao.repository.ICarouselRepository;
 import cn.tedu.mall.service.pojo.bo.CarouselIndexBO;
-import cn.tedu.mall.service.pojo.vo.CarouselIndexVO;
 import cn.tedu.mall.service.service.ICarouselService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

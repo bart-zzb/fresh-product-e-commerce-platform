@@ -14,6 +14,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -29,20 +30,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public JsonResult handleTokenExpiredException(TokenExpiredException e) {
-        log.debug("全局异常处理器开始处理TokenExpiredException");
+        log.debug("全局异常处理器开始处理TokenExpiredException:{}", e.getMessage());
         return JsonResult.fail(ServiceCode.ERR_JWT_EXPIRED, "已过期,请重新登录");
     }
 
     @ExceptionHandler
     public JsonResult handleTokenExpiredException(JWTVerificationException e) {
-        log.debug("全局异常处理器开始处理JWTVerificationException");
+        log.debug("全局异常处理器开始处理JWTVerificationException:{}", e.getMessage());
         return JsonResult.fail(ServiceCode.ERR_JWT_NOT_EXIST, "未登录,请重新登录");
     }
 
     @ExceptionHandler
     public JsonResult handleServiceException(ServiceException e) {
-        log.debug("全局异常处理器开始处理ServiceException");
-        log.debug(e.getServiceCode().getValue() + ":" + e.getMessage());
+        log.debug("全局异常处理器开始处理ServiceException:{}", e.getServiceCode().getValue() + ":" + e.getMessage());
         return JsonResult.fail(e.getServiceCode(), e.getMessage());
     }
 
@@ -55,11 +55,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public JsonResult handleBindException(BindException e) {
         log.debug("全局异常处理器开始处理BindException");
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("请求参数格式错误，");
-        stringBuilder.append(e.getFieldError().getDefaultMessage());
-        stringBuilder.append("！");
-        String message = stringBuilder.toString();
+        String message = "请求参数格式错误，" +
+                Objects.requireNonNull(e.getFieldError()).getDefaultMessage() +
+                "!";
         log.warn(message);
         return JsonResult.fail(ServiceCode.ERROR_BAD_REQUEST, message);
     }

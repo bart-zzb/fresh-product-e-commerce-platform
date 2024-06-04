@@ -14,5 +14,5 @@ public enum TimeConstant {
 
     DELAY_TIME_LEVEL_SIX(6);
 
-    private int value;
+    private final int value;
 }

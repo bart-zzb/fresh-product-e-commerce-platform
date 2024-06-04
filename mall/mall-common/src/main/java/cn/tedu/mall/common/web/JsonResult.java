@@ -9,7 +9,6 @@ import java.io.Serializable;
 
 /**
  * 服务器端的统一响应类型
- *
  */
 @Data
 public class JsonResult implements Serializable {

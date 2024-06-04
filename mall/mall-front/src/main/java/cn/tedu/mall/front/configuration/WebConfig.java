@@ -32,7 +32,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     //自定义Resolver
     @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers){
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(loginUserHandlerMethodArgumentResolver);
     }
 

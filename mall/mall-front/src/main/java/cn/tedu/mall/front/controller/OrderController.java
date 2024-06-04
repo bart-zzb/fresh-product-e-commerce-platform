@@ -40,7 +40,7 @@ public class OrderController {
     @ApiOperation("增加订单")
     @PostMapping("/add")
     public JsonResult addOrder(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal, @Validated @RequestBody List<OrderItemsAddDTO> orderItemsAddDTOS) throws InterruptedException {
-        log.debug("currentPrincipal:{}",currentPrincipal);
+        log.debug("currentPrincipal:{}", currentPrincipal);
         OrderDetailBO orderDetailBO = orderService.addOrder(currentPrincipal.getId(), orderItemsAddDTOS);
         OrderDetailVO orderDetailVO = PojoConvert.convert(orderDetailBO, OrderDetailVO.class);
         return JsonResult.ok(orderDetailVO);
@@ -88,7 +88,7 @@ public class OrderController {
     @ApiOperation("查询当前用户所有订单")
     @GetMapping("/select/all")
     public JsonResult getOrderByUserId(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal) {
-        log.debug("currentPrincipal:{}",currentPrincipal);
+        log.debug("currentPrincipal:{}", currentPrincipal);
         List<OrderDetailBO> orderDetailBOS = orderService.getOrderByUserId(currentPrincipal.getId());
         List<OrderDetailVO> orderDetailVOS = PojoConvert.convertList(orderDetailBOS, OrderDetailVO.class);
         return JsonResult.ok(orderDetailVOS);
@@ -96,7 +96,7 @@ public class OrderController {
 
     /**
      * @param currentPrincipal 当前用户
-     * @param status 状态
+     * @param status           状态
      * @return JsonResult.ok(orderDetailVOS)
      */
     @ApiOperation("查询当前用户所有相对应的状态的订单")

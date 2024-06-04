@@ -18,7 +18,7 @@ public class ProductRepositoryImpl implements IProductRepository {
     @Override
     public ProductPO selectProductByProductName(String productName) {
         QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.eq("product_name",productName);
+        queryWrapper.eq("product_name", productName);
         return productMapper.selectOne(queryWrapper);
     }
 
@@ -40,7 +40,7 @@ public class ProductRepositoryImpl implements IProductRepository {
     @Override
     public void modifyProductSales(Long productId, Integer amount) {
         ProductPO productPO = productMapper.selectById(productId);
-        productPO.setSales(productPO.getSales()+amount);
+        productPO.setSales(productPO.getSales() + amount);
         productMapper.updateById(productPO);
     }
 }

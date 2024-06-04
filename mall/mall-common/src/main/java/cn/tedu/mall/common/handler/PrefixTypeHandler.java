@@ -1,17 +1,16 @@
 package cn.tedu.mall.common.handler;
 
-import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**暂时不需要
+/**
+ * 暂时不需要
  * 自动为img_url字段值添加file-path路径
  */
 //@Component

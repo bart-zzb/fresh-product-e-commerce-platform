@@ -39,7 +39,7 @@ public class UserController {
         log.debug(userLoginByPsdDTO.getUsername() + userLoginByPsdDTO.getPassword());
 
         UserBO userBO = userService.getUserByUsername(userLoginByPsdDTO.getUsername());
-        if(userBO ==null){
+        if (userBO == null) {
             throw new ServiceException(ServiceCode.ERR_USERNAME_PASSWORD, ServiceConstant.ERROR_USERNAME_PASSWORD);
         }
 
@@ -48,10 +48,10 @@ public class UserController {
 
     @ApiOperation("注册并登录")
     @PostMapping("/regAndLogin")
-    public JsonResult regAndLogin(@Validated UserRegByUserPwdDTO userRegByUserPwdDTO){
+    public JsonResult regAndLogin(@Validated UserRegByUserPwdDTO userRegByUserPwdDTO) {
         log.debug("注册用户入参{}", userRegByUserPwdDTO);
         UserBO userBO = userService.getUserByUsername(userRegByUserPwdDTO.getUsername());
-        if(userBO !=null){
+        if (userBO != null) {
             throw new ServiceException(ServiceCode.ERR_USERNAME_ALREADY_EXIST, ServiceConstant.ERROR_USERNAME_ALREADY_EXIST);
         }
         //数据库存储加盐加密后的密码
@@ -61,11 +61,10 @@ public class UserController {
     }
 
     /**
-     *
      * @param username 前端的username
      * @param password 前端的password
      */
-    private JsonResult userVOSetToken(String username, String password, UserBO userBO){
+    private JsonResult userVOSetToken(String username, String password, UserBO userBO) {
         boolean matches = PasswordEncoderUtils.decrypt(password, userBO.getPassword());
         UserVO userVO = PojoConvert.convert(userBO, UserVO.class);
         if (matches) {
@@ -76,9 +75,9 @@ public class UserController {
             // 生产token并返回
             userVO.setToken(JwtUtils.getToken(map));
         }
-        if (userVO.getToken()==null){
+        if (userVO.getToken() == null) {
             return JsonResult.fail(ServiceCode.ERR_USERNAME_PASSWORD, ServiceConstant.ERROR_USERNAME_PASSWORD);
-        }else{
+        } else {
             return JsonResult.ok(userVO);
         }
     }

@@ -15,8 +15,8 @@ import java.io.Serializable;
 public class RedisConfiguration {
 
     @Bean
-    public RedisTemplate<String, Serializable> redisTemplate(RedisConnectionFactory redisConnectionFactory){
-        RedisTemplate<String,Serializable> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, Serializable> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, Serializable> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory); //new 一个redisTemplate必须传一个连接工厂 redisConnectionFactory
         //设置key的序列化
         redisTemplate.setKeySerializer(RedisSerializer.string());

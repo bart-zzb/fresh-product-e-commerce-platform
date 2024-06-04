@@ -20,7 +20,7 @@ public class BrandServiceImpl implements IBrandService {
     @Override
     public List<BrandBO> listForAll() {
         List<BrandBO> brandBOS = brandRepository.listForAll();
-        log.debug("出参{}",brandBOS);
+        log.debug("出参{}", brandBOS);
         return brandBOS;
     }
 }

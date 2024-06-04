@@ -13,11 +13,11 @@ import javax.validation.constraints.Size;
 public class UserRegByUserPwdDTO {
 
     @NotBlank(message = " 用户名不能为空")
-    @ApiModelProperty(value = "用户名",required = true,dataType = "String")
+    @ApiModelProperty(value = "用户名", required = true, dataType = "String")
     String username;
 
     @NotBlank(message = " 密码不能为空")
     @Size(min = 5, max = 12, message = "密码必须在5-12位")
-    @ApiModelProperty(value = "密码",required = true,dataType = "String")
+    @ApiModelProperty(value = "密码", required = true, dataType = "String")
     String password;
 }

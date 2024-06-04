@@ -32,7 +32,7 @@ public class OrderRepositoryImpl implements IOrderRepository {
 
     @Override
     public int saveOrder(OrderPO orderPO) {
-        log.debug("orderPO" + orderPO);
+        log.debug("当前orderPO信息:{}", orderPO);
         orderPO.setModifiedTime(LocalDateTime.now());
         return orderMapper.updateByOrderPO(orderPO);
     }

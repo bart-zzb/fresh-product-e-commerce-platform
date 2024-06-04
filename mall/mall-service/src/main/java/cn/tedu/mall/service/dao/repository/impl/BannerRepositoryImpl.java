@@ -23,7 +23,7 @@ public class BannerRepositoryImpl implements IBannerRepository {
     public List<BannerIndexBO> listForIndex() {
         List<BannerPO> bannerPOS = bannerMapper.selectListForIndex();
         List<BannerIndexBO> bannerIndexBOS = PojoConvert.convertList(bannerPOS, BannerIndexBO.class);
-        log.debug("出参{}",bannerIndexBOS);
+        log.debug("出参{}", bannerIndexBOS);
         return bannerIndexBOS;
     }
 }

@@ -26,7 +26,7 @@ public class ProductController {
 
     @ApiOperation("增加商品SPU")
     @PostMapping("/add")
-    public JsonResult addProduct(@Validated ProductAddDTO productAddDTO){
+    public JsonResult addProduct(@Validated ProductAddDTO productAddDTO) {
         productService.addProduct(productAddDTO);
         return JsonResult.ok();
     }
@@ -36,7 +36,7 @@ public class ProductController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long"),
     })
-    public JsonResult deleteProductById(@PathVariable @NotNull Long id){
+    public JsonResult deleteProductById(@PathVariable @NotNull Long id) {
         productService.deleteProductById(id);
         return JsonResult.ok();
     }
@@ -46,7 +46,7 @@ public class ProductController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "id", required = true, dataType = "Long"),
     })
-    public JsonResult getProductById(@PathVariable @NotNull Long id){
+    public JsonResult getProductById(@PathVariable @NotNull Long id) {
         ProductVO productVO = productService.getProductById(id);
         return JsonResult.ok(productVO);
     }

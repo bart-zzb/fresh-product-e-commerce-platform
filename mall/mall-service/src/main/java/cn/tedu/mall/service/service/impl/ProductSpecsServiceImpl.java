@@ -58,7 +58,7 @@ public class ProductSpecsServiceImpl implements IProductSpecsService {
         //从缓存中获取数据
         List<ProductSpecsTreeVO> productSpecsTreeVOSFromRedis = getProductSpecsTreeVOSFromRedis(key);
         //判断是否获取了数据,为null说明不存在key值,有则直接返回数据
-        if(productSpecsTreeVOSFromRedis!=null){
+        if (productSpecsTreeVOSFromRedis != null) {
             return productSpecsTreeVOSFromRedis;
         }
 
@@ -71,7 +71,7 @@ public class ProductSpecsServiceImpl implements IProductSpecsService {
                 //双重检查锁,再次检查Redis
                 //判断是否获取了数据,为null说明不存在key值,有则直接返回数据
                 List<ProductSpecsTreeVO> doubleProductSpecsTreeVOSFromRedis = getProductSpecsTreeVOSFromRedis(key);
-                if(doubleProductSpecsTreeVOSFromRedis!=null){
+                if (doubleProductSpecsTreeVOSFromRedis != null) {
                     return doubleProductSpecsTreeVOSFromRedis;
                 }
 
@@ -87,7 +87,7 @@ public class ProductSpecsServiceImpl implements IProductSpecsService {
             // 休眠20ms后递归
             TimeUnit.MILLISECONDS.sleep(20L);
             List<ProductSpecsTreeVO> doubleProductSpecsTreeVOSFromRedis = getProductSpecsTreeVOSFromRedis(key);
-            if(doubleProductSpecsTreeVOSFromRedis!=null){
+            if (doubleProductSpecsTreeVOSFromRedis != null) {
                 return doubleProductSpecsTreeVOSFromRedis;
             }
             retryTimes--;
@@ -120,7 +120,7 @@ public class ProductSpecsServiceImpl implements IProductSpecsService {
 
     @Override
     public void deleteProductSpecsAmount(Long id, List<ProductSpecDeleteDTO> productSpecDeleteDTOS) {
-        log.debug("当前用户{}",id);
+        log.debug("当前用户{}", id);
         if (!productSpecDeleteDTOS.isEmpty()) {
             for (ProductSpecDeleteDTO productSpecDeleteDTO : productSpecDeleteDTOS) {
                 log.debug("入参{}", productSpecDeleteDTOS);
@@ -132,7 +132,7 @@ public class ProductSpecsServiceImpl implements IProductSpecsService {
     }
 
     @Override
-    public void initProductSpecsTree(){
+    public void initProductSpecsTree() {
         //先删除key
         String key = RedisConstants.KEY_PRODUCT_SPECS;
         long delete = redissonClient.getKeys().delete(key);
@@ -148,7 +148,7 @@ public class ProductSpecsServiceImpl implements IProductSpecsService {
                 childVO.setText(categoryPO.getCategoryName());
                 children.add(appendChild(childVO, all)); //去找childVo的子级
             }
-                //没有子级了,终止条件 不调用appendChild,退出了
+            //没有子级了,终止条件 不调用appendChild,退出了
 
         }
         vo.setChildren(children);

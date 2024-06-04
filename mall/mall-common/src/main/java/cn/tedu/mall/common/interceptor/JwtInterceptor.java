@@ -22,17 +22,16 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-        /**
-         * OPTIONS 方法容易出现误判
-         */
-        if("OPTIONS".equals(request.getMethod())){
+
+        // OPTIONS 方法容易出现误判
+        if ("OPTIONS".equals(request.getMethod())) {
             return true;
         }
 
         String header = request.getHeader(JwtConstants.AUTHORIZATION);
-        
+
         if (!StringUtils.isBlank(header)) {
-            String token = header.substring(JwtConstants.AUTHORIZATION_BEARER.length(), header.length());
+            String token = header.substring(JwtConstants.AUTHORIZATION_BEARER.length());
             JwtUtils.verify(token);
             return true;
         }

@@ -90,8 +90,8 @@ public class CartController {
             @ApiImplicitParam(name = "productNum", value = "商品SKU数量", required = true, dataType = "Integer"),
     })
     public JsonResult updateCartAmount(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal,
-                                 @PathVariable @Range(min = 1, message = "请输入合法的商品id") Long productSpecId,
-                                 @PathVariable @Range(min = 1, max = 100, message = "商品数量必须是1~100之间!") Integer productNum) {
+                                       @PathVariable @Range(min = 1, message = "请输入合法的商品id") Long productSpecId,
+                                       @PathVariable @Range(min = 1, max = 100, message = "商品数量必须是1~100之间!") Integer productNum) {
         log.debug("修改商品数量-入参 用户id:{},商品SKUid:{},商品数量:{}", currentPrincipal.getId(), productSpecId, productNum);
         cartService.modifyAmount(currentPrincipal.getId(), productSpecId, productNum);
         return JsonResult.ok();
@@ -99,6 +99,7 @@ public class CartController {
 
     /**
      * 修改选中状态
+     *
      * @param currentPrincipal 当前用户
      * @param productSpecId    SKU id
      * @param productChecked   SKU 选中状态
@@ -111,8 +112,8 @@ public class CartController {
             @ApiImplicitParam(name = "productChecked", value = "商品SKU选中状态", required = true, dataType = "Integer"),
     })
     public JsonResult updateCartChecked(@CurrentUser @ApiIgnore CurrentPrincipal currentPrincipal,
-                                 @PathVariable @Range(min = 1, message = "请输入合法的商品id") Long productSpecId,
-                                 @PathVariable @Range(min = 0, max = 1, message = "商品选中状态必须是0~1之间!") Integer productChecked) {
+                                        @PathVariable @Range(min = 1, message = "请输入合法的商品id") Long productSpecId,
+                                        @PathVariable @Range(min = 0, max = 1, message = "商品选中状态必须是0~1之间!") Integer productChecked) {
         log.debug("修改商品状态-入参 用户id:{},商品SKUid:{},商品选中状态:{}", currentPrincipal.getId(), productSpecId, productChecked);
         cartService.modifyChecked(currentPrincipal.getId(), productSpecId, productChecked);
         return JsonResult.ok();
@@ -120,6 +121,7 @@ public class CartController {
 
     /**
      * 查询当前用户购物车价格总和以及选中商品总数量
+     *
      * @param currentPrincipal 当前用户
      * @return JsonResult.ok(CartTotalVO)
      */
@@ -134,7 +136,8 @@ public class CartController {
 
     /**
      * 修改当前用户购物车所有商品的选中状态
-     * @param currentPrincipal 当前用户
+     *
+     * @param currentPrincipal  当前用户
      * @param currentAllChecked 当前选中状态
      * @return JsonResult.ok()
      */
@@ -149,6 +152,7 @@ public class CartController {
 
     /**
      * 根据当前用户查询当前购物车已选中的所有商品
+     *
      * @param currentPrincipal 用户id
      * @return JsonResult(List < CartVO >)
      */

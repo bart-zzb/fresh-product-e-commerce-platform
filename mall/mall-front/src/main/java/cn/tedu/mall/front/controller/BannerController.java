@@ -30,7 +30,7 @@ public class BannerController {
 
     @ApiOperation("查询横幅功能")
     @GetMapping("/index")
-    public JsonResult listForIndex(){
+    public JsonResult listForIndex() {
         List<BannerIndexBO> BannerIndexBOS = null;
         try {
             BannerIndexBOS = bannerService.listForIndex();

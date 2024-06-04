@@ -42,9 +42,9 @@ public class UserAddressRepositoryImpl implements IUserAddressRepository {
     @Override
     public UserAddressBO getDefaultAddressByUserId(Long userId) {
         UserAddressPO userAddressPO = userAddressMapper.selectDefaultAddressByUserId(userId);
-        if(userAddressPO==null){
+        if (userAddressPO == null) {
             return null;
-        }else{
+        } else {
             return PojoConvert.convert(userAddressPO, UserAddressBO.class);
         }
     }
@@ -52,9 +52,9 @@ public class UserAddressRepositoryImpl implements IUserAddressRepository {
     @Override
     public UserAddressBO getAddressById(Long userId, Long id) {
         UserAddressPO userAddressPO = userAddressMapper.getAddressById(id);
-        if(userAddressPO==null){
+        if (userAddressPO == null) {
             return null;
-        }else{
+        } else {
             return PojoConvert.convert(userAddressPO, UserAddressBO.class);
         }
     }
